@@ -13,7 +13,7 @@ public:
 	float FindArea() const;
 	float FindPerimeter() const;
 
-	void Move(Point offset);
+	void Move(const Point& offset);
 
 	Point GetFirstPoint() const;
 	Point GetSecondPoint() const;
@@ -35,6 +35,7 @@ public:
 private:
 	Point points[3];
 
+	bool _IsExistingOptimized(float a, float b, float c) const;
 	void _CalculateMagnitudes(float& a, float& b, float& c) const;
 	int _CompareArea(const Triangle& other) const;
 };

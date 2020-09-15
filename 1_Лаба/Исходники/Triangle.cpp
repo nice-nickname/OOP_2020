@@ -30,13 +30,14 @@ Point Triangle::FindCenter() const
 
 float Triangle::FindArea() const
 {
-	if (!IsExisting())
+	float a, b, c;
+	_CalculateMagnitudes(a, b, c);
+
+	if (!_IsExistingOptimized(a, b, c))
 	{
 		throw TriangleExistingException(*this);
 	}
 
-	float a, b, c;
-	_CalculateMagnitudes(a, b, c);
 	float p = (a + b + c) / 2;
 
 	return sqrt(p * (p - a) * (p - b) * (p - c));
@@ -44,18 +45,18 @@ float Triangle::FindArea() const
 
 float Triangle::FindPerimeter() const
 {
-	if (!IsExisting())
+	float a, b, c;
+	_CalculateMagnitudes(a, b, c);
+	
+	if (!_IsExistingOptimized(a, b, c))
 	{
 		throw TriangleExistingException(*this);
 	}
 
-	float a, b, c;
-	_CalculateMagnitudes(a, b, c);
-
 	return a + b + c;
 }
 
-void Triangle::Move(Point offset)
+void Triangle::Move(const Point& offset)
 {
 	points[0].Add(offset);
 	points[1].Add(offset);
@@ -106,6 +107,15 @@ bool Triangle::IsExisting() const
 	float a, b, c;
 	_CalculateMagnitudes(a, b, c);
 
+	if ((a + b > c) && (b + c > a) && (a + c > b))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Triangle::_IsExistingOptimized(float a, float b, float c) const
+{
 	if ((a + b > c) && (b + c > a) && (a + c > b))
 	{
 		return true;
