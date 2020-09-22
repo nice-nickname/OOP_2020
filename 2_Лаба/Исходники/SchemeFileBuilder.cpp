@@ -65,11 +65,18 @@ LogicalElement** SchemeFileBuilder::_ReadSchemeFromFile(int size)
 
 	std::string type;
 
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < size ; i++)
 	{
-		file >> type;
-		_ToUniqueFormat(type);
-		elements[i] = pattern.FindByName(type);
+		if (file.eof())
+		{
+			elements[i] = nullptr;
+		}
+		else
+		{
+			file >> type;
+			_ToUniqueFormat(type);
+			elements[i] = pattern.FindByName(type);
+		}
 	}
 
 	return elements;
