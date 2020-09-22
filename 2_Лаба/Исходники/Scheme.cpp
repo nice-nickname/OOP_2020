@@ -33,7 +33,6 @@ BinaryData Scheme::Execute(const BinaryData& data) const
 	// Длина массива даты должна быть вдвое больше длины массива элементов, а длина результата равна ему.
 	int res_size = size;
 	bool* res_data = new bool[res_size];
-	std::fill(res_data, res_data + res_size, false);
 
 	for (int i = 0; i < res_size; i++)
 	{
