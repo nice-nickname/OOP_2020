@@ -10,7 +10,6 @@ BinaryData::BinaryData(bool* _buffer, int _size)
 {}
 
 BinaryData::BinaryData(const BinaryData& other)
-	: BinaryData()
 {
 	_DeleteData();
 	_CopyData(other.size, other.buffer);

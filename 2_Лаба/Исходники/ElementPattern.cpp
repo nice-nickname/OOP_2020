@@ -8,7 +8,6 @@ ElementPattern::ElementPattern(int _size, LogicalElement** pattern)
 {}
 
 ElementPattern::ElementPattern(const ElementPattern& other)
-	: ElementPattern()
 {
 	_DeleteElements();
 	_CopyElements(other.size, other.table);

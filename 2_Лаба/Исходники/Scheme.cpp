@@ -6,7 +6,6 @@ Scheme::Scheme() : elements(nullptr), size(0)
 {}
 
 Scheme::Scheme(const Scheme& other)
-	: Scheme()
 {
 	_DeleteElements();
 	_CopyElements(other.size, other.elements);
