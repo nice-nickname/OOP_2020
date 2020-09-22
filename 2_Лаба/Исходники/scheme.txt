@@ -1,0 +1,11 @@
+10
+Xor
+OR
+Xor
+OR
+XOR
+XOR
+or
+AND
+xor
+or
