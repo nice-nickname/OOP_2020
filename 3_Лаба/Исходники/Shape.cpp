@@ -11,7 +11,7 @@ void Shape::Rotate(int degrees)
 {
 	if (!IsExisting())
 	{
-		throw new ShapeException(*this);
+		throw ShapeException(*this);
 	}
 
 	float a = GeometryMath::DegreeToRadian(degrees % 360);
