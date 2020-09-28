@@ -26,7 +26,7 @@ float Triangle::FindArea() const
 
 	if (!_IsTriangleExisting(A, B, C))
 	{
-		throw new ShapeException(*this);
+		throw ShapeException(*this);
 	}
 
 	float p = (A + B + C) / 2;
@@ -44,7 +44,7 @@ Point Triangle::FindCenter() const
 
 	if (!_IsTriangleExisting(A, B, C))
 	{
-		throw new ShapeException(*this);
+		throw ShapeException(*this);
 	}
 
 	float Ox = 0, Oy = 0;
@@ -96,7 +96,7 @@ float Rect::FindArea() const
 {
 	if (!_IsRectExisting(width, height))
 	{
-		throw new ShapeException(*this);
+		throw ShapeException(*this);
 	}
 
 	return height * width;
@@ -106,7 +106,7 @@ Point Rect::FindCenter() const
 {
 	if (!_IsRectExisting(width, height))
 	{
-		throw new ShapeException(*this);
+		throw ShapeException(*this);
 	}
 
 	float Ox = 0, Oy = 0;

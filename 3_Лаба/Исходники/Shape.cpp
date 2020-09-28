@@ -28,7 +28,7 @@ void Shape::Move(const Point& offset)
 {
 	if (!IsExisting())
 	{
-		throw new ShapeException(*this);
+		throw ShapeException(*this);
 	}
 
 	for (int i = 0; i < count; i++)
@@ -84,7 +84,7 @@ Shape::Shape(Point* points, int length, const std::string& _name)
 {
 	if (count <= 0)
 	{
-		throw new std::invalid_argument("Invalid array length");
+		throw std::invalid_argument("Invalid array length");
 	}
 
 	_CopyArray(points, count);
@@ -116,7 +116,7 @@ Point& Shape::operator[](int index)
 {
 	if (index >= count || index < 0)
 	{
-		throw new std::out_of_range("invalid index uses in Shape::operator[]");
+		throw std::out_of_range("invalid index uses in Shape::operator[]");
 	}
 	return vertices[index];
 }

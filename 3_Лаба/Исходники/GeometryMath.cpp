@@ -137,7 +137,7 @@ void GeometryMath::_ValidateShape(const Shape& shape)
 {
 	if (shape.IsExisting() == false)
 	{
-		throw new ShapeException(shape);
+		throw ShapeException(shape);
 	}
 }
 
