@@ -14,6 +14,7 @@ using namespace std;
 
 void ConsoleInteractor::Start() const
 {
+	// Maybe try unique_ptr?
 	Shape** figures;
 	int index = 0;
 	int count = 10;
