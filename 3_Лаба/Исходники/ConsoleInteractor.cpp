@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <exception>
+#include <sstream>
 #include <algorithm>
 
 using namespace std;
@@ -53,7 +54,8 @@ void ConsoleInteractor::Start() const
 					for (int i = 0; i < 3; i++)
 					{
 						cout << "Enter a point in format [x y]\n>>> ";
-						cin >> x >> y;
+						_ReadFloat(x);
+						_ReadFloat(y);
 						p[i] = Point(x, y);
 					}
 					cout << "\n";
@@ -63,10 +65,12 @@ void ConsoleInteractor::Start() const
 				{
 					float x, y;
 					cout << "Enter a point in format [x y]\n>>> ";
-					cin >> x >> y;
+					_ReadFloat(x);
+					_ReadFloat(y);
 					Point p(x, y);
 					cout << "Enter a width and height in format [w h]\n>>> ";
-					cin >> x >> y;
+					_ReadFloat(x);
+					_ReadFloat(y);
 					figures[index++] = RectFactory::CreateShape(p, x, y);
 				}
 				else
@@ -188,7 +192,8 @@ void ConsoleInteractor::Start() const
 				{
 					float x, y;
 					cout << "Enter point in format [x y]\n>>> ";
-					cin >> x >> y;
+					_ReadFloat(x);
+					_ReadFloat(y);
 					figures[var1]->Move({ x, y });
 				}
 				break;
@@ -227,4 +232,21 @@ void ConsoleInteractor::_PrintCommands() const
 	cout << "  4: find center, 5: find area, 6 rotate shape\n";
 	cout << "  7: is shapes intersected, 8: is shapes included\n";
 	cout << "  9: move shape, 10: clear the console, 0: exit\n\n";
+}
+
+void ConsoleInteractor::_ReadFloat(float& x) const
+{
+	std::string s;
+	cin >> s;
+	std::stringstream sin(s);
+	if (!(sin >> x))
+	{
+		throw std::runtime_error("Float input error");
+	}
+
+	char c;
+	if (sin >> c)
+	{
+		throw std::runtime_error("Float input error");
+	}
 }

@@ -9,4 +9,5 @@ public:
 
 private:
 	void _PrintCommands() const;
+	void _ReadFloat(float& x) const;
 };
