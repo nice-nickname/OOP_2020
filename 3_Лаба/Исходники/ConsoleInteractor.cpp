@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void ConsoleInteractor::Start()
+void ConsoleInteractor::Start() const
 {
 	Shape** figures;
 	int index = 0;
@@ -19,13 +19,8 @@ void ConsoleInteractor::Start()
 
 	figures = new Shape * [count];
 
-
-	cout << "Commands: \n";
-	cout << "  1: create shape, 2: delete last shape, 3: print shape by index\n";
-	cout << "  4: find center, 5: find area, 6 rotate shape\n";
-	cout << "  7: is shapes intersected, 8: is shapes included\n";
-	cout << "  0: exit\n\n";
-
+	_PrintCommands();
+	
 	int var1, var2, switch_on;
 	std::string name;
 	while (true)
@@ -181,23 +176,55 @@ void ConsoleInteractor::Start()
 				}
 				break;
 
+			case 9:
+				cout << "Enter index\n>>> ";
+				cin >> var1;
+				if (var1 < 0 || var1 >= index)
+				{
+					cout << "Invalid index\n";
+					break;
+				}
+				else
+				{
+					float x, y;
+					cout << "Enter point in format [x y]\n>>> ";
+					cin >> x >> y;
+					figures[var1]->Move({ x, y });
+				}
+				break;
+
+			case 10:
+				_PrintCommands();
+				break;
+
 			default:
 				cout << "Try again\n";
 				break;
 			}
 		}
-		catch (const std::exception& e)
+		catch (const std::exception & e)
 		{
 			cout << e.what() << "\n";
 		}
 
 	}
-	
+
 end:
 	for (int i = 0; i < index; i++)
 	{
 		delete figures[i];
 	}
 	delete[] figures;
-	
+
+}
+
+
+void ConsoleInteractor::_PrintCommands() const
+{
+	system("cls");
+	cout << "Commands: \n";
+	cout << "  1: create shape, 2: delete last shape, 3: print shape by index\n";
+	cout << "  4: find center, 5: find area, 6 rotate shape\n";
+	cout << "  7: is shapes intersected, 8: is shapes included\n";
+	cout << "  9: move shape, 10: clear the console, 0: exit\n\n";
 }

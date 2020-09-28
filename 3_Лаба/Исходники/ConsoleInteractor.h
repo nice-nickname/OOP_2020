@@ -5,5 +5,8 @@
 class ConsoleInteractor
 {
 public:
-	void Start();
+	void Start() const;
+
+private:
+	void _PrintCommands() const;
 };
