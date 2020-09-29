@@ -31,11 +31,11 @@ public:
 
 private:
 
-	std::string name;
 	void _CopyArray(Point* points, int length);
 
 protected:
 
+	std::string name;
 	Point* vertices;
 	int count;
 
