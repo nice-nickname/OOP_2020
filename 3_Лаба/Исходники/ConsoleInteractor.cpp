@@ -12,14 +12,21 @@
 
 using namespace std;
 
-void ConsoleInteractor::Start() const
-{
-	// Maybe try unique_ptr?
-	Shape** figures;
-	int index = 0;
-	int count = 10;
+ConsoleInteractor::ConsoleInteractor()
+	: count(10), index(0)
+{}
 
-	figures = new Shape * [count];
+ConsoleInteractor::~ConsoleInteractor()
+{
+	for (int i = 0; i < index; i++)
+	{
+		delete figures[i];
+	}
+}
+
+void ConsoleInteractor::Start()
+{
+	// perhaps try unique_ptr?
 
 	_PrintCommands();
 	
@@ -34,11 +41,10 @@ void ConsoleInteractor::Start() const
 			switch (switch_on)
 			{
 			case 0:
-				goto end;
-				break;
+				return;
 
 			case 1:
-				if (index == 9)
+				if (index == 10)
 				{
 					cout << "Out of place for figures (max is " << count << ")\n";
 				}
@@ -214,13 +220,6 @@ void ConsoleInteractor::Start() const
 		}
 
 	}
-
-end:
-	for (int i = 0; i < index; i++)
-	{
-		delete figures[i];
-	}
-	delete[] figures;
 
 }
 

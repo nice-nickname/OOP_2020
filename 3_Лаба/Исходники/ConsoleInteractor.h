@@ -5,9 +5,15 @@
 class ConsoleInteractor
 {
 public:
-	void Start() const;
+	ConsoleInteractor();
+	~ConsoleInteractor();
+	void Start();
 
 private:
 	void _PrintCommands() const;
 	void _ReadFloat(float& x) const;
+
+	Shape* figures[10];
+	int index;
+	int count;
 };
