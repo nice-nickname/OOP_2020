@@ -69,6 +69,12 @@ void ConsoleInteractor::Run()
 					break;
 				}
 
+				if (figures[_index] != nullptr)
+				{
+					cout << "failed. index is already contain a figure\n";
+					break;
+				}
+
 				cout << "enter amount of points: ";
 				_ReadVar(_ptsAmount);
 
@@ -83,9 +89,9 @@ void ConsoleInteractor::Run()
 				double x, y;
 				for (int i = 0; i < _ptsAmount; i++)
 				{
-					cout << "point " << i + 1 << ": ";
-					_ReadVar(x);
-					_ReadVar(y);
+					cout << "point " << i + 1 << ": \n";
+					cout << "x : "; _ReadVar(x);
+					cout << "y : "; _ReadVar(y);
 					_points[i] = Point(x, y);
 				}
 
@@ -106,7 +112,7 @@ void ConsoleInteractor::Run()
 			{
 				if (totalCount == 0)
 				{
-					cout << "already empty\n";
+					cout << "nothing to delete\n";
 				}
 
 				int _index;
@@ -217,6 +223,24 @@ void ConsoleInteractor::Run()
 				GeometryMath math;
 				bool ans = math.IsIncluded(*figures[_firstInd], *figures[_secondInd]);
 				cout << "is first figure includes second? " << (ans ? "yes" : "no") << "\n";
+			}
+			break;
+
+			case 9:
+			{
+				cout << "index of figure: ";
+				int _index;
+				if (!_ReadIndex(_index))
+				{
+					break;
+				}
+				double _x, _y;
+
+				cout << "offset by x: ";
+				_ReadVar(_x);
+				cout << "offset by t: ";
+				_ReadVar(_y);
+				figures[_index]->Move(_x, _y);
 			}
 			break;
 

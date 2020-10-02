@@ -104,19 +104,17 @@ bool GeometryMath::IsIncluded(const Shape& dest, const Shape& incl)
 	_ValidateShape(dest);
 	_ValidateShape(incl);
 
-	bool ans = true;
 	const Point* _vertices = incl.GetVertices();
-
-	for (int i = 0; i < incl.GetVerticesCount() && !ans; i++)
+	
+	for (int i = 0; i < incl.GetVerticesCount(); i++)
 	{
 		if (_IsIncludedDontValidate(_vertices[i], dest) == false)
 		{
-			ans = false;
-			break;
+			return false;
 		}
 	}
 
-	return ans;
+	return true;
 }
 
 bool GeometryMath::_IsIncludedDontValidate(Point p, const Shape& figure)
@@ -144,7 +142,7 @@ bool GeometryMath::_IsIncludedDontValidate(Point p, const Shape& figure)
 	double angle = 0;
 	for (int i = 0; i < _checkingCount - 1; i++)
 	{
-		angle += FindAngle(_checkingLines[i], _checkingLines[i + 1]);
+		angle += FindAngle(_checkingLines[i], _checkingLines[i + 1]);;
 	}
 
 	bool ans = false;
@@ -153,7 +151,6 @@ bool GeometryMath::_IsIncludedDontValidate(Point p, const Shape& figure)
 	{
 		ans = true;
 	}
-
 	delete[] _checkingLines;
 	return ans;
 }
