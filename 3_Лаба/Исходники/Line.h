@@ -6,7 +6,8 @@ struct Line
 {
 	Point begin;
 	Point end;
-
+	
 	Line();
-	Line(Point from, Point to);
+	Line(Point _begin, Point _end);
 };
+

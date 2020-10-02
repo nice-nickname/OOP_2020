@@ -1,13 +1,25 @@
 #include "Point.h"
 
-bool Point::operator==(const Point& other)
+Point::Point()
+	: x(0), y(0)
+{}
+
+Point::Point(double _x, double _y)
+	: x(_x), y(_y)
+{}
+
+bool Point::operator==(Point other)
 {
-	return x == other.x && y == other.y;
+	if (x == other.x && y == other.y)
+	{
+		return true;
+	}
+	return false;
 }
 
-Point& Point::operator+=(const Point& offset)
+Point& Point::operator+=(Point other)
 {
-	x += offset.x;
-	y += offset.y;
+	x += other.x;
+	y += other.y;
 	return *this;
 }

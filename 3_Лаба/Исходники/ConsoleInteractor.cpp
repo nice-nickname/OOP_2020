@@ -1,216 +1,231 @@
 #include "ConsoleInteractor.h"
 
-#include "ConcreteShapes.h"
-#include "ShapeException.h"
+#include "ShapeFactory.h"
 #include "GeometryMath.h"
-#include "ShapesFactory.h"
 
-#include <iostream>
-#include <exception>
+#include <string>
+#include <stdexcept>
 #include <sstream>
-#include <algorithm>
+#include <iostream>
 
 using namespace std;
 
 ConsoleInteractor::ConsoleInteractor()
-	: count(10), index(0)
+	: totalCount(0),
+	figuresCount(0),
+	figures(nullptr)
 {}
 
 ConsoleInteractor::~ConsoleInteractor()
 {
-	for (int i = 0; i < index; i++)
+	for (int i = 0; i < figuresCount; i++)
 	{
-		delete figures[i];
+		if (figures[i] != nullptr)
+		{
+			delete figures[i];
+		}
 	}
+	delete[] figures;
 }
 
-void ConsoleInteractor::Start()
+void ConsoleInteractor::Run()
 {
-	// perhaps try unique_ptr?
+	if (!_Init())
+	{
+		return;
+	}
+
+	int _switch;
 
 	_PrintCommands();
-	
-	int var1, var2, switch_on;
-	std::string name;
 	while (true)
 	{
-		cout << ">>> ";
-		cin >> switch_on;
 		try
 		{
-			switch (switch_on)
+			cout << "\n  enter command: ";
+			_ReadVar(_switch);
+
+			switch (_switch)
 			{
 			case 0:
+
 				return;
 
 			case 1:
-				if (index == 10)
+			{
+				if (totalCount == figuresCount)
 				{
-					cout << "Out of place for figures (max is " << count << ")\n";
+					cout << "failed. array of figures is full\n";
+					break;
 				}
-				cout << "Enter shape's name\n>>> ";
-				cin >> name;
-				for (auto& i : name)
+				int _ptsAmount, _index;
+
+				cout << "enter index (starts from 0) of new figure: ";
+				_ReadVar(_index);
+
+				if (_index < 0 || _index >= figuresCount)
 				{
-					i = toupper(i);
+					cout << "failed. invalid index\n";
+					break;
 				}
-				if (name == "TRIANGLE")
+
+				cout << "enter amount of points: ";
+				_ReadVar(_ptsAmount);
+
+				auto _points = make_unique<Point[]>(_ptsAmount);
+
+				if (_ptsAmount <= 0)
 				{
-					float x, y;
-					Point p[3];
-					for (int i = 0; i < 3; i++)
-					{
-						cout << "Enter a point in format [x y]\n>>> ";
-						_ReadFloat(x);
-						_ReadFloat(y);
-						p[i] = Point(x, y);
-					}
-					cout << "\n";
-					figures[index++] = TriangleFactory::CreateShape(p[0], p[1], p[2]);
+					cout << "invalid amount number\n";
+					break;
 				}
-				else if (name == "RECT")
+
+				double x, y;
+				for (int i = 0; i < _ptsAmount; i++)
 				{
-					float x, y;
-					cout << "Enter a point in format [x y]\n>>> ";
-					_ReadFloat(x);
-					_ReadFloat(y);
-					Point p(x, y);
-					cout << "Enter a width and height in format [w h]\n>>> ";
-					_ReadFloat(x);
-					_ReadFloat(y);
-					figures[index++] = RectFactory::CreateShape(p, x, y);
+					cout << "point " << i + 1 << ": ";
+					_ReadVar(x);
+					_ReadVar(y);
+					_points[i] = Point(x, y);
 				}
-				else
+
+				figures[_index] = ShapeFactory::CreateShape(_points.get(), _ptsAmount);
+
+				if (figures[_index] == nullptr)
 				{
-					cout << "Invalid name\n";
+					cout << "failed. factory can't create figure from enteret points\n";
+					break;
 				}
-				break;
+
+				totalCount++;
+				cout << figures[_index]->GetName() << " was created\n";
+			}
+			break;
 
 			case 2:
-				if (index != 0)
+			{
+				if (totalCount == 0)
 				{
-					delete figures[index - 1];
-					index--;
+					cout << "already empty\n";
 				}
-				break;
+
+				int _index;
+				if (!_ReadIndex(_index))
+				{
+					break;
+				}
+
+				delete figures[_index];
+				figures[_index] = nullptr;
+				totalCount--;
+				cout << "success\n";
+			}
+			break;
 
 			case 3:
-				cout << "Enter index\n>>> ";
-				cin >> var1;
-				if (var1 < 0 || var1 >= index)
+			{
+				int _index;
+				if (!_ReadIndex(_index))
 				{
-					cout << "Invalid index\n";
 					break;
 				}
-				else
+
+				cout << "Shape : " << figures[_index]->GetName() << "\n";
+				const Point* _vertices = figures[_index]->GetVertices();
+				for (int i = 0; i < figures[_index]->GetVerticesCount(); i++)
 				{
-					Shape* s = figures[var1];
-					cout << "\nShape's name: " << s->GetName() << "\n";
-					for (int i = 0; i < s->GetCount(); i++)
-					{
-						cout << i << " vertex: x = " << (*s)[i].x << " y = " << (*s)[i].y << "\n";
-					}
-					cout << "\n";
+					Point p = _vertices[i];
+					cout << "Point " << i + 1 << ": " << "x - " << p.x << ", y - " << p.y << "\n";
 				}
-				break;
+			}
+			break;
 
 			case 4:
-				cout << "Enter index\n>>> ";
-				cin >> var1;
-				if (var1 < 0 || var1 >= index)
+			{
+				int _index;
+				if (!_ReadIndex(_index))
 				{
-					cout << "Invalid index\n";
 					break;
 				}
-				else
-				{
-					Point c = figures[var1]->FindCenter();;
-					cout << "Center: x - " << c.x << " y - " << c.y << "\n";
-				}
-				break;
+				Point c = figures[_index]->FindCenter();
+				cout << "Center: x - " << c.x << ", y - " << c.y << "\n";
+			}
+			break;
 
 			case 5:
-				cout << "Enter index\n>>> ";
-				cin >> var1;
-				if (var1 < 0 || var1 >= index)
+			{
+				int _index;
+				if (!_ReadIndex(_index))
 				{
-					cout << "Invalid index\n";
 					break;
 				}
-				else
-				{
-					cout << "Area = " << figures[var1]->FindArea() << "\n";
-				}
-				break;
+
+				double _area = figures[_index]->FindArea();
+				cout << "area = " << _area << "\n";
+			}
+			break;
 
 			case 6:
-				cout << "Enter index\n>>> ";
-				cin >> var1;
-				if (var1 < 0 || var1 >= index)
+			{
+				int _index;
+				if (!_ReadIndex(_index))
 				{
-					cout << "Invalid index\n";
 					break;
 				}
-				else
-				{
-					cout << "Enter a degrees\n>>> ";
-					cin >> var2;
-					figures[var1]->Rotate(var2);
-				}
-				break;
+
+				int _degrees;
+				_ReadVar(_degrees);
+				figures[_index]->Rotate(_degrees);
+				cout << "success\n";
+			}
+			break;
 
 			case 7:
-				cout << "Enter indexes\n>>> ";
-				cin >> var1 >> var2;
-				if (var1 < 0 || var1 >= index || var2 < 0 || var2 >= index)
+			{
+				cout << "index of first figure: ";
+				int _firstInd;
+				if (!_ReadIndex(_firstInd))
 				{
-					cout << "Invalid index\n";
 					break;
 				}
-				else
+				cout << "index of second figure: ";
+				int _secondInd;
+				if (!_ReadIndex(_secondInd))
 				{
-					cout << "answer is: " << (GeometryMath::IsIntersected(*figures[var1], *figures[var2]) ? "true\n" : "false\n");
+					break;
 				}
-				break;
+				GeometryMath math;
+				bool ans = math.IsIntersected(*figures[_firstInd], *figures[_secondInd]);
+				cout << "is figures intersected? " << (ans ? "yes" : "no") << "\n";
+			}
+			break;
 
 			case 8:
-				cout << "Enter indexes\n>>> ";
-				cin >> var1 >> var2;
-				if (var1 < 0 || var1 >= index || var2 < 0 || var2 >= index)
+			{
+				cout << "index of first figure: ";
+				int _firstInd;
+				if (!_ReadIndex(_firstInd))
 				{
-					cout << "Invalid index\n";
 					break;
 				}
-				else
+				cout << "index of second figure: ";
+				int _secondInd;
+				if (!_ReadIndex(_secondInd))
 				{
-					cout << "first figure including second?  " << (GeometryMath::IsIncluding(*figures[var1], *figures[var2]) ? "true\n" : "false\n");
-				}
-				break;
-
-			case 9:
-				cout << "Enter index\n>>> ";
-				cin >> var1;
-				if (var1 < 0 || var1 >= index)
-				{
-					cout << "Invalid index\n";
 					break;
 				}
-				else
-				{
-					float x, y;
-					cout << "Enter point in format [x y]\n>>> ";
-					_ReadFloat(x);
-					_ReadFloat(y);
-					figures[var1]->Move({ x, y });
-				}
-				break;
+				GeometryMath math;
+				bool ans = math.IsIncluded(*figures[_firstInd], *figures[_secondInd]);
+				cout << "is first figure includes second? " << (ans ? "yes" : "no") << "\n";
+			}
+			break;
 
 			case 10:
 				_PrintCommands();
 				break;
 
 			default:
-				cout << "Try again\n";
+				cout << "invalid command\n";
 				break;
 			}
 		}
@@ -218,35 +233,86 @@ void ConsoleInteractor::Start()
 		{
 			cout << e.what() << "\n";
 		}
-
 	}
-
 }
 
+bool ConsoleInteractor::_Init()
+{
+	int _count;
+	cout << "Enter a maximum amount of figures or enter 0 to quit\n";
+	while (true)
+	{
+		try
+		{
+			_ReadVar(_count);
+			if (_count == 0)
+			{
+				return false;
+			}
+			else if (_count < 0)
+			{
+				cout << "Invalid count\n";
+			}
+			else
+			{
+				cout << "Success\n";
+				figuresCount = _count;
+				figures = new Shape * [figuresCount];
+				std::fill(figures, figures + figuresCount, nullptr);
+				return true;
+			}
+		}
+		catch (const std::exception & e)
+		{
+			cout << e.what() << "\n";
+		}
+	}
+}
 
 void ConsoleInteractor::_PrintCommands() const
 {
 	system("cls");
 	cout << "Commands: \n";
-	cout << "  1: create shape, 2: delete last shape, 3: print shape by index\n";
+	cout << "  1: create shape, 2: delete shape, 3: print shape\n";
 	cout << "  4: find center, 5: find area, 6 rotate shape\n";
-	cout << "  7: is shapes intersected, 8: is shapes included\n";
+	cout << "  7: is figures intersected, 8: is figures included\n";
 	cout << "  9: move shape, 10: clear the console, 0: exit\n\n";
+	cout << "  Maximum amount of figures = " << figuresCount << "\n";
 }
 
-void ConsoleInteractor::_ReadFloat(float& x) const
+bool ConsoleInteractor::_ReadIndex(int& _index)
 {
-	std::string s;
-	cin >> s;
-	std::stringstream sin(s);
-	if (!(sin >> x))
+	cout << "enter index (starts from 0) of figure: ";
+	_ReadVar(_index);
+
+	if (_index < 0 || _index >= figuresCount)
 	{
-		throw std::runtime_error("Float input error");
+		cout << "failed. invalid index\n";
+		return false;
 	}
 
-	char c;
-	if (sin >> c)
+	if (figures[_index] == nullptr)
 	{
-		throw std::runtime_error("Float input error");
+		cout << "failed. index is empty\n";
+		return false;
+	}
+	return true;
+}
+
+template void ConsoleInteractor::_ReadVar(int& var) const;
+template void ConsoleInteractor::_ReadVar(double& var) const;
+
+template<class T>
+void ConsoleInteractor::_ReadVar(T& var) const
+{
+	string input;
+	cin >> input;
+	istringstream sin(input);
+
+	char c;
+
+	if (!(sin >> var) || (sin >> c))
+	{
+		throw std::runtime_error("Input error. Failed to enter a variable");
 	}
 }

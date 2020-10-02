@@ -2,16 +2,16 @@
 
 #include <sstream>
 
-ShapeException::ShapeException(const Shape& shape)
+ShapeException::ShapeException(const Shape& figure)
 {
 	std::ostringstream sstr;
 
-	sstr << "Shape " << shape.GetName() << " with " << shape.GetCount() << " vertices doesn't exist";
-	
-	what_arg = sstr.str();
+	sstr << "Shape [" << figure.GetName() << "] with " << figure.GetVerticesCount() << " can't be used";
+
+	_aboutString = sstr.str();
 }
 
 const char* ShapeException::what() const noexcept
 {
-	return what_arg.c_str();
+	return _aboutString.c_str();
 }

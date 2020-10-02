@@ -1,70 +1,84 @@
 #include "GeometryMath.h"
 
-#include <cmath>
-#include <iostream>
-
 #include "ShapeException.h"
 
-float GeometryMath::FindMagnitude(const Line& line)
-{
-	float Vx = line.end.x - line.begin.x;
-	float Vy = line.end.y - line.begin.y;
-	return sqrt(Vx * Vx + Vy * Vy);
+#include <cmath>
+#include <algorithm>
 
+GeometryMath::GeometryMath()
+	: pi(2 * acos(0)),
+	epsilon(DBL_EPSILON)
+{}
+
+double GeometryMath::DegreesToRadian(int degrees) const
+{
+	return (degrees % 360) * pi / 180;
 }
 
-float GeometryMath::CalculateScalar(const Line& v1, const Line& v2)
+double GeometryMath::FindMagnitude(const Line& line) const
 {
-	float v1_x = v1.end.x - v1.begin.x;
-	float v1_y = v1.end.y - v1.begin.y;
-
-	float v2_x = v2.end.x - v2.begin.x;
-	float v2_y = v2.end.y - v2.begin.y;
-	
-	return v1_x * v2_x + v1_y * v2_y;
+	double _x = line.end.x - line.begin.x;
+	double _y = line.end.y - line.begin.y;
+	return sqrt(_x * _x + _y * _y);
 }
 
-// O(n*n) ;(
-bool GeometryMath::IsIntersected(const Shape& first, const Shape& second)
+double GeometryMath::FindAngle(const Line& first, const Line& second) const
 {
-	_ValidateShape(first);
-	_ValidateShape(second);
-	if (first.GetCount() == 0 || second.GetCount() == 0)
+	Point _v1(first.end.x - first.begin.x, first.end.y - first.begin.y);
+	Point _v2(second.end.x - second.begin.x, second.end.y - second.begin.y);
+
+	double _scalar = _v1.x * _v2.x + _v1.y * _v2.y;
+
+	double _v1Magnitude = FindMagnitude(first);
+	double _v2Magnitude = FindMagnitude(second);
+
+	return acos(_scalar / (_v1Magnitude * _v2Magnitude));
+}
+
+bool GeometryMath::IsIntersected(const Line& lFirst, const Line& lSecond) const
+{
+	Point p1 = lFirst.begin;
+	Point p2 = lFirst.end;
+	Point p3 = lSecond.begin;
+	Point p4 = lSecond.end;
+
+	if (p1 == p3 || p2 == p4)
 	{
-		return false;
+		return true;
 	}
+
+	double v1 = (p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x);
+	double v2 = (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
+	double v3 = (p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x);
+	double v4 = (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
+
+	double u1 = v1 / v2, u2 = v3 / v4;
+
+	return u1 >= 0 && u1 <= 1 && u2 >= 0 && u2 <= 1;
+}
+
+bool GeometryMath::IsIntersected(const Shape& fFirst, const Shape& fSecond) const
+{
+	_ValidateShape(fFirst);
+	_ValidateShape(fSecond);
+
+	Line* _firstEdgs = fFirst.FindEdges();
+	Line* _secondEdgs = fSecond.FindEdges();
+
+	int _firstCnt = fFirst.GetVerticesCount();
+	int _secondCnt = fSecond.GetVerticesCount();
 
 	bool ans = false;
 
-	Point* first_vert = first.GetVerticesCopy();
-	Point* second_vert = second.GetVerticesCopy();
+	Line l1, l2;
 
-	// Filling to arrays with lines
-	int lines_c = first.GetCount();
-	Line* lines = new Line[lines_c];
-
-	int check_c = second.GetCount();
-	Line* check = new Line[check_c];
-
-	for (int i = 0; i < lines_c - 1; i++)
+	for (int i = 0; i < _firstCnt && !ans; i++)
 	{
-		lines[i] = Line(first_vert[i], first_vert[i + 1]);
-	}
-	lines[lines_c - 1] = Line(first_vert[lines_c - 1], first_vert[0]);
-
-	for (int i = 0; i < check_c - 1; i++)
-	{
-		check[i] = Line(second_vert[i], second_vert[i + 1]);
-	}
-	check[check_c - 1] = Line(second_vert[check_c - 1], second_vert[0]);
-
-
-	// checking intersection of lines array with check array
-	for (int i = 0; i < lines_c && !ans; i++)
-	{
-		for (int j = 0; j < check_c; j++)
+		l1 = _firstEdgs[i];
+		for (int j = 0; j < _secondCnt; j++)
 		{
-			if (GeometryMath::IsIntersected(lines[i], check[j]))
+			l2 = _secondEdgs[j];
+			if (IsIntersected(l1, l2))
 			{
 				ans = true;
 				break;
@@ -72,106 +86,82 @@ bool GeometryMath::IsIntersected(const Shape& first, const Shape& second)
 		}
 	}
 
-	delete[] check;
-	delete[] lines;
-	delete[] first_vert;
-	delete[] second_vert;
+
+	delete[] _firstEdgs;
+	delete[] _secondEdgs;
 	return ans;
 }
 
-bool GeometryMath::IsIntersected(const Line& first, const Line& second)
+bool GeometryMath::IsIncluded(Point p, const Shape& figure)
 {
-	Point p1 = first.begin;
-	Point p2 = first.end;
-	Point p3 = second.begin;
-	Point p4 = second.end;
+	_ValidateShape(figure);
 
-	if (p1 == p3 || p2 == p4)
-	{
-		return true;
-	}
-
-	float v1 = (p4.x - p3.x) * (p1.y - p3.y) - (p4.y - p3.y) * (p1.x - p3.x);
-	float v2 = (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
-	float v3 = (p2.x - p1.x) * (p1.y - p3.y) - (p2.y - p1.y) * (p1.x - p3.x);
-	float v4 = (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
-
-	float u1 = v1 / v2, u2 = v3 / v4;
-
-	return u1 >= 0 && u1 <= 1 && u2 >= 0 && u2 <= 1;
+	return _IsIncludedDontValidate(p, figure);
 }
 
-bool GeometryMath::IsIncluding(const Shape& dest, const Shape& incl)
+bool GeometryMath::IsIncluded(const Shape& dest, const Shape& incl)
 {
 	_ValidateShape(dest);
 	_ValidateShape(incl);
 
 	bool ans = true;
-	Point* pts = incl.GetVerticesCopy();
+	const Point* _vertices = incl.GetVertices();
 
-	for (int i = 0; i < incl.GetCount(); i++)
+	for (int i = 0; i < incl.GetVerticesCount() && !ans; i++)
 	{
-		if (_IsIncludingDontValidate(pts[i], dest) == false)
+		if (_IsIncludedDontValidate(_vertices[i], dest) == false)
 		{
 			ans = false;
 			break;
 		}
 	}
 
-	delete[] pts;
 	return ans;
 }
 
-bool GeometryMath::IsIncluding(const Point& p, const Shape& figure)
+bool GeometryMath::_IsIncludedDontValidate(Point p, const Shape& figure)
 {
-	_ValidateShape(figure);
-	return _IsIncludingDontValidate(p, figure);
-}
+	const Point* _vertices = figure.GetVertices();
 
-float GeometryMath::DegreeToRadian(int degree)
-{
-	return degree * pi / 180;
-}
-
-void GeometryMath::_ValidateShape(const Shape& shape)
-{
-	if (shape.IsExisting() == false)
+	for (int i = 0; i < figure.GetVerticesCount(); i++)
 	{
-		throw ShapeException(shape);
+		Point figureP = _vertices[i];
+		if (figureP == p)
+		{
+			return true;
+		}
 	}
-}
 
-bool GeometryMath::_IsIncludingDontValidate(const Point& p, const Shape& figure)
-{
+	int _checkingCount = figure.GetVerticesCount() + 1;
+	Line* _checkingLines = new Line[_checkingCount];
+
+	for (int i = 0; i < _checkingCount - 1; i++)
+	{
+		_checkingLines[i] = Line(p, _vertices[i]);
+	}
+	_checkingLines[_checkingCount - 1] = _checkingLines[0];
+
+	double angle = 0;
+	for (int i = 0; i < _checkingCount - 1; i++)
+	{
+		angle += FindAngle(_checkingLines[i], _checkingLines[i + 1]);
+	}
+
 	bool ans = false;
-	int count = figure.GetCount() + 1;
-	Line* lines = new Line[count];
 
-	Point* figure_points = figure.GetVerticesCopy();
-
-	for (int i = 0; i < count - 1; i++)
-	{
-		lines[i] = Line(p, figure_points[i]);
-	}
-	lines[count - 1] = Line(lines[0]);
-
-	float cos_angle = 0.f;
-	float scalar, v1, v2;
-	for (int i = 0; i < count - 1; i++)
-	{
-		scalar = CalculateScalar(lines[i], lines[i + 1]);
-		v1 = FindMagnitude(lines[i]);
-		v2 = FindMagnitude(lines[i + 1]);
-		cos_angle += acos(scalar / (v1 * v2));
-	}
-
-	// Sum of angles must be equal 2*pi
-	if (abs(cos_angle - 2 * pi) <= epsilon)
+	if (abs(angle - 2 * pi) <= epsilon)
 	{
 		ans = true;
 	}
 
-	delete[] lines;
-	delete[] figure_points;
+	delete[] _checkingLines;
 	return ans;
+}
+
+void GeometryMath::_ValidateShape(const Shape& shape) const
+{
+	if (!shape.IsExisting() || shape.GetVerticesCount() == 0)
+	{
+		throw ShapeException(shape);
+	}
 }

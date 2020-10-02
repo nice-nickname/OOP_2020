@@ -1,18 +1,20 @@
 #pragma once
 
-#include "Shape.h"
-
 #include <exception>
+
+#include "Shape.h"
 
 class ShapeException : public std::exception
 {
 public:
-	ShapeException() = delete;
-	ShapeException(const Shape& shape);
+	
+	ShapeException(const Shape& figure);
 
 	const char* what() const noexcept;
 
 private:
-	std::string what_arg;
+
+	std::string _aboutString;
+
 };
 

@@ -1,19 +1,28 @@
 #pragma once
 
-#include "ConcreteShapes.h"
+#include "Shape.h"
 
 class ConsoleInteractor
 {
 public:
 	ConsoleInteractor();
 	~ConsoleInteractor();
-	void Start();
+
+	void Run();
 
 private:
-	void _PrintCommands() const;
-	void _ReadFloat(float& x) const;
 
-	Shape* figures[10];
-	int index;
-	int count;
+	bool _Init();
+	void _PrintCommands() const;
+	
+	template<class T>
+	void _ReadVar(T& var) const;
+
+	bool _ReadIndex(int& _index);
+
+	int totalCount;
+	int figuresCount;
+	Shape** figures;
+
 };
+

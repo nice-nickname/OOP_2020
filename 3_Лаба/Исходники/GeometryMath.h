@@ -1,37 +1,32 @@
 #pragma once
 
+#include "Line.h"
 #include "Shape.h"
 
-#include "Line.h"
-
-#include <cmath>
-
-// class with only static methods
 class GeometryMath
 {
 public:
-	GeometryMath() = delete;
-	GeometryMath(const GeometryMath& other) = delete;
-	GeometryMath(GeometryMath&& rvalue) = delete;
 
-	static constexpr float pi = 3.1415926535897932385f;
-	static constexpr float epsilon = 0.00001f;
+	GeometryMath();
 
-	static float FindMagnitude(const Line& line);
-	static float CalculateScalar(const Line& v1, const Line& v2);
+	const double pi;
+	const double epsilon;
 
-	static bool IsIntersected(const Shape& first, const Shape& second);
-	static bool IsIntersected(const Line& first, const Line& second);
+	double DegreesToRadian(int degrees) const;
 
-	static bool IsIncluding(const Shape& dest, const Shape& incl);
-	static bool IsIncluding(const Point& p, const Shape& figure);
+	double FindMagnitude(const Line& line) const;
 
-	static float DegreeToRadian(int degree);
+	double FindAngle(const Line& first, const Line& second) const;
+
+	bool IsIntersected(const Line& lFirst, const Line& lSecond) const;
+	bool IsIntersected(const Shape& lFirst, const Shape& lSecond) const;
+
+	// Not-strict inclusion
+	bool IsIncluded(Point p, const Shape& figure);
+	bool IsIncluded(const Shape& dest, const Shape& incl);
 
 private:
 
-	static void _ValidateShape(const Shape& shape);
-	static bool _IsIncludingDontValidate(const Point& p, const Shape& figure);
-
+	bool _IsIncludedDontValidate(Point p, const Shape& figure);
+	void _ValidateShape(const Shape& shape) const;
 };
-
