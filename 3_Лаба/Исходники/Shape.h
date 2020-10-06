@@ -11,7 +11,7 @@ public:
 
 	Shape();
 	Shape(const Shape& other);
-	Shape(const Point* points, int length, std::string _name);
+	Shape(const Point* points, int length, std::string name);
 
 	virtual ~Shape();
 
@@ -33,10 +33,10 @@ public:
 
 private:
 
-	std::string name;
+	std::string _name;
 
-	int verticesCount;
-	Point* vertices;
+	int _verticesCount;
+	Point* _vertices;
 
 protected:
 

@@ -11,14 +11,15 @@ double Triangle::FindArea() const
 {
 	GeometryMath math;
 	
-	Line* _lines = FindEdges();
+	Line* lines = FindEdges();
 
-	double A = math.FindMagnitude(_lines[0]);
-	double B = math.FindMagnitude(_lines[1]);
-	double C = math.FindMagnitude(_lines[2]);
+	double A = math.FindMagnitude(lines[0]);
+	double B = math.FindMagnitude(lines[1]);
+	double C = math.FindMagnitude(lines[2]);
+
 	double p = (A + B + C) / 2;
 
-	delete[] _lines;
+	delete[] lines;
 	return sqrt(p * (p - A) * (p - B) * (p - C));
 }
 
@@ -26,13 +27,13 @@ bool Triangle::IsExisting() const
 {
 	GeometryMath math;
 
-	Line* _lines = FindEdges();
+	Line* lines = FindEdges();
 
-	double A = math.FindMagnitude(_lines[0]);
-	double B = math.FindMagnitude(_lines[1]);
-	double C = math.FindMagnitude(_lines[2]);
+	double A = math.FindMagnitude(lines[0]);
+	double B = math.FindMagnitude(lines[1]);
+	double C = math.FindMagnitude(lines[2]);
 
-	delete[] _lines;
+	delete[] lines;
 
 	if (A + B > C && A + C > B && B + C > A)
 	{

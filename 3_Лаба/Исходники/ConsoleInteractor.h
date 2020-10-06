@@ -18,11 +18,11 @@ private:
 	template<class T>
 	void _ReadVar(T& var) const;
 
-	bool _ReadIndex(int& _index);
+	bool _ReadIndex(int& _index) const;
 
-	int totalCount;
-	int figuresCount;
-	Shape** figures;
+	int _totalCount;
+	int _figuresCount;
+	Shape** _figures;
 
 };
 

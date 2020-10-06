@@ -7,29 +7,29 @@
 #include <cmath>
 
 Shape::Shape()
-	: vertices(nullptr),
-	verticesCount(0),
-	name("Abstract shape")
+	: _vertices(nullptr),
+	_verticesCount(0),
+	_name("Abstract shape")
 {
 }
 
 Shape::Shape(const Shape& other)
-	: Shape(other.vertices, other.verticesCount, other.name)
+	: Shape(other._vertices, other._verticesCount, other._name)
 {}
 
-Shape::Shape(const Point* points, int length, std::string _name)
-	: verticesCount(length),
-	vertices(new Point[verticesCount]),
-	name(_name)
+Shape::Shape(const Point* points, int length, std::string name)
+	: _verticesCount(length),
+	_vertices(new Point[_verticesCount]),
+	_name(name)
 {
-	std::copy(points, points + verticesCount, vertices);
+	std::copy(points, points + _verticesCount, _vertices);
 }
 
 Shape::~Shape()
 {
-	if (vertices != nullptr)
+	if (_vertices != nullptr)
 	{
-		delete[] vertices;
+		delete[] _vertices;
 	}
 }
 
@@ -40,34 +40,34 @@ Shape& Shape::operator=(const Shape& other)
 		return *this;
 	}
 
-	if (vertices != nullptr)
+	if (_vertices != nullptr)
 	{
-		delete[] vertices;
+		delete[] _vertices;
 	}
 
-	verticesCount = other.verticesCount;
-	vertices = new Point[verticesCount];
-	std::copy(other.vertices, other.vertices + verticesCount, vertices);
+	_verticesCount = other._verticesCount;
+	_vertices = new Point[_verticesCount];
+	std::copy(other._vertices, other._vertices + _verticesCount, _vertices);
 	return *this;
 }
 
 Point Shape::FindCenter() const
 {
-	double _x = 0, _y = 0;
-	for (int i = 0; i < verticesCount; i++)
+	double x = 0, y = 0;
+	for (int i = 0; i < _verticesCount; i++)
 	{
-		_x += vertices[i].x;
-		_y += vertices[i].y;
+		x += _vertices[i].x;
+		y += _vertices[i].y;
 	}
-	return Point(_x / verticesCount, _y / verticesCount);
+	return Point(x / _verticesCount, y / _verticesCount);
 }
 
 void Shape::Move(double xOffset, double yOffset)
 {
-	Point _offset(xOffset, yOffset);
-	for (int i = 0; i < verticesCount; i++)
+	Point offset(xOffset, yOffset);
+	for (int i = 0; i < _verticesCount; i++)
 	{
-		vertices[i] += _offset;
+		_vertices[i] += offset;
 	}
 }
 
@@ -75,46 +75,46 @@ void Shape::Rotate(int degrees)
 {
 	GeometryMath math;
 
-	double _angle = math.DegreesToRadian(degrees);
+	double angle = math.DegreesToRadian(degrees);
 
-	Point _old;
-	for (int i = 0; i < verticesCount; i++)
+	Point oldPoint;
+	for (int i = 0; i < _verticesCount; i++)
 	{
-		_old = vertices[i];
+		oldPoint = _vertices[i];
 
-		vertices[i] = Point(
-			_old.x * cos(_angle) - _old.y * sin(_angle),
-			_old.y * sin(_angle) + _old.y * cos(_angle)
+		_vertices[i] = Point(
+			oldPoint.x * cos(angle) - oldPoint.y * sin(angle),
+			oldPoint.x * sin(angle) + oldPoint.y * cos(angle)
 		);
 	}
 }
 
 std::string Shape::GetName() const
 {
-	return name;
+	return _name;
 }
 
 int Shape::GetVerticesCount() const
 {
-	return verticesCount;
+	return _verticesCount;
 }
 
 const Point* Shape::GetVertices() const
 {
-	return vertices;
+	return _vertices;
 }
 
 Line* Shape::FindEdges() const
 {
-	int _count = GetVerticesCount();
-	Line* _lines = new Line[_count];
-	for (int i = 0; i < _count - 1; i++)
+	int count = GetVerticesCount();
+	Line* lines = new Line[count];
+	for (int i = 0; i < count - 1; i++)
 	{
-		_lines[i] = Line(vertices[i], vertices[i + 1]);
+		lines[i] = Line(_vertices[i], _vertices[i + 1]);
 	}
-	_lines[_count - 1] = Line(vertices[_count - 1], vertices[0]);
+	lines[count - 1] = Line(_vertices[count - 1], _vertices[0]);
 
-	return _lines;
+	return lines;
 }
 
 void Shape::_CheckExisting()
