@@ -7,7 +7,7 @@
 template<>
 inline Date NoteBuilder::ParseFromStream<Date>(std::istream& sin) const
 {
-	int date[3];
+	int date[3]; // day, month, year
 	char dot;
 
 	for (int i = 0; i < 2; i++)
@@ -23,12 +23,42 @@ inline Date NoteBuilder::ParseFromStream<Date>(std::istream& sin) const
 		throw std::runtime_error("Parsing data from stream error");
 	}
 
-	if (date[0] <= 0 || date[0] > 31
-		|| date[1] <= 0 || date[1] > 12
+	if (date[1] <= 0 || date[1] > 12
 		|| date[2] <= 1900 || date[2] > 3000)
 	{
 		throw std::invalid_argument("Invalid data from stream");
 	}
+
+	int lowerBound = 1, upperBound;
+	int month = date[1];
+
+	if (month == 4 || month == 6 || month == 9 || month == 11)
+	{
+		upperBound = 30;
+	}
+	else if (month == 2)
+	{
+		int year = date[2];
+
+		if (year % 4 != 0 || year % 100 == 0 && year % 400 != 0)
+		{
+			upperBound = 28;
+		}
+		else
+		{
+			upperBound = 29;
+		}
+	}
+	else
+	{
+		upperBound = 31;
+	}
+
+	if (date[0] < lowerBound || date[0] > upperBound)
+	{
+		throw std::invalid_argument("Invalid data from stream");
+	}
+
 	return Date(date[0], date[1], date[2]);
 }
 
@@ -36,7 +66,6 @@ template<>
 inline PhoneNumber NoteBuilder::ParseFromStream<PhoneNumber>(std::istream& sin) const
 {
 	std::string numbers[3];
-	char dash;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -84,13 +113,23 @@ inline PersonInitial NoteBuilder::ParseFromStream<PersonInitial>(std::istream& s
 		}
 	}
 
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (auto& letter : names[i])
+		{
+			letter = tolower(letter);
+		}
+		names[i][0] = toupper(names[i][0]);
+	}
+
 	return PersonInitial(names[0], names[1], names[2]);
 }
 
 Note NoteBuilder::Build(const std::string& data) const
 {
 	std::istringstream sin(data);
-
+	
 	auto date = ParseFromStream<Date>(sin);
 	auto number = ParseFromStream<PhoneNumber>(sin);
 	auto initial = ParseFromStream<PersonInitial>(sin);

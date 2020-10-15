@@ -12,15 +12,10 @@ public:
 
 	std::vector<Note> Build(const std::vector<std::string>& data) const;
 
-private:
-
 	template<typename T>
 	T ParseFromStream(std::istream& sin) const;
 
+private:
+
 };
 
-template<typename T>
-inline T NoteBuilder::ParseFromStream(std::istream& sin) const
-{
-	return T();
-}

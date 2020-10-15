@@ -18,9 +18,10 @@ public:
 	int GetMonth() const;
 	int GetYear() const;
 	
-	int PresentAsNumber() const;
 
 private:
+
+	int PresentAsNumber() const;
 
 	int _day;
 	int _month;

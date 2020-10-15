@@ -8,7 +8,7 @@ std::unique_ptr<INotesContainer> NotebookBuilder::BuildFromType(const std::strin
 	{
 		notebook = Build<VectorNotebook>();
 	}
-	else if (typeName.compare("MULTIMAP") == 0)
+	else if (typeName.compare("MAP") == 0)
 	{
 		notebook = Build<MapNotebook>();
 	}

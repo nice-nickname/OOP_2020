@@ -40,7 +40,7 @@ bool Date::operator<(const Date& other) const
 	int date1 = PresentAsNumber();
 	int date2 = other.PresentAsNumber();
 
-	if (date1 > date2)
+	if (date1 < date2)
 	{
 		return true;
 	}

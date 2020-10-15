@@ -8,5 +8,6 @@ int main()
 {
 	ConsoleInteractor app;
 	app.Run();
+
 	return 0;
 }

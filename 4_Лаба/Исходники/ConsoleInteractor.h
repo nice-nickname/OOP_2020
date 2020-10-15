@@ -19,12 +19,13 @@ private:
 	bool Init();
 	int ReadCommand() const;
 
-	void ProcessReadFileAndBuild();
-	void ProcessPrintNotebook() const;
+	void TaskReadFileAndBuild();
+	void TaskPrintNotebook() const;
+	void TaskSwitchPredicateAndRun() const;
+	void TaskPrintPredicates() const;
 
 	void PrintCommands() const;
 	void ToUniqueFormat(std::string& destString) const;
-
 
 
 };

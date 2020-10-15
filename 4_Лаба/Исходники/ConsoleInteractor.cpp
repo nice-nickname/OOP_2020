@@ -18,7 +18,7 @@ void ConsoleInteractor::Run()
 	{
 		return;
 	}
-	
+
 
 	PrintCommands();
 
@@ -35,16 +35,20 @@ void ConsoleInteractor::Run()
 				return;
 
 			case 1:
-				ProcessReadFileAndBuild();
+				TaskReadFileAndBuild();
 				cout << "success\n";
 				break;
 
 			case 2:
-				// ...
+				TaskSwitchPredicateAndRun();
 				break;
 
 			case 3:
-				ProcessPrintNotebook();
+				TaskPrintNotebook();
+				break;
+
+			case 4:
+				PrintCommands();
 				break;
 
 			default:
@@ -52,7 +56,7 @@ void ConsoleInteractor::Run()
 				break;
 			}
 		}
-		catch (const std::exception& e)
+		catch (const std::exception & e)
 		{
 			std::cout << e.what() << "\n";
 		}
@@ -63,7 +67,7 @@ bool ConsoleInteractor::Init()
 {
 	std::string type;
 
-	cout << "Enter name of base type for notebook. for example: VECTOR, MULTIMAP, ... or type EXIT to\n";
+	cout << "Enter name of base type for notebook. for example: VECTOR, MAP, ... or type EXIT to\n";
 
 	NotebookBuilder builder;
 
@@ -96,13 +100,13 @@ int ConsoleInteractor::ReadCommand() const
 {
 	int command;
 	cout << "enter command: ";
-	
+
 	ReadVar(command);
-	
+
 	return command;
 }
 
-void ConsoleInteractor::ProcessReadFileAndBuild()
+void ConsoleInteractor::TaskReadFileAndBuild()
 {
 	std::string fileName;
 	cout << "Enter File Name:  ";
@@ -120,9 +124,88 @@ void ConsoleInteractor::ProcessReadFileAndBuild()
 	}
 }
 
-void ConsoleInteractor::ProcessPrintNotebook() const
+void ConsoleInteractor::TaskPrintNotebook() const
 {
 	cout << notebook->ToString() << "\n";
+}
+
+void ConsoleInteractor::TaskSwitchPredicateAndRun() const
+{
+	TaskPrintPredicates();
+	int predIndex;
+	cout << "Enter predicate index (starts from zero): ";
+	ReadVar(predIndex);
+
+	if (predIndex < 0 || predIndex > 1)
+	{
+		throw std::runtime_error("Invalid predicate index");
+	}
+
+	std::vector<Note> finded;
+
+	if (predIndex == 0)
+	{
+		cout << "enter name: ";
+		std::string name;
+		cin >> name;
+
+		for (auto& letter : name)
+		{
+			if (!isalpha(letter))
+			{
+				throw std::runtime_error("Invalid name");
+			}
+		}
+
+
+		auto predicate = [this, name](const Note& note) -> bool
+		{
+			std::string name1 = note.GetInitial().GetName();
+			std::string name2 = name;
+
+			ToUniqueFormat(name1);
+			ToUniqueFormat(name2);
+
+			if (name1.compare(name2) == 0)
+			{
+				return true;
+			}
+			return false;
+		};
+
+		finded = notebook->Find(predicate);
+	}
+	else
+	{
+		NoteBuilder builder;
+		std::string strData;
+		cout << "Enter date in format: dd.mm.yyyy : ";
+		cin >> strData;
+		std::stringstream sstr(strData);
+		Date date = builder.ParseFromStream<Date>(sstr);
+
+		auto predicate = [date](const Note& note) -> bool
+		{
+			return false;
+		};
+
+		finded = notebook->Find(predicate);
+	}
+
+	cout << "finded vector contains " << finded.size() << " elements:\n";
+
+	for (auto& item : finded)
+	{
+		cout << item.ToString() << "\n";
+	}
+	cout << "\n";
+}
+
+void ConsoleInteractor::TaskPrintPredicates() const
+{
+	cout << "two predicates to choise\n";
+	cout << "0: -> search for Note's contains name == inputed name\n";
+	cout << "1: -> search for Note's Date of birth and inputed date differ by 3 days\n";
 }
 
 void ConsoleInteractor::PrintCommands() const
@@ -132,6 +215,7 @@ void ConsoleInteractor::PrintCommands() const
 	cout << "          1 - read from file and add to container\n";
 	cout << "          2 - find by Date of birth\n";
 	cout << "          3 - print notebook\n";
+	cout << "          4 - clear console\n";
 }
 
 void ConsoleInteractor::ToUniqueFormat(std::string& destString) const
@@ -141,6 +225,7 @@ void ConsoleInteractor::ToUniqueFormat(std::string& destString) const
 		letter = toupper(letter);
 	}
 }
+
 
 template  void ConsoleInteractor::ReadVar<int>(int& var) const;
 
