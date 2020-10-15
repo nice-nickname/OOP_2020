@@ -18,15 +18,16 @@ public:
 	int GetMonth() const;
 	int GetYear() const;
 	
+	int GetDaysCount() const;
+
+	static int GetDaysCountInMonth(int month, int year);
+	static int GetDaysCountInYear(int year);
 
 private:
-
-	int PresentAsNumber() const;
 
 	int _day;
 	int _month;
 	int _year;
-
 
 };
 

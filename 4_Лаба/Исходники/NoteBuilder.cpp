@@ -29,31 +29,9 @@ inline Date NoteBuilder::ParseFromStream<Date>(std::istream& sin) const
 		throw std::invalid_argument("Invalid data from stream");
 	}
 
-	int lowerBound = 1, upperBound;
+	int lowerBound = 1, upperBound = Date::GetDaysCountInMonth(date[1], date[2]);
 	int month = date[1];
-
-	if (month == 4 || month == 6 || month == 9 || month == 11)
-	{
-		upperBound = 30;
-	}
-	else if (month == 2)
-	{
-		int year = date[2];
-
-		if (year % 4 != 0 || year % 100 == 0 && year % 400 != 0)
-		{
-			upperBound = 28;
-		}
-		else
-		{
-			upperBound = 29;
-		}
-	}
-	else
-	{
-		upperBound = 31;
-	}
-
+	
 	if (date[0] < lowerBound || date[0] > upperBound)
 	{
 		throw std::invalid_argument("Invalid data from stream");

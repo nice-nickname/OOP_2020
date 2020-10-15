@@ -1,11 +1,6 @@
 #pragma once
 
 #include "INotesContainer.h"
-#include "NoteFileReader.h"
-#include "NoteBuilder.h"
-
-#include "VectorNotebook.h"
-#include "MapNotebook.h"
 
 #include <type_traits>
 #include <utility>

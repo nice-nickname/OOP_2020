@@ -27,6 +27,5 @@ private:
 	void PrintCommands() const;
 	void ToUniqueFormat(std::string& destString) const;
 
-
 };
 

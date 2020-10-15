@@ -11,9 +11,5 @@ public:
 
 	std::vector<std::string> Read(const char* fileName);
 
-private:
-
-	std::fstream _file;
-
 };
 

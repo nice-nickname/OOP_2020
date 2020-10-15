@@ -6,11 +6,11 @@
 
 std::vector<std::string> NoteFileReader::Read(const char* fileName)
 {
-	std::fstream _file;
+	std::fstream file;
 
-	_file.open(fileName, std::ios_base::in);
+	file.open(fileName, std::ios_base::in);
 
-	if (!_file.good())
+	if (!file.good())
 	{
 		throw std::runtime_error("Error when opening file");
 	}
@@ -18,7 +18,7 @@ std::vector<std::string> NoteFileReader::Read(const char* fileName)
 	std::vector<std::string> lines;
 
 	std::string line;
-	while (std::getline(_file, line))
+	while (std::getline(file, line))
 	{
 		lines.push_back(std::move(line));
 	}

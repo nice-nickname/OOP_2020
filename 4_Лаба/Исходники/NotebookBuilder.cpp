@@ -1,5 +1,10 @@
 #include "NotebookBuilder.h"
 
+#include "VectorNotebook.h"
+#include "MapNotebook.h"
+
+#include <stdexcept>
+
 std::unique_ptr<INotesContainer> NotebookBuilder::BuildFromType(const std::string& typeName) const
 {
 	std::unique_ptr<INotesContainer> notebook;
@@ -8,7 +13,7 @@ std::unique_ptr<INotesContainer> NotebookBuilder::BuildFromType(const std::strin
 	{
 		notebook = Build<VectorNotebook>();
 	}
-	else if (typeName.compare("MAP") == 0)
+	else if (typeName.compare("MULTIMAP") == 0)
 	{
 		notebook = Build<MapNotebook>();
 	}

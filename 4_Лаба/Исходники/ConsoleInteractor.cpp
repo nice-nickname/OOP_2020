@@ -9,6 +9,8 @@ using namespace std;
 
 #include "MapNotebook.h"
 #include "VectorNotebook.h"
+#include "NoteFileReader.h"
+#include "NoteBuilder.h"
 
 #include "NotebookBuilder.h"
 
@@ -18,7 +20,6 @@ void ConsoleInteractor::Run()
 	{
 		return;
 	}
-
 
 	PrintCommands();
 
@@ -67,7 +68,7 @@ bool ConsoleInteractor::Init()
 {
 	std::string type;
 
-	cout << "Enter name of base type for notebook. for example: VECTOR, MAP, ... or type EXIT to\n";
+	cout << "Enter name of base type for notebook. for example: VECTOR, MULTIMAP, ... or type EXIT to\n";
 
 	NotebookBuilder builder;
 
@@ -99,7 +100,7 @@ bool ConsoleInteractor::Init()
 int ConsoleInteractor::ReadCommand() const
 {
 	int command;
-	cout << "enter command: ";
+	cout << "\nenter command: ";
 
 	ReadVar(command);
 
@@ -136,17 +137,75 @@ void ConsoleInteractor::TaskSwitchPredicateAndRun() const
 	cout << "Enter predicate index (starts from zero): ";
 	ReadVar(predIndex);
 
-	if (predIndex < 0 || predIndex > 1)
-	{
-		throw std::runtime_error("Invalid predicate index");
-	}
-
 	std::vector<Note> finded;
 
-	if (predIndex == 0)
+	switch (predIndex)
 	{
-		cout << "enter name: ";
-		std::string name;
+	case 0:
+	{
+		cout << "Enter day: ";
+		int day;
+		ReadVar(day);
+		if (day <= 0 || day > 31)
+		{
+			throw std::runtime_error("Invalid day readed");
+		}
+
+		finded = notebook->Find([day](const Note& note) -> bool
+			{
+				if (note.GetBirthDate().GetDay() == day)
+				{
+					return true;
+				}
+				return false;
+			});
+	}
+		break;
+	
+	case 1:
+	{
+		cout << "Enter month: ";
+		int month;
+		ReadVar(month);
+		if (month <= 0 || month > 12)
+		{
+			throw std::runtime_error("Invalid day readed");
+		}
+
+		finded = notebook->Find([month](const Note& note) -> bool
+			{
+				if (note.GetBirthDate().GetMonth() == month)
+				{
+					return true;
+				}
+				return false;
+			});
+	}
+		break;
+	
+	case 2:
+	{
+		cout << "Enter date in format dd.mm.yyyy : ";
+
+		NoteBuilder builder;
+
+		string data;
+		cin >> data;
+
+		stringstream sstr(data);
+
+		Date date = builder.ParseFromStream<Date>(sstr);
+
+		finded = notebook->FindByKey(date);
+
+	}
+		break;
+	
+	case 3:
+	{
+		cout << "Enter name: ";
+		string name;
+
 		cin >> name;
 
 		for (auto& letter : name)
@@ -155,41 +214,50 @@ void ConsoleInteractor::TaskSwitchPredicateAndRun() const
 			{
 				throw std::runtime_error("Invalid name");
 			}
+			letter = tolower(letter);
+		}
+		name[0] = toupper(name[0]);
+
+		finded = notebook->Find([name](const Note& note) -> bool
+			{
+				if (note.GetInitial().GetName() == name)
+				{
+					return true;
+				}
+				return false;
+			});
+	}
+		break;
+	
+	case 4:
+	{
+		cout << "Enter county code: ";
+		
+		string code;
+		cin >> code;
+
+		for (auto& letter : code)
+		{
+			if (!isdigit(letter))
+			{
+				throw std::runtime_error("Invalid county code");
+			}
 		}
 
-
-		auto predicate = [this, name](const Note& note) -> bool
-		{
-			std::string name1 = note.GetInitial().GetName();
-			std::string name2 = name;
-
-			ToUniqueFormat(name1);
-			ToUniqueFormat(name2);
-
-			if (name1.compare(name2) == 0)
+		finded = notebook->Find([code](const Note& note) -> bool
 			{
-				return true;
-			}
-			return false;
-		};
-
-		finded = notebook->Find(predicate);
+				if (note.GetPhoneNumber().GetCountyCode() == code)
+				{
+					return true;
+				}
+				return false;
+			});
 	}
-	else
-	{
-		NoteBuilder builder;
-		std::string strData;
-		cout << "Enter date in format: dd.mm.yyyy : ";
-		cin >> strData;
-		std::stringstream sstr(strData);
-		Date date = builder.ParseFromStream<Date>(sstr);
+		break;
 
-		auto predicate = [date](const Note& note) -> bool
-		{
-			return false;
-		};
-
-		finded = notebook->Find(predicate);
+	default:
+		throw std::runtime_error("Invalid predicate index");
+		break;
 	}
 
 	cout << "finded vector contains " << finded.size() << " elements:\n";
@@ -203,9 +271,12 @@ void ConsoleInteractor::TaskSwitchPredicateAndRun() const
 
 void ConsoleInteractor::TaskPrintPredicates() const
 {
-	cout << "two predicates to choise\n";
-	cout << "0: -> search for Note's contains name == inputed name\n";
-	cout << "1: -> search for Note's Date of birth and inputed date differ by 3 days\n";
+	cout << "Predicates to test:\n";
+	cout << "0: find notes with inputed day\n";
+	cout << "1: find notes with inputed month\n";
+	cout << "2: find notes with inputed Date\n";
+	cout << "3: find notes with inputed Name\n";
+	cout << "4: find notes with inputed phone number's county code\n";
 }
 
 void ConsoleInteractor::PrintCommands() const
@@ -213,7 +284,7 @@ void ConsoleInteractor::PrintCommands() const
 	system("cls");
 	cout << "Commands: 0 - exit\n";
 	cout << "          1 - read from file and add to container\n";
-	cout << "          2 - find by Date of birth\n";
+	cout << "          2 - test predicates\n";
 	cout << "          3 - print notebook\n";
 	cout << "          4 - clear console\n";
 }

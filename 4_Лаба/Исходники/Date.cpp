@@ -37,8 +37,8 @@ bool Date::operator==(const Date& other) const
 
 bool Date::operator<(const Date& other) const
 {
-	int date1 = PresentAsNumber();
-	int date2 = other.PresentAsNumber();
+	int date1 = GetDaysCount();
+	int date2 = other.GetDaysCount();
 
 	if (date1 < date2)
 	{
@@ -62,9 +62,54 @@ int Date::GetYear() const
 	return _year;
 }
 
-int Date::PresentAsNumber() const
+int Date::GetDaysCount() const
 {
-	return _year * 10000 + _month * 100 + _day;
+	int res = _day;
+
+	for (int i = 1; i < _month; i++)
+	{
+		res += GetDaysCountInMonth(_month, _year);
+	}
+
+	int leapYearsCount = _year / 4;
+	int yearsCount = _year - leapYearsCount;
+
+	res += leapYearsCount * 366 + yearsCount * 365;
+
+	return res;
+}
+
+int Date::GetDaysCountInMonth(int month, int year)
+{
+	if (month == 4 || month == 6 || month == 9 || month == 11)
+	{
+		return 30;
+	}
+	else if (month == 2)
+	{
+		if (GetDaysCountInYear(year) == 365)
+		{
+			return 28;
+		}
+		else
+		{
+			return 29;
+		}
+	}
+	else
+	{
+		return 31;
+	}
+}
+
+int Date::GetDaysCountInYear(int year)
+{
+	if (year % 4 != 0 || year % 100 == 0 && year % 400 != 0)
+	{
+		return 365;
+	}
+	
+	return 366;
 }
 
 Date::Date()
