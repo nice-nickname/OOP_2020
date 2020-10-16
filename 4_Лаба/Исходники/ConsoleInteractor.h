@@ -11,7 +11,7 @@ public:
 
 private:
 	
-	std::unique_ptr<INotesContainer> notebook;
+	std::unique_ptr<INotesContainer> _notebook;
 
 	template<typename T> 
 	void ReadVar(T& var) const;

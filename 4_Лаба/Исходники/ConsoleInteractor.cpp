@@ -86,7 +86,7 @@ bool ConsoleInteractor::Init()
 				return false;
 			}
 
-			notebook = builder.BuildFromType(type);
+			_notebook = builder.BuildFromType(type);
 			return true;
 		}
 		catch (const std::exception & err)
@@ -121,13 +121,13 @@ void ConsoleInteractor::TaskReadFileAndBuild()
 
 	for (auto& note : buildedNotes)
 	{
-		notebook->Add(note);
+		_notebook->Add(note);
 	}
 }
 
 void ConsoleInteractor::TaskPrintNotebook() const
 {
-	cout << notebook->ToString() << "\n";
+	cout << _notebook->ToString() << "\n";
 }
 
 void ConsoleInteractor::TaskSwitchPredicateAndRun() const
@@ -151,7 +151,7 @@ void ConsoleInteractor::TaskSwitchPredicateAndRun() const
 			throw std::runtime_error("Invalid day readed");
 		}
 
-		finded = notebook->Find([day](const Note& note) -> bool
+		finded = _notebook->Find([day](const Note& note) -> bool
 			{
 				if (note.GetBirthDate().GetDay() == day)
 				{
@@ -172,7 +172,7 @@ void ConsoleInteractor::TaskSwitchPredicateAndRun() const
 			throw std::runtime_error("Invalid day readed");
 		}
 
-		finded = notebook->Find([month](const Note& note) -> bool
+		finded = _notebook->Find([month](const Note& note) -> bool
 			{
 				if (note.GetBirthDate().GetMonth() == month)
 				{
@@ -196,7 +196,7 @@ void ConsoleInteractor::TaskSwitchPredicateAndRun() const
 
 		Date date = builder.ParseFromStream<Date>(sstr);
 
-		finded = notebook->FindByKey(date);
+		finded = _notebook->FindByKey(date);
 
 	}
 		break;
@@ -218,7 +218,7 @@ void ConsoleInteractor::TaskSwitchPredicateAndRun() const
 		}
 		name[0] = toupper(name[0]);
 
-		finded = notebook->Find([name](const Note& note) -> bool
+		finded = _notebook->Find([name](const Note& note) -> bool
 			{
 				if (note.GetInitial().GetName() == name)
 				{
@@ -244,7 +244,7 @@ void ConsoleInteractor::TaskSwitchPredicateAndRun() const
 			}
 		}
 
-		finded = notebook->Find([code](const Note& note) -> bool
+		finded = _notebook->Find([code](const Note& note) -> bool
 			{
 				if (note.GetPhoneNumber().GetCountyCode() == code)
 				{
