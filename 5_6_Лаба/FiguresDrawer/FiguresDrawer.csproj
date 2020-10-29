@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{83D1B794-873E-4C12-A577-0BED81CECF4A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>FiguresDrawer</RootNamespace>
+    <AssemblyName>FiguresDrawer</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App\Core\IPresenter.cs" />
+    <Compile Include="App\Core\IView.cs" />
+    <Compile Include="App\FormFactory.cs" />
+    <Compile Include="App\ViewPresenterPair.cs" />
+    <Compile Include="Model\Factories\Concrete\FigurePointsFactory.cs" />
+    <Compile Include="Model\Factories\IFigureFactory.cs" />
+    <Compile Include="Model\Figure.cs" />
+    <Compile Include="Model\Figures\Segment.cs" />
+    <Compile Include="Model\Figures\Polygon.cs" />
+    <Compile Include="Model\Figures\Rectangle.cs" />
+    <Compile Include="Model\Figures\Triangle.cs" />
+    <Compile Include="Model\GeometryOperations.cs" />
+    <Compile Include="Model\Structures\LineSegment.cs" />
+    <Compile Include="Model\Structures\Point.cs" />
+    <Compile Include="Presenter\Adapter\Concrete\FiguresDataAdapter.cs" />
+    <Compile Include="Presenter\Adapter\FigureDrawer.cs" />
+    <Compile Include="Presenter\Adapter\IFigureAdapter.cs" />
+    <Compile Include="Presenter\FiguresCreatorPresenter.cs" />
+    <Compile Include="Presenter\FiguresDrawerPresenter.cs" />
+    <Compile Include="Presenter\FiguresSettingsPresenter.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\Forms\FiguresCreatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\FiguresCreatorForm.Designer.cs">
+      <DependentUpon>FiguresCreatorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\Index.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\Index.Designer.cs">
+      <DependentUpon>Index.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Forms\FiguresSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\FiguresSettingsForm.Designer.cs">
+      <DependentUpon>FiguresSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\IFiguresAppSettingsView.cs" />
+    <Compile Include="View\IFiguresDrawerView.cs" />
+    <Compile Include="View\IFiguresCreatorView.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="View\Forms\FiguresCreatorForm.resx">
+      <DependentUpon>FiguresCreatorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\Index.resx">
+      <DependentUpon>Index.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Forms\FiguresSettingsForm.resx">
+      <DependentUpon>FiguresSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

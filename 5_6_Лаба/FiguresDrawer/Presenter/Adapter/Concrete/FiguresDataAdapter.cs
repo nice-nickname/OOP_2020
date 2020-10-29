@@ -1,0 +1,55 @@
+﻿using FiguresDrawer.Model;
+using System.Drawing;
+
+namespace FiguresDrawer.Presenter.Adapter
+{
+	public class FiguresDataAdapter : IFigureAdapter
+	{
+		private Figure _figure;
+
+		public FiguresDataAdapter(Figure figure)
+		{
+			_figure = figure;
+		}
+
+		public PointF[] GetPoints()
+		{
+			PointF[] points = new PointF[_figure.PointsCount];
+
+			for (int i = 0; i < points.Length; i++)
+			{
+				points[i] = Convert(_figure[i]);
+			}
+
+			return points;
+		}
+
+		public double GetArea()
+		{
+			return _figure.FindArea();
+		}
+
+		public PointF GetCenter()
+		{
+			return Convert(_figure.FindCenter());
+		}
+
+		public double GetPerimeter()
+		{
+			return _figure.FindPerimeter();
+		}
+
+		private PointF Convert(FiguresDrawer.Model.Structures.Point point)
+		{
+			float x = (float)point.X;
+			float y = (float)point.Y;
+
+			return new PointF(x, y);
+		}
+
+		public override string ToString()
+		{
+			return _figure.Name + " " + ". Count of points: " + _figure.PointsCount;
+		}
+	}
+}
