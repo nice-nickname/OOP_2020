@@ -1,6 +1,7 @@
-﻿using System.Drawing;
+﻿using FiguresDrawer.Presenter.Adapter;
+using System.Drawing;
 
-namespace FiguresDrawer.Presenter.Adapter
+namespace FiguresDrawer.Presenter.Drawing
 {
 	public class FigureDrawer
 	{
@@ -20,7 +21,7 @@ namespace FiguresDrawer.Presenter.Adapter
 
 		public override string ToString()
 		{
-			return figure.ToString() + " Color: " + PenColor.ToString();
+			return figure.ToString() + " " + PenColor.ToString();
 		}
 	}
 }

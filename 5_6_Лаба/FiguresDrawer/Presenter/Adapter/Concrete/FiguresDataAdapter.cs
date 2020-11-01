@@ -1,4 +1,5 @@
 ﻿using FiguresDrawer.Model;
+using System;
 using System.Drawing;
 
 namespace FiguresDrawer.Presenter.Adapter
@@ -6,6 +7,8 @@ namespace FiguresDrawer.Presenter.Adapter
 	public class FiguresDataAdapter : IFigureAdapter
 	{
 		private Figure _figure;
+
+		public Type BaseType => _figure.GetType();
 
 		public FiguresDataAdapter(Figure figure)
 		{
@@ -49,7 +52,7 @@ namespace FiguresDrawer.Presenter.Adapter
 
 		public override string ToString()
 		{
-			return _figure.Name + " " + ". Count of points: " + _figure.PointsCount;
+			return _figure.Name + ". Points count: " + _figure.PointsCount;
 		}
 	}
 }

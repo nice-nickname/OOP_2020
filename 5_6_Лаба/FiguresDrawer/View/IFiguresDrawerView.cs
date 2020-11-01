@@ -7,9 +7,7 @@ namespace FiguresDrawer.View
 	public interface IFiguresDrawerView : IView
 	{
 		Size GetSize();
-		ListBox.ObjectCollection Figures { get; }
-		Label AreaTextLabel { get; }
-		Label PerimeterTextLabel { get; }
+		ListBox FiguresListBox { get; }
 
 		void InvokePaintEvent();
 

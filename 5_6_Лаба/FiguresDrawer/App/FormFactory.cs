@@ -24,11 +24,7 @@ namespace FiguresDrawer.App
 			else if (type == typeof(IFiguresCreatorView))
 			{
 				var form = new FiguresCreatorForm();
-
-				if (sender is IFiguresDrawerView)
-				{
-					return new ViewPresenterPair(form, new FiguresCreatorPresenter(form, (sender as IFiguresDrawerView).Figures));
-				}
+				return new ViewPresenterPair(form, new FiguresCreatorPresenter(form));
 			}
 
 			return null;

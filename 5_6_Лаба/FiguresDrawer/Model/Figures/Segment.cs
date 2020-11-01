@@ -8,6 +8,11 @@ namespace FiguresDrawer.Model.Figures
 		{
 		}
 
+		public override double FindArea()
+		{
+			throw new System.InvalidOperationException("Can't calculate area of segment");
+		}
+
 		public override bool IsExisting()
 		{
 			GeometryOperations math = new GeometryOperations();

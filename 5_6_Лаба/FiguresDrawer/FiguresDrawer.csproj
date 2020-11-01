@@ -54,6 +54,7 @@
     <Compile Include="Model\Factories\Concrete\FigurePointsFactory.cs" />
     <Compile Include="Model\Factories\IFigureFactory.cs" />
     <Compile Include="Model\Figure.cs" />
+    <Compile Include="Model\FigureDrawerContainer.cs" />
     <Compile Include="Model\Figures\Segment.cs" />
     <Compile Include="Model\Figures\Polygon.cs" />
     <Compile Include="Model\Figures\Rectangle.cs" />
@@ -62,8 +63,9 @@
     <Compile Include="Model\Structures\LineSegment.cs" />
     <Compile Include="Model\Structures\Point.cs" />
     <Compile Include="Presenter\Adapter\Concrete\FiguresDataAdapter.cs" />
-    <Compile Include="Presenter\Adapter\FigureDrawer.cs" />
+    <Compile Include="Presenter\Drawing\FigureDrawer.cs" />
     <Compile Include="Presenter\Adapter\IFigureAdapter.cs" />
+    <Compile Include="Presenter\Drawing\CoordinatesPlane.cs" />
     <Compile Include="Presenter\FiguresCreatorPresenter.cs" />
     <Compile Include="Presenter\FiguresDrawerPresenter.cs" />
     <Compile Include="Presenter\FiguresSettingsPresenter.cs" />

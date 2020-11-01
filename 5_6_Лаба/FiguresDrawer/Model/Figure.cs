@@ -2,7 +2,7 @@
 
 namespace FiguresDrawer.Model
 {
-	public class Figure
+	public abstract class Figure
 	{
 		private readonly Point[] _points;
 		private readonly string _name;
@@ -17,10 +17,8 @@ namespace FiguresDrawer.Model
 		public string Name { get => _name; }
 		public Point this[int i] { get => new Point(_points[i].X, _points[i].Y); }
 
-		virtual public double FindArea()
-		{
-			throw new System.InvalidOperationException("Cant calculate area of [" + ToString() + "]");
-		}
+		abstract public double FindArea();
+
 
 		virtual public double FindPerimeter()
 		{

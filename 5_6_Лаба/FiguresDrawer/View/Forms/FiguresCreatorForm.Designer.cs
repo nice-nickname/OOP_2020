@@ -41,12 +41,15 @@
 			this.labelX = new System.Windows.Forms.Label();
 			this.labelY = new System.Windows.Forms.Label();
 			this.exitButton = new System.Windows.Forms.Button();
+			this.readFromFileButton = new System.Windows.Forms.Button();
+			this.colorChooseComboBox = new System.Windows.Forms.ComboBox();
+			this.labelColor = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// pointsList
 			// 
 			this.pointsList.FormattingEnabled = true;
-			this.pointsList.Location = new System.Drawing.Point(12, 27);
+			this.pointsList.Location = new System.Drawing.Point(14, 31);
 			this.pointsList.Name = "pointsList";
 			this.pointsList.Size = new System.Drawing.Size(130, 160);
 			this.pointsList.TabIndex = 0;
@@ -54,7 +57,7 @@
 			// dotsLabel
 			// 
 			this.dotsLabel.AutoSize = true;
-			this.dotsLabel.Location = new System.Drawing.Point(13, 11);
+			this.dotsLabel.Location = new System.Drawing.Point(15, 15);
 			this.dotsLabel.Name = "dotsLabel";
 			this.dotsLabel.Size = new System.Drawing.Size(75, 13);
 			this.dotsLabel.TabIndex = 1;
@@ -63,15 +66,15 @@
 			// figuresList
 			// 
 			this.figuresList.FormattingEnabled = true;
-			this.figuresList.Location = new System.Drawing.Point(160, 27);
+			this.figuresList.Location = new System.Drawing.Point(164, 31);
 			this.figuresList.Name = "figuresList";
-			this.figuresList.Size = new System.Drawing.Size(215, 186);
+			this.figuresList.Size = new System.Drawing.Size(253, 160);
 			this.figuresList.TabIndex = 2;
 			// 
 			// figuresLabel
 			// 
 			this.figuresLabel.AutoSize = true;
-			this.figuresLabel.Location = new System.Drawing.Point(157, 11);
+			this.figuresLabel.Location = new System.Drawing.Point(164, 15);
 			this.figuresLabel.Name = "figuresLabel";
 			this.figuresLabel.Size = new System.Drawing.Size(77, 13);
 			this.figuresLabel.TabIndex = 3;
@@ -79,7 +82,7 @@
 			// 
 			// addPointButton
 			// 
-			this.addPointButton.Location = new System.Drawing.Point(16, 248);
+			this.addPointButton.Location = new System.Drawing.Point(18, 281);
 			this.addPointButton.Name = "addPointButton";
 			this.addPointButton.Size = new System.Drawing.Size(116, 23);
 			this.addPointButton.TabIndex = 4;
@@ -89,7 +92,7 @@
 			// 
 			// clearDotsListButton
 			// 
-			this.clearDotsListButton.Location = new System.Drawing.Point(16, 277);
+			this.clearDotsListButton.Location = new System.Drawing.Point(19, 310);
 			this.clearDotsListButton.Name = "clearDotsListButton";
 			this.clearDotsListButton.Size = new System.Drawing.Size(116, 23);
 			this.clearDotsListButton.TabIndex = 5;
@@ -99,9 +102,9 @@
 			// 
 			// addFigureButton
 			// 
-			this.addFigureButton.Location = new System.Drawing.Point(276, 219);
+			this.addFigureButton.Location = new System.Drawing.Point(164, 230);
 			this.addFigureButton.Name = "addFigureButton";
-			this.addFigureButton.Size = new System.Drawing.Size(99, 27);
+			this.addFigureButton.Size = new System.Drawing.Size(112, 27);
 			this.addFigureButton.TabIndex = 6;
 			this.addFigureButton.Text = "Создать фигуру";
 			this.addFigureButton.UseVisualStyleBackColor = true;
@@ -109,9 +112,9 @@
 			// 
 			// deleteFigure
 			// 
-			this.deleteFigure.Location = new System.Drawing.Point(160, 219);
+			this.deleteFigure.Location = new System.Drawing.Point(164, 197);
 			this.deleteFigure.Name = "deleteFigure";
-			this.deleteFigure.Size = new System.Drawing.Size(99, 27);
+			this.deleteFigure.Size = new System.Drawing.Size(112, 27);
 			this.deleteFigure.TabIndex = 7;
 			this.deleteFigure.Text = "Удалить фигуру";
 			this.deleteFigure.UseVisualStyleBackColor = true;
@@ -119,14 +122,14 @@
 			// 
 			// inputTextBoxX
 			// 
-			this.inputTextBoxX.Location = new System.Drawing.Point(36, 197);
+			this.inputTextBoxX.Location = new System.Drawing.Point(38, 201);
 			this.inputTextBoxX.Name = "inputTextBoxX";
 			this.inputTextBoxX.Size = new System.Drawing.Size(96, 20);
 			this.inputTextBoxX.TabIndex = 8;
 			// 
 			// inputTextBoxY
 			// 
-			this.inputTextBoxY.Location = new System.Drawing.Point(36, 222);
+			this.inputTextBoxY.Location = new System.Drawing.Point(38, 226);
 			this.inputTextBoxY.Name = "inputTextBoxY";
 			this.inputTextBoxY.Size = new System.Drawing.Size(96, 20);
 			this.inputTextBoxY.TabIndex = 9;
@@ -134,7 +137,7 @@
 			// labelX
 			// 
 			this.labelX.AutoSize = true;
-			this.labelX.Location = new System.Drawing.Point(13, 200);
+			this.labelX.Location = new System.Drawing.Point(15, 204);
 			this.labelX.Name = "labelX";
 			this.labelX.Size = new System.Drawing.Size(17, 13);
 			this.labelX.TabIndex = 10;
@@ -143,7 +146,7 @@
 			// labelY
 			// 
 			this.labelY.AutoSize = true;
-			this.labelY.Location = new System.Drawing.Point(13, 225);
+			this.labelY.Location = new System.Drawing.Point(15, 229);
 			this.labelY.Name = "labelY";
 			this.labelY.Size = new System.Drawing.Size(17, 13);
 			this.labelY.TabIndex = 11;
@@ -151,19 +154,50 @@
 			// 
 			// exitButton
 			// 
-			this.exitButton.Location = new System.Drawing.Point(202, 252);
+			this.exitButton.Location = new System.Drawing.Point(307, 197);
 			this.exitButton.Name = "exitButton";
-			this.exitButton.Size = new System.Drawing.Size(120, 23);
+			this.exitButton.Size = new System.Drawing.Size(110, 60);
 			this.exitButton.TabIndex = 12;
 			this.exitButton.Text = "Добавить и выйти";
 			this.exitButton.UseVisualStyleBackColor = true;
 			this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
 			// 
+			// readFromFileButton
+			// 
+			this.readFromFileButton.Location = new System.Drawing.Point(164, 268);
+			this.readFromFileButton.Name = "readFromFileButton";
+			this.readFromFileButton.Size = new System.Drawing.Size(112, 36);
+			this.readFromFileButton.TabIndex = 13;
+			this.readFromFileButton.Text = "Прочитать фигуры из файла";
+			this.readFromFileButton.UseVisualStyleBackColor = true;
+			this.readFromFileButton.Click += new System.EventHandler(this.readFromFileButton_Click);
+			// 
+			// colorChooseComboBox
+			// 
+			this.colorChooseComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this.colorChooseComboBox.FormattingEnabled = true;
+			this.colorChooseComboBox.Location = new System.Drawing.Point(50, 252);
+			this.colorChooseComboBox.Name = "colorChooseComboBox";
+			this.colorChooseComboBox.Size = new System.Drawing.Size(84, 21);
+			this.colorChooseComboBox.TabIndex = 14;
+			// 
+			// labelColor
+			// 
+			this.labelColor.AutoSize = true;
+			this.labelColor.Location = new System.Drawing.Point(15, 255);
+			this.labelColor.Name = "labelColor";
+			this.labelColor.Size = new System.Drawing.Size(34, 13);
+			this.labelColor.TabIndex = 15;
+			this.labelColor.Text = "Color:";
+			// 
 			// FiguresCreatorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(387, 315);
+			this.ClientSize = new System.Drawing.Size(435, 343);
+			this.Controls.Add(this.labelColor);
+			this.Controls.Add(this.colorChooseComboBox);
+			this.Controls.Add(this.readFromFileButton);
 			this.Controls.Add(this.exitButton);
 			this.Controls.Add(this.labelY);
 			this.Controls.Add(this.labelX);
@@ -199,5 +233,8 @@
 		private System.Windows.Forms.Label labelX;
 		private System.Windows.Forms.Label labelY;
 		private System.Windows.Forms.Button exitButton;
+		private System.Windows.Forms.Button readFromFileButton;
+		private System.Windows.Forms.ComboBox colorChooseComboBox;
+		private System.Windows.Forms.Label labelColor;
 	}
 }

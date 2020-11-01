@@ -34,12 +34,8 @@
 			this.toFactoryButton = new System.Windows.Forms.Button();
 			this.helpMeButton = new System.Windows.Forms.Button();
 			this.canvasScaler = new System.Windows.Forms.NumericUpDown();
-			this.panel = new System.Windows.Forms.Panel();
-			this.perimeterLabel = new System.Windows.Forms.Label();
-			this.areaLabel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.canvasScaler)).BeginInit();
-			this.panel.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// canvas
@@ -62,13 +58,13 @@
 			this.figuresList.FormattingEnabled = true;
 			this.figuresList.Location = new System.Drawing.Point(418, 12);
 			this.figuresList.Name = "figuresList";
-			this.figuresList.Size = new System.Drawing.Size(179, 264);
+			this.figuresList.Size = new System.Drawing.Size(231, 264);
 			this.figuresList.TabIndex = 1;
 			this.figuresList.SelectedIndexChanged += new System.EventHandler(this.figuresList_SelectedIndexChanged);
 			// 
 			// toSettingsButton
 			// 
-			this.toSettingsButton.Location = new System.Drawing.Point(164, 418);
+			this.toSettingsButton.Location = new System.Drawing.Point(162, 418);
 			this.toSettingsButton.Name = "toSettingsButton";
 			this.toSettingsButton.Size = new System.Drawing.Size(109, 23);
 			this.toSettingsButton.TabIndex = 3;
@@ -78,7 +74,7 @@
 			// 
 			// toFactoryButton
 			// 
-			this.toFactoryButton.Location = new System.Drawing.Point(459, 282);
+			this.toFactoryButton.Location = new System.Drawing.Point(482, 282);
 			this.toFactoryButton.Name = "toFactoryButton";
 			this.toFactoryButton.Size = new System.Drawing.Size(109, 34);
 			this.toFactoryButton.TabIndex = 4;
@@ -100,16 +96,11 @@
 			// 
 			this.canvasScaler.DecimalPlaces = 2;
 			this.canvasScaler.Increment = new decimal(new int[] {
-            5,
+            2,
             0,
             0,
-            131072});
+            65536});
 			this.canvasScaler.Location = new System.Drawing.Point(12, 418);
-			this.canvasScaler.Maximum = new decimal(new int[] {
-            26,
-            0,
-            0,
-            0});
 			this.canvasScaler.Minimum = new decimal(new int[] {
             1,
             0,
@@ -124,38 +115,11 @@
             0,
             0});
 			// 
-			// panel
-			// 
-			this.panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel.Controls.Add(this.perimeterLabel);
-			this.panel.Controls.Add(this.areaLabel);
-			this.panel.Location = new System.Drawing.Point(325, 21);
-			this.panel.Name = "panel";
-			this.panel.Size = new System.Drawing.Size(78, 68);
-			this.panel.TabIndex = 7;
-			// 
-			// perimeterLabel
-			// 
-			this.perimeterLabel.AutoSize = true;
-			this.perimeterLabel.Location = new System.Drawing.Point(3, 32);
-			this.perimeterLabel.Name = "perimeterLabel";
-			this.perimeterLabel.Size = new System.Drawing.Size(0, 13);
-			this.perimeterLabel.TabIndex = 1;
-			// 
-			// areaLabel
-			// 
-			this.areaLabel.AutoSize = true;
-			this.areaLabel.Location = new System.Drawing.Point(3, 9);
-			this.areaLabel.Name = "areaLabel";
-			this.areaLabel.Size = new System.Drawing.Size(0, 13);
-			this.areaLabel.TabIndex = 0;
-			// 
 			// Index
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(613, 453);
-			this.Controls.Add(this.panel);
+			this.ClientSize = new System.Drawing.Size(664, 453);
 			this.Controls.Add(this.canvasScaler);
 			this.Controls.Add(this.helpMeButton);
 			this.Controls.Add(this.toFactoryButton);
@@ -166,8 +130,6 @@
 			this.Text = "Index";
 			((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.canvasScaler)).EndInit();
-			this.panel.ResumeLayout(false);
-			this.panel.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -180,8 +142,5 @@
 		private System.Windows.Forms.Button toFactoryButton;
 		private System.Windows.Forms.Button helpMeButton;
 		private System.Windows.Forms.NumericUpDown canvasScaler;
-		private System.Windows.Forms.Panel panel;
-		private System.Windows.Forms.Label perimeterLabel;
-		private System.Windows.Forms.Label areaLabel;
 	}
 }

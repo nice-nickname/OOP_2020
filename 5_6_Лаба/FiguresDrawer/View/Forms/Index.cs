@@ -6,9 +6,7 @@ namespace FiguresDrawer.View.Forms
 {
 	public partial class Index : Form, IFiguresDrawerView
 	{
-		public ListBox.ObjectCollection Figures => figuresList.Items;
-		public Label AreaTextLabel => areaLabel;
-		public Label PerimeterTextLabel => perimeterLabel;
+		public ListBox FiguresListBox => figuresList;
 
 
 		public event EventHandler<decimal> ScaleCanvas_ValueChenged;
@@ -23,7 +21,6 @@ namespace FiguresDrawer.View.Forms
 		public event EventHandler SettingsButton_Click;
 		public event EventHandler HelpMeButton_Click;
 		public event EventHandler<int> FiguresList_IndexChanged;
-
 
 		public Index()
 		{
