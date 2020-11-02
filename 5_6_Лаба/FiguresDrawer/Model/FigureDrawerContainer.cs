@@ -38,11 +38,6 @@ namespace FiguresDrawer.Model
 
 			_collection.Remove(index);
 		}
-
-		public IEnumerable GetEnumerable()
-		{
-			return _collection;
-		}
 	
 		public ListBox.ObjectCollection GetCollection()
 		{ 

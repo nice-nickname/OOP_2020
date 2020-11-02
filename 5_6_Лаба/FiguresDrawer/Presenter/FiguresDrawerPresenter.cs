@@ -50,7 +50,7 @@ namespace FiguresDrawer.Presenter
 
 		private void Paint(object sender, PaintEventArgs args)
 		{
-			_plane.Draw(args.Graphics, _model.GetEnumerable());
+			_plane.Draw(args.Graphics, _model.GetCollection());
 		}
 
 
