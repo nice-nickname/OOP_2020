@@ -54,7 +54,7 @@
     <Compile Include="Model\Factories\Concrete\FigurePointsFactory.cs" />
     <Compile Include="Model\Factories\IFigureFactory.cs" />
     <Compile Include="Model\Figure.cs" />
-    <Compile Include="Model\FigureDrawerContainer.cs" />
+    <Compile Include="Presenter\Drawing\FigureDrawerContainer.cs" />
     <Compile Include="Model\Figures\Segment.cs" />
     <Compile Include="Model\Figures\Polygon.cs" />
     <Compile Include="Model\Figures\Rectangle.cs" />

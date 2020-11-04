@@ -1,5 +1,4 @@
-﻿using FiguresDrawer.Model;
-using FiguresDrawer.Model.Factories;
+﻿using FiguresDrawer.Model.Factories;
 using FiguresDrawer.Model.Structures;
 using FiguresDrawer.Presenter.Adapter;
 using FiguresDrawer.Presenter.Drawing;
@@ -23,7 +22,7 @@ namespace FiguresDrawer.Presenter
 			_figuresBuffer = _view.FiguresBuffer;
 			_pointsBuffer = _view.PointsBuffer;
 
-			_figuresBuffer.AddRange(FigureDrawerContainer.Instance.GetCollection());
+			FigureDrawerContainer.Instance.CopyValuesToCollection(_figuresBuffer);
 
 			_view.OnCreateFigureButton_Click += View_OnCreateFigureButton_Click;
 			_view.OnDeleteFigureButton_Click += View_OnDeleteFigureButton_Click;

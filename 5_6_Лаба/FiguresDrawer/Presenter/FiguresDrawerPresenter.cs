@@ -1,5 +1,4 @@
-﻿using FiguresDrawer.Model;
-using FiguresDrawer.Presenter.Drawing;
+﻿using FiguresDrawer.Presenter.Drawing;
 using FiguresDrawer.View;
 using System;
 using System.Drawing;
@@ -9,7 +8,7 @@ namespace FiguresDrawer.Presenter
 {
 	public class FiguresDrawerPresenter : IPresenter
 	{
-		private bool _pressed;          // Move on coordinate plane only while mouse key pressed
+		private bool _mouseButtonPressed;          // Move on coordinate plane only while mouse key pressed
 
 		private float _beginX;          // start points to calculate offset when moving
 		private float _beginY;          //
@@ -43,14 +42,14 @@ namespace FiguresDrawer.Presenter
 			_beginX = 0;
 			_beginY = 0;
 
-			_pressed = false;
+			_mouseButtonPressed = false;
 
 			_plane = new CoordinatesPlane(_view.GetSize());
 		}
 
 		private void Paint(object sender, PaintEventArgs args)
 		{
-			_plane.Draw(args.Graphics, _model.GetCollection());
+			_plane.Draw(args.Graphics, _model.GetEnumerable());
 		}
 
 
@@ -61,7 +60,7 @@ namespace FiguresDrawer.Presenter
 
 		private void View_OnMouseMoving(object sender, MouseEventArgs e)
 		{
-			if (_pressed)
+			if (_mouseButtonPressed)
 			{
 				_dx += (e.X - _beginX);
 				_dy += (e.Y - _beginY);
@@ -75,14 +74,14 @@ namespace FiguresDrawer.Presenter
 
 		private void View_Mouse_KeyDown(object sender, MouseEventArgs e)
 		{
-			_pressed = true;
+			_mouseButtonPressed = true;
 			_beginX = e.X;
 			_beginY = e.Y;
 		}
 
 		private void View_Mouse_KeyUp(object sender, MouseEventArgs e)
 		{
-			_pressed = false;
+			_mouseButtonPressed = false;
 		}
 
 		private void View_ScaleCanvas_ValueChanged(object sender, decimal scale)
@@ -93,15 +92,15 @@ namespace FiguresDrawer.Presenter
 
 		private void View_ModificateListButton_Click(object sender, EventArgs e)
 		{
-			var form = App.FormFactory.Create<IFiguresCreatorView>(_view);
-			form.View.ShowDialog();
+			var app = App.FormFactory.Create<IFiguresCreatorView>();
+			app.View.ShowDialog();
 			_view.InvokePaintEvent();
 		}
 
 		private void View_SettingsButton_Click(object sender, EventArgs e)
 		{
-			var form = App.FormFactory.Create<IFiguresAppSettingsView>(_view);
-			form.View.ShowDialog();
+			var app = App.FormFactory.Create<IFiguresAppSettingsView>();
+			app.View.ShowDialog();
 			_view.InvokePaintEvent();
 		}
 

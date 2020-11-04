@@ -1,27 +1,23 @@
-﻿using FiguresDrawer.Presenter.Drawing;
-using System.Collections;
+﻿using System.Collections;
 using System.Windows.Forms;
 
-namespace FiguresDrawer.Model
+namespace FiguresDrawer.Presenter.Drawing
 {
 	public class FigureDrawerContainer
 	{
 		private ListBox.ObjectCollection _collection;
 
-		public static FigureDrawerContainer Instance { get; private set; }
-
-		private bool _inited = false;
+		public static FigureDrawerContainer Instance { get; private set; } = null;
 
 		public FigureDrawerContainer(ListBox parent)
 		{
-			if (_inited)
+			if (Instance != null)
 			{
 				return;
 			}
 
 			_collection = new ListBox.ObjectCollection(parent);
 			Instance = this;
-			_inited = true;
 		}
 
 		public void Add(FigureDrawer figureDrawer)
@@ -38,10 +34,15 @@ namespace FiguresDrawer.Model
 
 			_collection.Remove(index);
 		}
-	
-		public ListBox.ObjectCollection GetCollection()
-		{ 
+
+		public IEnumerable GetEnumerable()
+		{
 			return _collection;
+		}
+
+		public void CopyValuesToCollection(ListBox.ObjectCollection other)
+		{
+			other.AddRange(_collection);
 		}
 	}
 }

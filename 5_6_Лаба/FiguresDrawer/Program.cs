@@ -13,7 +13,7 @@ namespace FiguresDrawer
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			var app = FormFactory.Create<IFiguresDrawerView>(null);
+			var app = FormFactory.Create<IFiguresDrawerView>();
 
 			Application.Run(app.View);
 		}

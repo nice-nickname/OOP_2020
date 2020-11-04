@@ -7,9 +7,9 @@ namespace FiguresDrawer.App
 	// Needs to encapsulate creating View(From) and Presenter
 	public static class FormFactory
 	{
-		public static ViewPresenterPair Create<TReqView>(IView sender)
+		public static ViewPresenterPair Create<T>() where T : IView
 		{
-			var type = typeof(TReqView);
+			var type = typeof(T);
 
 			if (type == typeof(IFiguresDrawerView))
 			{
@@ -27,7 +27,7 @@ namespace FiguresDrawer.App
 				return new ViewPresenterPair(form, new FiguresCreatorPresenter(form));
 			}
 
-			return null;
+			throw new System.ArgumentException("View type 'T' not implemented.");
 		}
 	}
 }

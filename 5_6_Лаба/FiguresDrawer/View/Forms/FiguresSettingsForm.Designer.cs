@@ -39,7 +39,7 @@
 			this.drawingGroup.Controls.Add(this.checkedListBox1);
 			this.drawingGroup.Location = new System.Drawing.Point(12, 12);
 			this.drawingGroup.Name = "drawingGroup";
-			this.drawingGroup.Size = new System.Drawing.Size(186, 198);
+			this.drawingGroup.Size = new System.Drawing.Size(212, 260);
 			this.drawingGroup.TabIndex = 0;
 			this.drawingGroup.TabStop = false;
 			this.drawingGroup.Text = "Координатная плоскость";
@@ -56,7 +56,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(342, 405);
+			this.ClientSize = new System.Drawing.Size(401, 405);
 			this.Controls.Add(this.drawingGroup);
 			this.Name = "FiguresSettingsForm";
 			this.Text = "SettingsForm";

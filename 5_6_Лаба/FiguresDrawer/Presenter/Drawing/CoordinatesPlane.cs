@@ -1,9 +1,5 @@
-﻿using FiguresDrawer.Model;
-using FiguresDrawer.Model.Figures;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace FiguresDrawer.Presenter.Drawing
 {
@@ -91,7 +87,6 @@ namespace FiguresDrawer.Presenter.Drawing
 			{
 				_G.DrawLine(_linesPen, i, from, i, to);
 			}
-
 		}
 
 		private void DrawFigures(IEnumerable figures)
