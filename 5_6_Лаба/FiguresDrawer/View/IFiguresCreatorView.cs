@@ -9,13 +9,14 @@ namespace FiguresDrawer.View
 		ListBox.ObjectCollection FiguresBuffer { get; }
 		ListBox.ObjectCollection PointsBuffer { get; }
 
-		event EventHandler OnReadFromFileButton_Click;
-		event EventHandler OnCreateFigureButton_Click;
-		event EventHandler OnClearPointsButton_Click;
+		event EventHandler ReadFromFileButton_Click;
+		event EventHandler CreateFigureButton_Click;
+		event EventHandler ClearPointsButton_Click;
 
-		event EventHandler<int> OnDeleteFigureButton_Click;
+		event EventHandler<int> FigureList_IndexChanged;
+		event EventHandler<int> DeleteFigureButton_Click;
 
-		event Action<object, string, string> OnAddPointButton_Click;
+		event Action<object, string, string> AddPointButton_Click;
 
 		Color GetSelectedColor();
 	}

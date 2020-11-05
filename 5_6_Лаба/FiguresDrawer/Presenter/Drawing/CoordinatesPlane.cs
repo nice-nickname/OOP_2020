@@ -6,6 +6,8 @@ namespace FiguresDrawer.Presenter.Drawing
 	public class CoordinatesPlane
 	{
 		private Size _size;
+
+		private PlaneSettings _settings;
 		private Graphics _G;
 
 		public float ScaleFactor { get; set; }
@@ -32,9 +34,10 @@ namespace FiguresDrawer.Presenter.Drawing
 		}
 
 
-		public void Draw(Graphics G, IEnumerable figures)
+		public void Draw(Graphics G, IEnumerable figures, PlaneSettings settings)
 		{
 			_G = G;
+			_settings = settings;
 			Scale();
 			MovePlane();
 			DrawGrid();
@@ -96,7 +99,10 @@ namespace FiguresDrawer.Presenter.Drawing
 				var drawer = (figure as FigureDrawer);
 				var width = 1 / ScaleFactor;
 
-				drawer.Draw(_G, width);
+				if (_settings.TypesToDraw.Contains(drawer.figure.BaseType))
+				{
+					drawer.Draw(_G, width);
+				}
 			}
 		}
 	}

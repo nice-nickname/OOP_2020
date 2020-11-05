@@ -1,9 +1,12 @@
-﻿using FiguresDrawer.Model.Factories;
+﻿using FiguresDrawer.App.Core;
+using FiguresDrawer.Model.Factories;
 using FiguresDrawer.Model.Structures;
 using FiguresDrawer.Presenter.Adapter;
 using FiguresDrawer.Presenter.Drawing;
+using FiguresDrawer.Presenter.Events;
 using FiguresDrawer.View;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace FiguresDrawer.Presenter
@@ -12,23 +15,26 @@ namespace FiguresDrawer.Presenter
 	{
 		private IFiguresCreatorView _view;
 
+		private ListBox.ObjectCollection _outFigures;
+
 		private ListBox.ObjectCollection _figuresBuffer;
 		private ListBox.ObjectCollection _pointsBuffer;
+
+		public event Action<IPresenter, EventArgs> SendData;
 
 		public FiguresCreatorPresenter(IFiguresCreatorView view)
 		{
 			_view = view;
-
+			
 			_figuresBuffer = _view.FiguresBuffer;
 			_pointsBuffer = _view.PointsBuffer;
 
-			FigureDrawerContainer.Instance.CopyValuesToCollection(_figuresBuffer);
-
-			_view.OnCreateFigureButton_Click += View_OnCreateFigureButton_Click;
-			_view.OnDeleteFigureButton_Click += View_OnDeleteFigureButton_Click;
-			_view.OnClearPointsButton_Click	 += View_OnClearPointsButton_Click;
-			_view.OnAddPointButton_Click	 += View_OnAddPointButton_Click;
-			_view.OnReadFromFileButton_Click += View_OnReadFromFileButton_Click;
+			_view.ReadFromFileButton_Click	+= View_OnReadFromFileButton_Click;
+			_view.CreateFigureButton_Click	+= View_OnCreateFigureButton_Click;
+			_view.DeleteFigureButton_Click	+= View_OnDeleteFigureButton_Click;
+			_view.ClearPointsButton_Click	+= View_OnClearPointsButton_Click;
+			_view.FigureList_IndexChanged	+= View_FigureList_IndexChanged;
+			_view.AddPointButton_Click		+= View_OnAddPointButton_Click;
 		}
 
 
@@ -36,6 +42,22 @@ namespace FiguresDrawer.Presenter
 		//		Methods-subscribers below
 		// ----------------------------------
 
+
+		private void View_FigureList_IndexChanged(object sender, int index)
+		{
+			if (index >= 0)
+			{
+				var points = (_figuresBuffer[index] as FigureDrawer).figure.GetRawPoints();
+
+				object[] pts = new object[points.Length];
+
+				points.CopyTo(pts, 0);
+
+				_pointsBuffer.Clear();
+				_pointsBuffer.AddRange(pts);
+
+			}
+		}
 
 		private void View_OnReadFromFileButton_Click(object sender, EventArgs e)
 		{
@@ -55,7 +77,7 @@ namespace FiguresDrawer.Presenter
 			if (index >= 0)
 			{
 				_figuresBuffer.RemoveAt(index);
-				FigureDrawerContainer.Instance.Remove(index);
+				_outFigures.RemoveAt(index);
 			}
 		}
 
@@ -82,7 +104,7 @@ namespace FiguresDrawer.Presenter
 				var figureDrawer = new FigureDrawer(new FiguresDataAdapter(figure), color);
 
 				_figuresBuffer.Add(figureDrawer);
-				FigureDrawerContainer.Instance.Add(figureDrawer);
+				_outFigures.Add(figureDrawer);
 			}
 			catch (Exception excp)
 			{
@@ -107,6 +129,19 @@ namespace FiguresDrawer.Presenter
 			catch (Exception excp)
 			{
 				_view.ShowError(excp.Message);
+			}
+		}
+
+		public void ReceiveData(IPresenter sender, EventArgs args)
+		{
+			if (args is DrawingEventArgs)
+			{
+				_outFigures = (args as DrawingEventArgs).Figures;
+				_figuresBuffer.AddRange(_outFigures);
+			}
+			else
+			{
+				throw new ArgumentException("invalid event args '" + nameof(args) + "' sended");
 			}
 		}
 	}

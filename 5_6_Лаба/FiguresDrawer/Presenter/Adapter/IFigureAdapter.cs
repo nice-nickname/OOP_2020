@@ -5,6 +5,7 @@ namespace FiguresDrawer.Presenter.Adapter
 {
 	public interface IFigureAdapter
 	{
+		FiguresDrawer.Model.Structures.Point[] GetRawPoints();
 		PointF[] GetPoints();
 		PointF GetCenter();
 		double GetArea();

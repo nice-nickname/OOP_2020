@@ -70,6 +70,7 @@
 			this.figuresList.Name = "figuresList";
 			this.figuresList.Size = new System.Drawing.Size(253, 160);
 			this.figuresList.TabIndex = 2;
+			this.figuresList.SelectedIndexChanged += new System.EventHandler(this.figuresList_SelectedIndexChanged);
 			// 
 			// figuresLabel
 			// 

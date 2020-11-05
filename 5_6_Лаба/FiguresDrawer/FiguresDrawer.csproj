@@ -50,11 +50,10 @@
     <Compile Include="App\Core\IPresenter.cs" />
     <Compile Include="App\Core\IView.cs" />
     <Compile Include="App\FormFactory.cs" />
-    <Compile Include="App\ViewPresenterPair.cs" />
+    <Compile Include="App\Core\ViewPresenterPair.cs" />
     <Compile Include="Model\Factories\Concrete\FigurePointsFactory.cs" />
     <Compile Include="Model\Factories\IFigureFactory.cs" />
     <Compile Include="Model\Figure.cs" />
-    <Compile Include="Presenter\Drawing\FigureDrawerContainer.cs" />
     <Compile Include="Model\Figures\Segment.cs" />
     <Compile Include="Model\Figures\Polygon.cs" />
     <Compile Include="Model\Figures\Rectangle.cs" />
@@ -66,6 +65,8 @@
     <Compile Include="Presenter\Drawing\FigureDrawer.cs" />
     <Compile Include="Presenter\Adapter\IFigureAdapter.cs" />
     <Compile Include="Presenter\Drawing\CoordinatesPlane.cs" />
+    <Compile Include="Presenter\Drawing\PlaneSettings.cs" />
+    <Compile Include="Presenter\Events\DrawingEventArgs.cs" />
     <Compile Include="Presenter\FiguresCreatorPresenter.cs" />
     <Compile Include="Presenter\FiguresDrawerPresenter.cs" />
     <Compile Include="Presenter\FiguresSettingsPresenter.cs" />
@@ -89,7 +90,7 @@
     <Compile Include="View\Forms\FiguresSettingsForm.Designer.cs">
       <DependentUpon>FiguresSettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\IFiguresAppSettingsView.cs" />
+    <Compile Include="View\IFiguresSettingsView.cs" />
     <Compile Include="View\IFiguresDrawerView.cs" />
     <Compile Include="View\IFiguresCreatorView.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

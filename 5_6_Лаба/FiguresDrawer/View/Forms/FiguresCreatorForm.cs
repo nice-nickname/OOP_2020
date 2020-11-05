@@ -20,13 +20,14 @@ namespace FiguresDrawer.View.Forms
 		public ListBox.ObjectCollection FiguresBuffer => figuresList.Items;
 
 
-		public event EventHandler OnReadFromFileButton_Click;
-		public event EventHandler OnCreateFigureButton_Click;
-		public event EventHandler OnClearPointsButton_Click;
+		public event EventHandler ReadFromFileButton_Click;
+		public event EventHandler CreateFigureButton_Click;
+		public event EventHandler ClearPointsButton_Click;
 
-		public event EventHandler<int> OnDeleteFigureButton_Click;
+		public event EventHandler<int> DeleteFigureButton_Click;
+		public event EventHandler<int> FigureList_IndexChanged;
 
-		public event Action<object, string, string> OnAddPointButton_Click;
+		public event Action<object, string, string> AddPointButton_Click;
 
 		public Color GetSelectedColor()
 		{
@@ -41,27 +42,32 @@ namespace FiguresDrawer.View.Forms
 
 		private void readFromFileButton_Click(object sender, EventArgs e)
 		{
-			OnReadFromFileButton_Click?.Invoke(sender, e);
+			ReadFromFileButton_Click?.Invoke(sender, e);
 		}
 
 		private void addPointButton_Click(object sender, EventArgs e)
 		{
-			OnAddPointButton_Click?.Invoke(this, inputTextBoxX.Text, inputTextBoxY.Text);
+			AddPointButton_Click?.Invoke(this, inputTextBoxX.Text, inputTextBoxY.Text);
 		}
 
 		private void clearDotsListButton_Click(object sender, EventArgs e)
 		{
-			OnClearPointsButton_Click?.Invoke(sender, e);
+			ClearPointsButton_Click?.Invoke(sender, e);
 		}
 
 		private void addFigureButton_Click(object sender, EventArgs e)
 		{
-			OnCreateFigureButton_Click?.Invoke(sender, e);
+			CreateFigureButton_Click?.Invoke(sender, e);
 		}
 
 		private void deleteFigure_Click(object sender, EventArgs e)
 		{
-			OnDeleteFigureButton_Click?.Invoke(sender, figuresList.SelectedIndex);
+			DeleteFigureButton_Click?.Invoke(sender, figuresList.SelectedIndex);
+		}
+
+		private void figuresList_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			FigureList_IndexChanged?.Invoke(sender, figuresList.SelectedIndex);
 		}
 
 		private void exitButton_Click(object sender, EventArgs e)
@@ -78,6 +84,5 @@ namespace FiguresDrawer.View.Forms
 		{
 			MessageBox.Show(message, "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
-
 	}
 }

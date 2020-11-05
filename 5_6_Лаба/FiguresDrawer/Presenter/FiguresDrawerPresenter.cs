@@ -1,6 +1,9 @@
-﻿using FiguresDrawer.Presenter.Drawing;
+﻿using FiguresDrawer.App.Core;
+using FiguresDrawer.Presenter.Drawing;
+using FiguresDrawer.Presenter.Events;
 using FiguresDrawer.View;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -8,22 +11,26 @@ namespace FiguresDrawer.Presenter
 {
 	public class FiguresDrawerPresenter : IPresenter
 	{
-		private bool _mouseButtonPressed;          // Move on coordinate plane only while mouse key pressed
+		private bool _mouseButtonPressed;
 
 		private float _beginX;          // start points to calculate offset when moving
 		private float _beginY;          //
 
-		private float _dx;              // end points to calculate offset when moving
+		private float _dx;              // current offset
 		private float _dy;              //
 
 		private IFiguresDrawerView _view;
-		private FigureDrawerContainer _model;
+		private ListBox.ObjectCollection _model;
+
+		private PlaneSettings _planeSettings;
 		private CoordinatesPlane _plane;
 
-		public FiguresDrawerPresenter(IFiguresDrawerView view)
+		public event Action<IPresenter, EventArgs> SendData;
+
+		public FiguresDrawerPresenter(IFiguresDrawerView view, IEnumerable<Type> originFigureTypes)
 		{
 			_view = view;
-			_model = new FigureDrawerContainer(_view.FiguresListBox);
+			_model = new ListBox.ObjectCollection(_view.FiguresListBox);
 
 			Size size = _view.GetSize();
 
@@ -44,12 +51,13 @@ namespace FiguresDrawer.Presenter
 
 			_mouseButtonPressed = false;
 
+			_planeSettings = new PlaneSettings(originFigureTypes);
 			_plane = new CoordinatesPlane(_view.GetSize());
 		}
 
 		private void Paint(object sender, PaintEventArgs args)
 		{
-			_plane.Draw(args.Graphics, _model.GetEnumerable());
+			_plane.Draw(args.Graphics, _model, _planeSettings);
 		}
 
 
@@ -92,14 +100,20 @@ namespace FiguresDrawer.Presenter
 
 		private void View_ModificateListButton_Click(object sender, EventArgs e)
 		{
-			var app = App.FormFactory.Create<IFiguresCreatorView>();
+			var app = FormFactory.Create<IFiguresCreatorView>(this);
+
+			SendData?.Invoke(this, new DrawingEventArgs(_model, _planeSettings));
+
 			app.View.ShowDialog();
 			_view.InvokePaintEvent();
 		}
 
 		private void View_SettingsButton_Click(object sender, EventArgs e)
 		{
-			var app = App.FormFactory.Create<IFiguresAppSettingsView>();
+			var app = FormFactory.Create<IFiguresSettingsView>(this);
+
+			SendData?.Invoke(this, new DrawingEventArgs(_model, _planeSettings));
+
 			app.View.ShowDialog();
 			_view.InvokePaintEvent();
 		}
@@ -107,6 +121,11 @@ namespace FiguresDrawer.Presenter
 		private void View_HelpMeButton_Click(object sender, EventArgs e)
 		{
 			// TODO: TODOs
+		}
+
+		public void ReceiveData(IPresenter sender, EventArgs args)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

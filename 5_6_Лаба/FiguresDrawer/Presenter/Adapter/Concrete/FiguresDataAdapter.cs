@@ -19,9 +19,11 @@ namespace FiguresDrawer.Presenter.Adapter
 		{
 			PointF[] points = new PointF[_figure.PointsCount];
 
+			Model.Structures.Point[] pts = _figure.GetPoints();
+
 			for (int i = 0; i < points.Length; i++)
 			{
-				points[i] = Convert(_figure[i]);
+				points[i] = Convert(pts[i]);
 			}
 
 			return points;
@@ -42,7 +44,7 @@ namespace FiguresDrawer.Presenter.Adapter
 			return _figure.FindPerimeter();
 		}
 
-		private PointF Convert(FiguresDrawer.Model.Structures.Point point)
+		private PointF Convert(Model.Structures.Point point)
 		{
 			float x = (float)point.X;
 			float y = (float)point.Y;
@@ -53,6 +55,11 @@ namespace FiguresDrawer.Presenter.Adapter
 		public override string ToString()
 		{
 			return _figure.Name + ". Points count: " + _figure.PointsCount;
+		}
+
+		public Model.Structures.Point[] GetRawPoints()
+		{
+			return _figure.GetPoints();
 		}
 	}
 }

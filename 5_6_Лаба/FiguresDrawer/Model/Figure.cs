@@ -5,16 +5,15 @@ namespace FiguresDrawer.Model
 	public abstract class Figure
 	{
 		private readonly Point[] _points;
-		private readonly string _name;
 
 		public Figure(Point[] points, string name = "Figure")
 		{
 			_points = points.Clone() as Point[];
-			_name = name;
+			Name = name;
 		}
 
 		public int PointsCount { get => _points.Length; }
-		public string Name { get => _name; }
+		public string Name { get; set; }
 		public Point this[int i] { get => new Point(_points[i].X, _points[i].Y); }
 
 		abstract public double FindArea();
@@ -52,11 +51,11 @@ namespace FiguresDrawer.Model
 			return _points.Length > 2;
 		}
 
-		protected Point[] GetPoints() => _points;
+		public Point[] GetPoints() => _points;
 
 		public override string ToString()
 		{
-			return "Name: " + _name + "; Points count: " + _points.Length.ToString();
+			return "Name: " + Name + "; Points count: " + _points.Length.ToString();
 		}
 	}
 }
