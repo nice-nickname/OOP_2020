@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="App\Core\IPresenter.cs" />
     <Compile Include="App\Core\IView.cs" />
-    <Compile Include="App\FormFactory.cs" />
+    <Compile Include="App\FormsFactory.cs" />
     <Compile Include="App\Core\ViewPresenterPair.cs" />
     <Compile Include="Model\Factories\Concrete\FigurePointsFactory.cs" />
     <Compile Include="Model\Factories\IFigureFactory.cs" />
@@ -65,13 +65,25 @@
     <Compile Include="Presenter\Drawing\FigureDrawer.cs" />
     <Compile Include="Presenter\Adapter\IFigureAdapter.cs" />
     <Compile Include="Presenter\Drawing\CoordinatesPlane.cs" />
+    <Compile Include="Presenter\Drawing\FigureDrawerSettings.cs" />
     <Compile Include="Presenter\Drawing\PlaneSettings.cs" />
-    <Compile Include="Presenter\Events\DrawingEventArgs.cs" />
+    <Compile Include="Presenter\Events\FigureDrawnEventArgs.cs" />
+    <Compile Include="Presenter\FigureInfoPresenter.cs" />
     <Compile Include="Presenter\FiguresCreatorPresenter.cs" />
     <Compile Include="Presenter\FiguresDrawerPresenter.cs" />
     <Compile Include="Presenter\FiguresSettingsPresenter.cs" />
+    <Compile Include="Presenter\FileParsing\Xml\XmlFigureData.cs" />
+    <Compile Include="Presenter\FileParsing\Xml\XmlFigureSerializer.cs" />
+    <Compile Include="Presenter\FileParsing\IFigureSerializer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\IFigureInfoPresenterView.cs" />
+    <Compile Include="View\Forms\FigureInfoPresenterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Forms\FigureInfoPresenterForm.Designer.cs">
+      <DependentUpon>FigureInfoPresenterForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Forms\FiguresCreatorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +114,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\Forms\FigureInfoPresenterForm.resx">
+      <DependentUpon>FigureInfoPresenterForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Forms\FiguresCreatorForm.resx">
       <DependentUpon>FiguresCreatorForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -111,6 +126,7 @@
     <EmbeddedResource Include="View\Forms\FiguresSettingsForm.resx">
       <DependentUpon>FiguresSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

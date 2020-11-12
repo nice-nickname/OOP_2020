@@ -23,6 +23,7 @@ namespace FiguresDrawer.View
 		
 		event EventHandler<decimal> ScaleCanvas_ValueChenged;
 		event EventHandler<int> FiguresList_IndexChanged;
+		event EventHandler<int> ShowAboutFigure_Invoked;
 	}
 
 }

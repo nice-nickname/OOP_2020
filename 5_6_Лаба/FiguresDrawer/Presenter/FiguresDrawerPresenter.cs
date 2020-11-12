@@ -5,6 +5,7 @@ using FiguresDrawer.View;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace FiguresDrawer.Presenter
@@ -36,6 +37,7 @@ namespace FiguresDrawer.Presenter
 
 			_view.ModificateListButton_Click += View_ModificateListButton_Click;
 			_view.ScaleCanvas_ValueChenged	 += View_ScaleCanvas_ValueChanged;
+			_view.ShowAboutFigure_Invoked	 += View_ShowAboutFigure_Invoked;
 			_view.SettingsButton_Click		 += View_SettingsButton_Click;
 			_view.HelpMeButton_Click		 += View_HelpMeButton_Click;
 			_view.CanvasPaint				 += Paint;
@@ -51,13 +53,13 @@ namespace FiguresDrawer.Presenter
 
 			_mouseButtonPressed = false;
 
-			_planeSettings = new PlaneSettings(originFigureTypes);
+			_planeSettings = new PlaneSettings(originFigureTypes, new FigureDrawerSettings(true,true));
 			_plane = new CoordinatesPlane(_view.GetSize());
 		}
 
 		private void Paint(object sender, PaintEventArgs args)
 		{
-			_plane.Draw(args.Graphics, _model, _planeSettings);
+			_plane.Draw(args.Graphics, _model.Cast<FigureDrawer>(), _planeSettings);
 		}
 
 
@@ -100,22 +102,38 @@ namespace FiguresDrawer.Presenter
 
 		private void View_ModificateListButton_Click(object sender, EventArgs e)
 		{
-			var app = FormFactory.Create<IFiguresCreatorView>(this);
+			var form = FormsFactory.Create<IFiguresCreatorView>(this);
 
-			SendData?.Invoke(this, new DrawingEventArgs(_model, _planeSettings));
+			SendData?.Invoke(this, new FigureDrawnEventArgs(_model, _planeSettings, null));
+			SendData = null;
 
-			app.View.ShowDialog();
+			form.View.ShowDialog();
 			_view.InvokePaintEvent();
 		}
 
 		private void View_SettingsButton_Click(object sender, EventArgs e)
 		{
-			var app = FormFactory.Create<IFiguresSettingsView>(this);
+			var form = FormsFactory.Create<IFiguresSettingsView>(this);
 
-			SendData?.Invoke(this, new DrawingEventArgs(_model, _planeSettings));
+			SendData?.Invoke(this, new FigureDrawnEventArgs(_model, _planeSettings, null));
+			SendData = null;
 
-			app.View.ShowDialog();
+			form.View.ShowDialog();
 			_view.InvokePaintEvent();
+		}
+
+		private void View_ShowAboutFigure_Invoked(object sender, int index)
+		{
+			if (index >= 0)
+			{
+				var form = FormsFactory.Create<IFigureInfoPresenterView>(this);
+
+				SendData?.Invoke(this, new FigureDrawnEventArgs(null, null, _model[index] as FigureDrawer));
+				SendData = null;
+
+				form.View.Show();
+				_view.InvokePaintEvent();
+			}
 		}
 
 		private void View_HelpMeButton_Click(object sender, EventArgs e)

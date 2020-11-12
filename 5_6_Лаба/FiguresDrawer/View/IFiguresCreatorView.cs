@@ -10,6 +10,8 @@ namespace FiguresDrawer.View
 		ListBox.ObjectCollection PointsBuffer { get; }
 
 		event EventHandler ReadFromFileButton_Click;
+		event EventHandler WriteToFileButton_Click;
+
 		event EventHandler CreateFigureButton_Click;
 		event EventHandler ClearPointsButton_Click;
 

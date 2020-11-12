@@ -1,4 +1,5 @@
 ﻿using FiguresDrawer.Model.Structures;
+using System;
 
 namespace FiguresDrawer.Model.Figures
 {
@@ -24,7 +25,7 @@ namespace FiguresDrawer.Model.Figures
 				j = i;
 			}
 
-			return area / 2;
+			return Math.Abs(area / 2);
 		}
 
 		public override bool IsExisting()
@@ -50,8 +51,8 @@ namespace FiguresDrawer.Model.Figures
 			{
 				for (int j = 0; j < points.Length; j++)
 				{
-					LineSegment a = new LineSegment(points[i], points[i + 1]);
-					LineSegment b = new LineSegment(points[j], points[j + 1]);
+					LineSegment a = new LineSegment(points[i], points[(i + 1) % points.Length]);
+					LineSegment b = new LineSegment(points[j], points[(j + 1) % points.Length]);
 
 					if (i != j && math.IsIntersected(a, b))
 					{

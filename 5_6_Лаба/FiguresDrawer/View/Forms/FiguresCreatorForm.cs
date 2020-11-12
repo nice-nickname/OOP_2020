@@ -19,9 +19,9 @@ namespace FiguresDrawer.View.Forms
 		public ListBox.ObjectCollection PointsBuffer => pointsList.Items;
 		public ListBox.ObjectCollection FiguresBuffer => figuresList.Items;
 
-
 		public event EventHandler ReadFromFileButton_Click;
 		public event EventHandler CreateFigureButton_Click;
+		public event EventHandler WriteToFileButton_Click;
 		public event EventHandler ClearPointsButton_Click;
 
 		public event EventHandler<int> DeleteFigureButton_Click;
@@ -43,6 +43,11 @@ namespace FiguresDrawer.View.Forms
 		private void readFromFileButton_Click(object sender, EventArgs e)
 		{
 			ReadFromFileButton_Click?.Invoke(sender, e);
+		}
+
+		private void writeToFileButton_Click(object sender, EventArgs e)
+		{
+			WriteToFileButton_Click?.Invoke(sender, e);
 		}
 
 		private void addPointButton_Click(object sender, EventArgs e)
@@ -75,9 +80,11 @@ namespace FiguresDrawer.View.Forms
 			Close();
 		}
 
-		public void ShowError(string message)
+		public void ShowError(Exception e)
 		{
-			MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			MessageBox.Show(e.Message + "\n" + e.TargetSite,
+				"Ошибка FiguresSettingsForm",
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
 		public void ShowMessage(string message)

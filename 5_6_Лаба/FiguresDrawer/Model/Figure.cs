@@ -6,6 +6,8 @@ namespace FiguresDrawer.Model
 	{
 		private readonly Point[] _points;
 
+		private readonly double _perimeter;
+
 		public Figure(Point[] points, string name = "Figure")
 		{
 			_points = points.Clone() as Point[];
@@ -18,12 +20,11 @@ namespace FiguresDrawer.Model
 
 		abstract public double FindArea();
 
-
 		virtual public double FindPerimeter()
 		{
 			GeometryOperations math = new GeometryOperations();
 
-			double perimeter = 0;
+			double perimeter = 0f;
 
 			for (int i = 0; i < _points.Length; i++)
 			{

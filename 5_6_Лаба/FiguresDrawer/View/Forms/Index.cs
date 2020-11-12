@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FiguresDrawer.Presenter.Events;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,7 +8,7 @@ namespace FiguresDrawer.View.Forms
 	public partial class Index : Form, IFiguresDrawerView
 	{
 		public ListBox FiguresListBox => figuresList;
-
+		public decimal MouseWheelDelta { get; set; } = 0.2m;
 
 		public event EventHandler<decimal> ScaleCanvas_ValueChenged;
 
@@ -21,12 +22,14 @@ namespace FiguresDrawer.View.Forms
 		public event EventHandler SettingsButton_Click;
 		public event EventHandler HelpMeButton_Click;
 		public event EventHandler<int> FiguresList_IndexChanged;
+		public event EventHandler<int> ShowAboutFigure_Invoked;
 
 		public Index()
 		{
 			InitializeComponent();
 
 			canvasScaler.ValueChanged += Numeric_ValueChanged;
+			canvas.MouseWheel += Canvas_MouseWheel;
 		}
 
 		public Size GetSize()
@@ -42,6 +45,16 @@ namespace FiguresDrawer.View.Forms
 		//----------------------------------------
 		//	  Invokation events methods below
 		// ---------------------------------------
+
+		private void figuresList_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			FiguresList_IndexChanged?.Invoke(sender, figuresList.SelectedIndex);
+		}
+
+		private void figuresList_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			ShowAboutFigure_Invoked?.Invoke(sender, figuresList.SelectedIndex);
+		}
 
 		private void toFactoryButton_Click(object sender, EventArgs e)
 		{
@@ -61,6 +74,25 @@ namespace FiguresDrawer.View.Forms
 		private void Numeric_ValueChanged(object sender, EventArgs args)
 		{
 			ScaleCanvas_ValueChenged?.Invoke(sender, canvasScaler.Value);
+		}
+
+		private void Canvas_MouseWheel(object sender, MouseEventArgs e)
+		{
+			try
+			{
+				canvasScaler.Value += MouseWheelDelta * Math.Sign(e.Delta);
+			}
+			catch (Exception)
+			{
+				// Do nothing
+			}
+		}
+
+
+		private void canvas_MouseHover(object sender, EventArgs e)
+		{
+			// Set focus on canvas for MouseWheel event invokation 
+			canvas.Focus();
 		}
 
 		private void canvas_Paint(object sender, PaintEventArgs e)
@@ -85,19 +117,16 @@ namespace FiguresDrawer.View.Forms
 
 		// ---------------------------
 
-		public void ShowError(string message)
+		public void ShowError(Exception e)
 		{
-			MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			MessageBox.Show(e.Message + "\n" + e.TargetSite,
+				"Ошибка FiguresDrawerForm",
+				MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
 		public void ShowMessage(string message)
 		{
 			MessageBox.Show(message, "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		}
-
-		private void figuresList_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			FiguresList_IndexChanged?.Invoke(sender, figuresList.SelectedIndex);
 		}
 	}
 }

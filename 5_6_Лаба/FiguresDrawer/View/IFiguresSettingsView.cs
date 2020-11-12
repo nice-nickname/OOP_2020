@@ -8,5 +8,8 @@ namespace FiguresDrawer.View
 		CheckedListBox GetCheckedList();
 
 		event EventHandler SaveAndExitButton_Click;
+
+		CheckBox DrawVerticesCheckBox();
+		CheckBox DrawCenterCheckBox();
 	}
 }

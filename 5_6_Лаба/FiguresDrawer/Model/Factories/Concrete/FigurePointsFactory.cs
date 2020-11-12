@@ -8,11 +8,11 @@ namespace FiguresDrawer.Model.Factories
 		public Figure Create(Point[] points)
 		{
 			int length = points.Length;
-			if(length == 1)
+			if (length == 1)
 			{
 				throw new System.ArgumentException("Неудачная попытка создать фигуру, неправильные точки");
 			}
-			else  if (length == 2)
+			else if (length == 2)
 			{
 				var segment = new Segment(points);
 				if (segment.IsExisting())

@@ -34,6 +34,9 @@ namespace FiguresDrawer.Presenter
 
 		private void View_SaveAndExitButton_Click(object sender, EventArgs e)
 		{
+			_settings.DrawerSettings.DrawCenterNeeded = _view.DrawCenterCheckBox().Checked;
+			_settings.DrawerSettings.DrawVerticesNeeded = _view.DrawVerticesCheckBox().Checked;
+
 			_settings.TypesToDraw.Clear();
 
 			foreach (var item in _checkedList.CheckedItems)
@@ -44,9 +47,9 @@ namespace FiguresDrawer.Presenter
 
 		public void ReceiveData(IPresenter sender, EventArgs args)
 		{
-			if (args is DrawingEventArgs)
+			if (args is FigureDrawnEventArgs)
 			{
-				_settings = (args as DrawingEventArgs).Settings;
+				_settings = (args as FigureDrawnEventArgs).Settings;
 
 				_checkedList.Items.AddRange(_settings.Types);
 
@@ -58,10 +61,13 @@ namespace FiguresDrawer.Presenter
 						_checkedList.SetItemChecked(i, true);
 					}
 				}
+
+				_view.DrawVerticesCheckBox().Checked = _settings.DrawerSettings.DrawVerticesNeeded;
+				_view.DrawCenterCheckBox().Checked = _settings.DrawerSettings.DrawCenterNeeded;
 			}
 			else
 			{
-				throw new ArgumentException("invalid event args '" + nameof(args) + "' sended");
+				throw new ArgumentException("invalid event args '" + args.GetType().Name + "' sended");
 			}
 		}
 	}

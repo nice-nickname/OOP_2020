@@ -10,7 +10,7 @@
 
 		public Point ConvertToVector()
 		{
-			return new Point(End.X - Begin.X, End.Y - End.Y);
+			return new Point(End.X - Begin.X, End.Y - Begin.Y);
 		}
 
 		public Point Begin;

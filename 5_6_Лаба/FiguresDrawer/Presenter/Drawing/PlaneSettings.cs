@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace FiguresDrawer.Presenter.Drawing
 {
 	public class PlaneSettings
 	{
 		public Type[] Types { get; private set; }
-
 		public HashSet<Type> TypesToDraw { get; private set; }
 
-		public PlaneSettings(IEnumerable<Type> originFigureTypes)
+		public FigureDrawerSettings DrawerSettings { get; set; }
+
+		public PlaneSettings(IEnumerable<Type> originFigureTypes, FigureDrawerSettings drawerSettings)
 		{
 			Types = new Type[originFigureTypes.Count()];
 
@@ -23,6 +21,7 @@ namespace FiguresDrawer.Presenter.Drawing
 			}
 
 			TypesToDraw = new HashSet<Type>(originFigureTypes);
+			DrawerSettings = drawerSettings;
 		}
 	}
 }

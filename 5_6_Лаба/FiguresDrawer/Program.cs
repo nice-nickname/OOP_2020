@@ -1,12 +1,13 @@
 ﻿using FiguresDrawer.App.Core;
 using FiguresDrawer.Model.Figures;
-using FiguresDrawer.View;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace FiguresDrawer
 {
+	// TODO: Возможно поправить grid
+
 	static class Program
 	{
 		[STAThread]
@@ -15,15 +16,15 @@ namespace FiguresDrawer
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			List<Type> types = new List<Type>();
+			List<Type> types = new List<Type>
+			{
+				typeof(Rectangle),
+				typeof(Triangle),
+				typeof(Segment),
+				typeof(Polygon)
+			};
 
-			types.Add(typeof(Rectangle));
-			types.Add(typeof(Triangle));
-			types.Add(typeof(Segment));
-			types.Add(typeof(Polygon));
-
-
-			var app = FormFactory.CreateStartForm(types);
+			var app = FormsFactory.CreateApp(types);
 
 			Application.Run(app.View);
 		}

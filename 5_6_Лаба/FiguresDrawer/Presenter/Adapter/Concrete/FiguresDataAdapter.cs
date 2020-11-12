@@ -61,5 +61,10 @@ namespace FiguresDrawer.Presenter.Adapter
 		{
 			return _figure.GetPoints();
 		}
+
+		public Model.Structures.Point GetRawCenter()
+		{
+			return _figure.FindCenter();
+		}
 	}
 }

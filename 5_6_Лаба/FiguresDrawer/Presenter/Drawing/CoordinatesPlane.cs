@@ -1,5 +1,6 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace FiguresDrawer.Presenter.Drawing
 {
@@ -34,7 +35,7 @@ namespace FiguresDrawer.Presenter.Drawing
 		}
 
 
-		public void Draw(Graphics G, IEnumerable figures, PlaneSettings settings)
+		public void Draw(Graphics G, IEnumerable<FigureDrawer> figures, PlaneSettings settings)
 		{
 			_G = G;
 			_settings = settings;
@@ -67,42 +68,46 @@ namespace FiguresDrawer.Presenter.Drawing
 
 		private void DrawGrid()
 		{
-			float from = -_size.Width - MoveOnDeltaFactor.X;
-			float to = _size.Width - MoveOnDeltaFactor.X;
+			// Calculating left and right border's coordinates on X axis
+			float from = (-_size.Width - MoveOnDeltaFactor.X) / ScaleFactor;
+			float to = (_size.Width - MoveOnDeltaFactor.X) / ScaleFactor;
 
 			float start, end;
 
+			// TODO: Сделать по-человечески
 			start = 0 - _size.Height / 2 - __drawingBorder;
 			end = 0 + _size.Height / 2 + __drawingBorder;
 
+			//Draw horizontal lines
 			for (float i = start; i <= end; i += GridStep)
 			{
 				_G.DrawLine(_linesPen, from, i, to, i);
 			}
 
-			from = -_size.Height - MoveOnDeltaFactor.Y;
-			to = _size.Height - -MoveOnDeltaFactor.Y;
+			// Calculating top and botton border's coordinates on Y axis
+			from = (-_size.Height + MoveOnDeltaFactor.Y) / ScaleFactor;
+			to = (_size.Height + MoveOnDeltaFactor.Y) / ScaleFactor;
 
-			start = 0 - _size.Width / 2 - 2500;
-			end = 0 + _size.Width / 2 + 2500;
+			start = 0 - _size.Width / 2 - __drawingBorder;
+			end = 0 + _size.Width / 2 + __drawingBorder;
 
+			// Draw vertival lines
 			for (float i = start; i < end; i += GridStep)
 			{
 				_G.DrawLine(_linesPen, i, from, i, to);
 			}
 		}
 
-		private void DrawFigures(IEnumerable figures)
+		private void DrawFigures(IEnumerable<FigureDrawer> figures)
 		{
-			foreach (var figure in figures)
-			{
-				var drawer = (figure as FigureDrawer);
-				var width = 1 / ScaleFactor;
+			var outFigures = figures
+				.Where(x => _settings.TypesToDraw.Contains(x.Adapter.BaseType));
 
-				if (_settings.TypesToDraw.Contains(drawer.figure.BaseType))
-				{
-					drawer.Draw(_G, width);
-				}
+			float width = 1 / ScaleFactor;
+
+			foreach (var figure in outFigures)
+			{
+				figure.Draw(_G, width, _settings.DrawerSettings);
 			}
 		}
 	}

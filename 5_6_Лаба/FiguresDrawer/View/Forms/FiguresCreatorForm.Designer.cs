@@ -44,6 +44,7 @@
 			this.readFromFileButton = new System.Windows.Forms.Button();
 			this.colorChooseComboBox = new System.Windows.Forms.ComboBox();
 			this.labelColor = new System.Windows.Forms.Label();
+			this.writeToFileButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// pointsList
@@ -93,7 +94,7 @@
 			// 
 			// clearDotsListButton
 			// 
-			this.clearDotsListButton.Location = new System.Drawing.Point(19, 310);
+			this.clearDotsListButton.Location = new System.Drawing.Point(18, 310);
 			this.clearDotsListButton.Name = "clearDotsListButton";
 			this.clearDotsListButton.Size = new System.Drawing.Size(116, 23);
 			this.clearDotsListButton.TabIndex = 5;
@@ -165,7 +166,7 @@
 			// 
 			// readFromFileButton
 			// 
-			this.readFromFileButton.Location = new System.Drawing.Point(164, 268);
+			this.readFromFileButton.Location = new System.Drawing.Point(164, 263);
 			this.readFromFileButton.Name = "readFromFileButton";
 			this.readFromFileButton.Size = new System.Drawing.Size(112, 36);
 			this.readFromFileButton.TabIndex = 13;
@@ -191,11 +192,22 @@
 			this.labelColor.TabIndex = 15;
 			this.labelColor.Text = "Color:";
 			// 
+			// writeToFileButton
+			// 
+			this.writeToFileButton.Location = new System.Drawing.Point(164, 310);
+			this.writeToFileButton.Name = "writeToFileButton";
+			this.writeToFileButton.Size = new System.Drawing.Size(112, 36);
+			this.writeToFileButton.TabIndex = 16;
+			this.writeToFileButton.Text = "Записать фигуры в файл";
+			this.writeToFileButton.UseVisualStyleBackColor = true;
+			this.writeToFileButton.Click += new System.EventHandler(this.writeToFileButton_Click);
+			// 
 			// FiguresCreatorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(435, 343);
+			this.ClientSize = new System.Drawing.Size(435, 362);
+			this.Controls.Add(this.writeToFileButton);
 			this.Controls.Add(this.labelColor);
 			this.Controls.Add(this.colorChooseComboBox);
 			this.Controls.Add(this.readFromFileButton);
@@ -237,5 +249,6 @@
 		private System.Windows.Forms.Button readFromFileButton;
 		private System.Windows.Forms.ComboBox colorChooseComboBox;
 		private System.Windows.Forms.Label labelColor;
+		private System.Windows.Forms.Button writeToFileButton;
 	}
 }

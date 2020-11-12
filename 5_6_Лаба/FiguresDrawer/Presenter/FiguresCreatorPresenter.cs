@@ -1,11 +1,12 @@
-﻿using FiguresDrawer.App.Core;
-using FiguresDrawer.Model.Factories;
+﻿using FiguresDrawer.Model.Factories;
 using FiguresDrawer.Model.Structures;
 using FiguresDrawer.Presenter.Adapter;
 using FiguresDrawer.Presenter.Drawing;
 using FiguresDrawer.Presenter.Events;
+using FiguresDrawer.Presenter.FileParsing;
 using FiguresDrawer.View;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -25,16 +26,17 @@ namespace FiguresDrawer.Presenter
 		public FiguresCreatorPresenter(IFiguresCreatorView view)
 		{
 			_view = view;
-			
+
 			_figuresBuffer = _view.FiguresBuffer;
 			_pointsBuffer = _view.PointsBuffer;
 
-			_view.ReadFromFileButton_Click	+= View_OnReadFromFileButton_Click;
-			_view.CreateFigureButton_Click	+= View_OnCreateFigureButton_Click;
-			_view.DeleteFigureButton_Click	+= View_OnDeleteFigureButton_Click;
-			_view.ClearPointsButton_Click	+= View_OnClearPointsButton_Click;
-			_view.FigureList_IndexChanged	+= View_FigureList_IndexChanged;
-			_view.AddPointButton_Click		+= View_OnAddPointButton_Click;
+			_view.ReadFromFileButton_Click += View_OnReadFromFileButton_Click;
+			_view.CreateFigureButton_Click += View_OnCreateFigureButton_Click;
+			_view.DeleteFigureButton_Click += View_OnDeleteFigureButton_Click;
+			_view.ClearPointsButton_Click += View_OnClearPointsButton_Click;
+			_view.FigureList_IndexChanged += View_FigureList_IndexChanged;
+			_view.WriteToFileButton_Click += View_WriteToFileButton_Click;
+			_view.AddPointButton_Click += View_OnAddPointButton_Click;
 		}
 
 
@@ -47,7 +49,7 @@ namespace FiguresDrawer.Presenter
 		{
 			if (index >= 0)
 			{
-				var points = (_figuresBuffer[index] as FigureDrawer).figure.GetRawPoints();
+				var points = (_figuresBuffer[index] as FigureDrawer).Adapter.GetRawPoints();
 
 				object[] pts = new object[points.Length];
 
@@ -67,7 +69,44 @@ namespace FiguresDrawer.Presenter
 
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					// TODO: ...
+					IFigureSerializer serializer = new XmlFigureSerializer(dialog.FileName);
+
+					try
+					{
+						var figures = serializer.Deserialize();
+						_figuresBuffer.AddRange(figures.ToArray());
+						_outFigures.AddRange(figures.ToArray());
+					}
+					catch (Exception err)
+					{
+						_view.ShowError(err);
+					}
+				}
+			}
+		}
+
+		private void View_WriteToFileButton_Click(object sender, EventArgs e)
+		{
+			if (_figuresBuffer.Count == 0)
+			{
+				return;
+			}
+			using (OpenFileDialog dialog = new OpenFileDialog())
+			{
+				dialog.Filter = "Text files(*.txt)|*.txt";
+
+				if (dialog.ShowDialog() == DialogResult.OK)
+				{
+					IFigureSerializer serializer = new XmlFigureSerializer(dialog.FileName);
+
+					List<FigureDrawer> list = new List<FigureDrawer>();
+
+					foreach (var figure in _figuresBuffer)
+					{
+						list.Add(figure as FigureDrawer);
+					}
+
+					serializer.Serialize(list);
 				}
 			}
 		}
@@ -101,14 +140,15 @@ namespace FiguresDrawer.Presenter
 			{
 				var figure = factory.Create(points);
 				var color = _view.GetSelectedColor();
-				var figureDrawer = new FigureDrawer(new FiguresDataAdapter(figure), color);
+				var figureDrawer = new FigureDrawer(new FiguresDataAdapter(figure),
+					color, System.Drawing.Color.Black, System.Drawing.Color.Black);
 
 				_figuresBuffer.Add(figureDrawer);
 				_outFigures.Add(figureDrawer);
 			}
-			catch (Exception excp)
+			catch (Exception err)
 			{
-				_view.ShowError(excp.Message);
+				_view.ShowError(err);
 			}
 		}
 
@@ -126,17 +166,17 @@ namespace FiguresDrawer.Presenter
 
 				_pointsBuffer.Add(new Point(x, y));
 			}
-			catch (Exception excp)
+			catch (Exception err)
 			{
-				_view.ShowError(excp.Message);
+				_view.ShowError(err);
 			}
 		}
 
 		public void ReceiveData(IPresenter sender, EventArgs args)
 		{
-			if (args is DrawingEventArgs)
+			if (args is FigureDrawnEventArgs)
 			{
-				_outFigures = (args as DrawingEventArgs).Figures;
+				_outFigures = (args as FigureDrawnEventArgs).Figures;
 				_figuresBuffer.AddRange(_outFigures);
 			}
 			else
