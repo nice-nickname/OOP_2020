@@ -11,6 +11,6 @@ namespace FiguresDrawer.Presenter.Adapter
 		PointF GetCenter();
 		double GetArea();
 		double GetPerimeter();
-		Type BaseType { get; } 
+		Type FigureType { get; } 
 	}
 }

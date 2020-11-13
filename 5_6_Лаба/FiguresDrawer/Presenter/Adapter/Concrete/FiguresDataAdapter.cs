@@ -8,7 +8,11 @@ namespace FiguresDrawer.Presenter.Adapter
 	{
 		private Figure _figure;
 
-		public Type BaseType => _figure.GetType();
+		public Type FigureType => _figure.GetType();
+
+		public FiguresDataAdapter()
+		{
+		}
 
 		public FiguresDataAdapter(Figure figure)
 		{

@@ -101,7 +101,7 @@ namespace FiguresDrawer.Presenter.Drawing
 		private void DrawFigures(IEnumerable<FigureDrawer> figures)
 		{
 			var outFigures = figures
-				.Where(x => _settings.TypesToDraw.Contains(x.Adapter.BaseType));
+				.Where(x => _settings.TypesToDraw.Contains(x.Adapter.FigureType));
 
 			float width = 1 / ScaleFactor;
 

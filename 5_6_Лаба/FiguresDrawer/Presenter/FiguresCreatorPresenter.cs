@@ -69,11 +69,11 @@ namespace FiguresDrawer.Presenter
 
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					IFigureSerializer serializer = new XmlFigureSerializer(dialog.FileName);
+					IFigureSerializer serializer = new XmlFigureSerializer();
 
 					try
 					{
-						var figures = serializer.Deserialize();
+						var figures = serializer.Deserialize(dialog.FileName);
 						_figuresBuffer.AddRange(figures.ToArray());
 						_outFigures.AddRange(figures.ToArray());
 					}
@@ -97,7 +97,7 @@ namespace FiguresDrawer.Presenter
 
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					IFigureSerializer serializer = new XmlFigureSerializer(dialog.FileName);
+					IFigureSerializer serializer = new XmlFigureSerializer();
 
 					List<FigureDrawer> list = new List<FigureDrawer>();
 
@@ -106,7 +106,7 @@ namespace FiguresDrawer.Presenter
 						list.Add(figure as FigureDrawer);
 					}
 
-					serializer.Serialize(list);
+					serializer.Serialize(list, dialog.FileName);
 				}
 			}
 		}

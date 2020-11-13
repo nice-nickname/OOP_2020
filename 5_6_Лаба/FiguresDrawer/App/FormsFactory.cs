@@ -1,7 +1,4 @@
-﻿using FiguresDrawer.Presenter;
-using FiguresDrawer.View;
-using FiguresDrawer.View.Forms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace FiguresDrawer.App.Core
@@ -9,33 +6,25 @@ namespace FiguresDrawer.App.Core
 	// Needs to encapsulate creating View(From) and Presenter
 	public static class FormsFactory
 	{
-		static public ViewPresenterPair Create<TCreated>(IPresenter sender) where TCreated : IView
+		private static AppManager _manager;
+		private static IEnumerable<Type> _originFigureTypes;
+
+		static public ViewPresenterPair Create<TCreated>(IPresenter sender) 
+			where TCreated : IView
 		{
-			var type = typeof(TCreated);
-
-			if (type == typeof(IFiguresSettingsView))
-			{
-				var form = new FiguresSettingsForm();
-				return new ViewPresenterPair(form, new FiguresSettingsPresenter(form), sender);
-			}
-			else if (type == typeof(IFiguresCreatorView))
-			{
-				var form = new FiguresCreatorForm();
-				return new ViewPresenterPair(form, new FiguresCreatorPresenter(form), sender);
-			}
-			else if (type == typeof(IFigureInfoPresenterView))
-			{
-				var form = new FigureInfoPresenterForm();
-				return new ViewPresenterPair(form, new FigureInfoPresenter(form), sender);
-			}
-
-			throw new ArgumentException("View type '" + nameof(TCreated) + "' not implemented.");
+			return _manager.CreateForm<TCreated>(sender);
 		}
 
-		static public ViewPresenterPair CreateApp(IEnumerable<Type> originFigureTypes)
+		static public ViewPresenterPair CreateStartForm()
 		{
-			var form = new Index();
-			return new ViewPresenterPair(form, new FiguresDrawerPresenter(form, originFigureTypes), null);
+			return _manager.CreateStartForm(_originFigureTypes);
+		}
+
+
+		static public void CreateApp(IEnumerable<Type> originFigureTypes, AppManager manager)
+		{
+			_originFigureTypes = originFigureTypes;
+			_manager = manager;
 		}
 	}
 }

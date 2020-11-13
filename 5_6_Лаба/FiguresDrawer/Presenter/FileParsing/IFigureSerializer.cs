@@ -5,7 +5,7 @@ namespace FiguresDrawer.Presenter.FileParsing
 {
 	interface IFigureSerializer
 	{
-		IEnumerable<FigureDrawer> Deserialize();
-		void Serialize(IEnumerable<FigureDrawer> data);
+		IEnumerable<FigureDrawer> Deserialize(string fileName);
+		void Serialize(IEnumerable<FigureDrawer> data, string fileName);
 	}
 }

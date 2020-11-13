@@ -6,8 +6,6 @@ namespace FiguresDrawer.Model
 	{
 		private readonly Point[] _points;
 
-		private readonly double _perimeter;
-
 		public Figure(Point[] points, string name = "Figure")
 		{
 			_points = points.Clone() as Point[];

@@ -1,10 +1,7 @@
-﻿using FiguresDrawer.Model.Figures;
-using FiguresDrawer.Presenter.Drawing;
+﻿using FiguresDrawer.Presenter.Drawing;
 using FiguresDrawer.Presenter.Events;
 using FiguresDrawer.View;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace FiguresDrawer.Presenter

@@ -12,14 +12,11 @@ namespace FiguresDrawer.Presenter.FileParsing
 {
 	internal class XmlFigureSerializer : IFigureSerializer
 	{
-		public string FullFileName { get; set; }
 
 		private static HashSet<string> ColorNames;
 
-		public XmlFigureSerializer(string fullFileName)
+		public XmlFigureSerializer()
 		{
-			FullFileName = fullFileName;
-
 			if (ColorNames == null)
 			{
 				ColorNames = typeof(Color)
@@ -30,9 +27,9 @@ namespace FiguresDrawer.Presenter.FileParsing
 			}
 		}
 
-		public IEnumerable<FigureDrawer> Deserialize()
+		public IEnumerable<FigureDrawer> Deserialize(string fileName)
 		{
-			StreamReader stream = new StreamReader(FullFileName);
+			StreamReader stream = new StreamReader(fileName);
 			XmlSerializer xml = new XmlSerializer(typeof(List<XmlFigureData>));
 
 			FigurePointsFactory factory = new FigurePointsFactory();
@@ -57,9 +54,9 @@ namespace FiguresDrawer.Presenter.FileParsing
 			return figures;
 		}
 
-		public void Serialize(IEnumerable<FigureDrawer> figures)
+		public void Serialize(IEnumerable<FigureDrawer> figures, string fileName)
 		{
-			StreamWriter stream = new StreamWriter(FullFileName);
+			StreamWriter stream = new StreamWriter(fileName);
 			XmlSerializer xml = new XmlSerializer(typeof(List<XmlFigureData>));
 
 			List<XmlFigureData> data = new List<XmlFigureData>();
