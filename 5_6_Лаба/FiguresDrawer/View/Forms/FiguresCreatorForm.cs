@@ -10,10 +10,17 @@ namespace FiguresDrawer.View.Forms
 		public FiguresCreatorForm()
 		{
 			InitializeComponent();
-			colorChooseComboBox.DataSource = typeof(Color).GetProperties()
+			colorChooseComboBox.DataSource = 
+										typeof(Color)
+										.GetProperties()
 										.Where(x => x.PropertyType == typeof(Color))
-										.Select(x => x.GetValue(null)).ToList();
+										.Select(x => x.GetValue(null))
+										.ToList()
+										;
+
 			colorChooseComboBox.SelectedItem = Color.Red;
+
+			MinimumSize = MaximumSize = Size;
 		}
 
 		public ListBox.ObjectCollection PointsBuffer => pointsList.Items;
@@ -27,6 +34,7 @@ namespace FiguresDrawer.View.Forms
 		public event EventHandler<int> DeleteFigureButton_Click;
 		public event EventHandler<int> FigureList_IndexChanged;
 
+		public event Action<object, int, string, string> EditPointButton_Click;
 		public event Action<object, string, string> AddPointButton_Click;
 
 		public Color GetSelectedColor()
@@ -90,6 +98,15 @@ namespace FiguresDrawer.View.Forms
 		public void ShowMessage(string message)
 		{
 			MessageBox.Show(message, "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void editSelectedButton_Click(object sender, EventArgs e)
+		{
+			EditPointButton_Click?.Invoke(
+				sender,
+				pointsList.SelectedIndex,
+				inputTextBoxX.Text,
+				inputTextBoxY.Text);
 		}
 	}
 }

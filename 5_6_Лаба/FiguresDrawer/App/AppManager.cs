@@ -27,7 +27,7 @@ namespace FiguresDrawer.App
 			return new ViewPresenterPair(view, presenter, parent);
 		}
 
-		internal ViewPresenterPair CreateStartForm(IEnumerable<Type> originFigureTypes)
+		public ViewPresenterPair CreateStartForm(IEnumerable<Type> originFigureTypes)
 		{
 			var view = _services
 				.BuildServiceProvider()

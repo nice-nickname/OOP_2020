@@ -11,6 +11,8 @@ namespace FiguresDrawer.View.Forms
 		public FiguresSettingsForm()
 		{
 			InitializeComponent();
+
+			MinimumSize = MaximumSize = Size;
 		}
 
 

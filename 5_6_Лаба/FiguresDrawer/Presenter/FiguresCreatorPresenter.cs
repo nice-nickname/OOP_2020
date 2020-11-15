@@ -30,13 +30,15 @@ namespace FiguresDrawer.Presenter
 			_figuresBuffer = _view.FiguresBuffer;
 			_pointsBuffer = _view.PointsBuffer;
 
-			_view.ReadFromFileButton_Click += View_OnReadFromFileButton_Click;
-			_view.CreateFigureButton_Click += View_OnCreateFigureButton_Click;
-			_view.DeleteFigureButton_Click += View_OnDeleteFigureButton_Click;
-			_view.ClearPointsButton_Click += View_OnClearPointsButton_Click;
-			_view.FigureList_IndexChanged += View_FigureList_IndexChanged;
-			_view.WriteToFileButton_Click += View_WriteToFileButton_Click;
-			_view.AddPointButton_Click += View_OnAddPointButton_Click;
+			_view.ReadFromFileButton_Click	+= View_OnReadFromFileButton_Click;
+			_view.ClearPointsButton_Click	+= View_OnClearPointsButton_Click;
+			_view.FigureList_IndexChanged	+= View_FigureList_IndexChanged;
+			_view.WriteToFileButton_Click	+= View_WriteToFileButton_Click;
+			_view.AddPointButton_Click		+= View_OnAddPointButton_Click;
+
+			_view.CreateFigureButton_Click	+= View_OnCreateFigureButton_Click;
+			_view.DeleteFigureButton_Click	+= View_OnDeleteFigureButton_Click;
+			_view.EditPointButton_Click		+= View_EditPointButton_Click;
 		}
 
 
@@ -58,6 +60,28 @@ namespace FiguresDrawer.Presenter
 				_pointsBuffer.Clear();
 				_pointsBuffer.AddRange(pts);
 
+			}
+		}
+
+		private void View_EditPointButton_Click(object sender, int index, string newStringX, string newStringY)
+		{
+			if (index >= 0)
+			{
+				try
+				{
+					double x = Double.Parse(newStringX);
+					double y = Double.Parse(newStringY);
+
+					_pointsBuffer[index] = new Point(x, y);
+				}
+				catch (Exception err)
+				{
+					_view.ShowError(err);
+				}
+			}
+			else
+			{
+				_view.ShowError(new Exception("Точка в списке не выделена."));
 			}
 		}
 
@@ -89,6 +113,7 @@ namespace FiguresDrawer.Presenter
 		{
 			if (_figuresBuffer.Count == 0)
 			{
+				_view.ShowError(new Exception("Список фигур пуст."));
 				return;
 			}
 			using (OpenFileDialog dialog = new OpenFileDialog())
@@ -118,12 +143,17 @@ namespace FiguresDrawer.Presenter
 				_figuresBuffer.RemoveAt(index);
 				_outFigures.RemoveAt(index);
 			}
+			else
+			{
+				_view.ShowError(new Exception("Не выделена фигура в списке, не удалось удалить."));
+			}
 		}
 
 		private void View_OnCreateFigureButton_Click(object sender, EventArgs e)
 		{
 			if (_pointsBuffer.Count == 0)
 			{
+				_view.ShowError(new Exception("Список точек пуст!"));
 				return;
 			}
 

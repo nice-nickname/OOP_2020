@@ -45,6 +45,7 @@
 			this.colorChooseComboBox = new System.Windows.Forms.ComboBox();
 			this.labelColor = new System.Windows.Forms.Label();
 			this.writeToFileButton = new System.Windows.Forms.Button();
+			this.editSelectedButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// pointsList
@@ -94,7 +95,7 @@
 			// 
 			// clearDotsListButton
 			// 
-			this.clearDotsListButton.Location = new System.Drawing.Point(18, 310);
+			this.clearDotsListButton.Location = new System.Drawing.Point(18, 339);
 			this.clearDotsListButton.Name = "clearDotsListButton";
 			this.clearDotsListButton.Size = new System.Drawing.Size(116, 23);
 			this.clearDotsListButton.TabIndex = 5;
@@ -156,7 +157,7 @@
 			// 
 			// exitButton
 			// 
-			this.exitButton.Location = new System.Drawing.Point(307, 197);
+			this.exitButton.Location = new System.Drawing.Point(307, 291);
 			this.exitButton.Name = "exitButton";
 			this.exitButton.Size = new System.Drawing.Size(110, 60);
 			this.exitButton.TabIndex = 12;
@@ -166,7 +167,7 @@
 			// 
 			// readFromFileButton
 			// 
-			this.readFromFileButton.Location = new System.Drawing.Point(164, 263);
+			this.readFromFileButton.Location = new System.Drawing.Point(305, 197);
 			this.readFromFileButton.Name = "readFromFileButton";
 			this.readFromFileButton.Size = new System.Drawing.Size(112, 36);
 			this.readFromFileButton.TabIndex = 13;
@@ -194,7 +195,7 @@
 			// 
 			// writeToFileButton
 			// 
-			this.writeToFileButton.Location = new System.Drawing.Point(164, 310);
+			this.writeToFileButton.Location = new System.Drawing.Point(305, 239);
 			this.writeToFileButton.Name = "writeToFileButton";
 			this.writeToFileButton.Size = new System.Drawing.Size(112, 36);
 			this.writeToFileButton.TabIndex = 16;
@@ -202,11 +203,22 @@
 			this.writeToFileButton.UseVisualStyleBackColor = true;
 			this.writeToFileButton.Click += new System.EventHandler(this.writeToFileButton_Click);
 			// 
+			// editSelectedButton
+			// 
+			this.editSelectedButton.Location = new System.Drawing.Point(18, 310);
+			this.editSelectedButton.Name = "editSelectedButton";
+			this.editSelectedButton.Size = new System.Drawing.Size(116, 23);
+			this.editSelectedButton.TabIndex = 17;
+			this.editSelectedButton.Text = "Изменить выделенную точку";
+			this.editSelectedButton.UseVisualStyleBackColor = true;
+			this.editSelectedButton.Click += new System.EventHandler(this.editSelectedButton_Click);
+			// 
 			// FiguresCreatorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(435, 362);
+			this.ClientSize = new System.Drawing.Size(431, 371);
+			this.Controls.Add(this.editSelectedButton);
 			this.Controls.Add(this.writeToFileButton);
 			this.Controls.Add(this.labelColor);
 			this.Controls.Add(this.colorChooseComboBox);
@@ -250,5 +262,6 @@
 		private System.Windows.Forms.ComboBox colorChooseComboBox;
 		private System.Windows.Forms.Label labelColor;
 		private System.Windows.Forms.Button writeToFileButton;
+		private System.Windows.Forms.Button editSelectedButton;
 	}
 }

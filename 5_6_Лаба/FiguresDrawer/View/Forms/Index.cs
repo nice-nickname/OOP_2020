@@ -30,6 +30,8 @@ namespace FiguresDrawer.View.Forms
 
 			canvasScaler.ValueChanged += Numeric_ValueChanged;
 			canvas.MouseWheel += Canvas_MouseWheel;
+
+			MinimumSize = MaximumSize = Size;
 		}
 
 		public Size GetSize()

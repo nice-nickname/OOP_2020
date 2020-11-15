@@ -18,6 +18,7 @@ namespace FiguresDrawer.View
 		event EventHandler<int> FigureList_IndexChanged;
 		event EventHandler<int> DeleteFigureButton_Click;
 
+		event Action<object, int, string, string> EditPointButton_Click;
 		event Action<object, string, string> AddPointButton_Click;
 
 		Color GetSelectedColor();

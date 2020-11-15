@@ -10,7 +10,7 @@ namespace FiguresDrawer.Model.Factories
 			int length = points.Length;
 			if (length == 1)
 			{
-				throw new System.ArgumentException("Неудачная попытка создать фигуру, неправильные точки");
+				throw new System.ArgumentException("Слишком мало точек для создания фигуры.");
 			}
 			else if (length == 2)
 			{
@@ -34,6 +34,14 @@ namespace FiguresDrawer.Model.Factories
 				if (rect.IsExisting())
 				{
 					return rect;
+				}
+				else
+				{
+					var polygon = new Polygon(points);
+					if (polygon.IsExisting())
+					{
+						return polygon;
+					}
 				}
 			}
 			else

@@ -10,6 +10,8 @@ namespace FiguresDrawer.View.Forms
 		public FigureInfoPresenterForm()
 		{
 			InitializeComponent();
+
+			MinimumSize = MaximumSize = Size;
 		}
 
 		public void SetAreaInfo(double area)
