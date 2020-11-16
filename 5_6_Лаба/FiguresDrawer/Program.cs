@@ -1,15 +1,12 @@
-﻿using FiguresDrawer.App.Core;
+﻿using FiguresDrawer.App;
+using FiguresDrawer.App.Core;
 using FiguresDrawer.Model.Figures;
+using FiguresDrawer.Presenter;
+using FiguresDrawer.View;
+using FiguresDrawer.View.Forms;
 using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Forms;
-using FiguresDrawer.Presenter.FileParsing;
-using FiguresDrawer.App;
-using FiguresDrawer.Presenter.Adapter;
-using FiguresDrawer.View.Forms;
-using FiguresDrawer.View;
-using FiguresDrawer.Presenter;
 
 namespace FiguresDrawer
 {
@@ -31,14 +28,15 @@ namespace FiguresDrawer
 				typeof(Polygon)
 			};
 
-			AppManager app = new AppManager();
+			AppDependencyContainer app = new AppDependencyContainer(types);
+
 			app.RegisterStartForm<IFiguresDrawerView, Index, FiguresDrawerPresenter>();
 
 			app.RegisterForm<IFiguresCreatorView, FiguresCreatorForm, FiguresCreatorPresenter>();
 			app.RegisterForm<IFiguresSettingsView, FiguresSettingsForm, FiguresSettingsPresenter>();
 			app.RegisterForm<IFigureInfoPresenterView, FigureInfoPresenterForm, FigureInfoPresenter>();
 
-			FormsFactory.CreateApp(types, app);
+			FormsFactory.Initialize(app);
 
 			var form = FormsFactory.CreateStartForm();
 			

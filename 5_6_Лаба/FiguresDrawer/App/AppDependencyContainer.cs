@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FiguresDrawer.Model;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace FiguresDrawer.App
 {
-	public class AppManager
+	public class AppDependencyContainer
 	{
 		private Dictionary<Type, Type> _viewPresenterDictionary;
 		private IServiceCollection _services;
@@ -13,10 +14,14 @@ namespace FiguresDrawer.App
 		private Type _startViewType;
 		private Type _startPresenterType;
 
-		public AppManager()
+		private IEnumerable<Type> _originFigureTypes;
+
+		public AppDependencyContainer(IEnumerable<Type> types)
 		{
 			_services = new ServiceCollection();
 			_viewPresenterDictionary = new Dictionary<Type, Type>();
+
+			_originFigureTypes = types;
 		}
 
 		public ViewPresenterPair CreateForm<TReqView>(IPresenter parent)
@@ -27,14 +32,14 @@ namespace FiguresDrawer.App
 			return new ViewPresenterPair(view, presenter, parent);
 		}
 
-		public ViewPresenterPair CreateStartForm(IEnumerable<Type> originFigureTypes)
+		public ViewPresenterPair CreateStartForm()
 		{
 			var view = _services
 				.BuildServiceProvider()
 				.GetService(_startViewType)
 				as Form;
 
-			var presenter = Activator.CreateInstance(_startPresenterType, view, originFigureTypes) as IPresenter;
+			var presenter = Activator.CreateInstance(_startPresenterType, view, _originFigureTypes) as IPresenter;
 
 			return new ViewPresenterPair(view, presenter, null);
 		}

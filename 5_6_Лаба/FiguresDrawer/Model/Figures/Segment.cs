@@ -13,6 +13,11 @@ namespace FiguresDrawer.Model.Figures
 			throw new System.InvalidOperationException("Can't calculate area of segment");
 		}
 
+		public override double FindPerimeter()
+		{
+			throw new System.InvalidOperationException("Can't calculate area of segment");
+		}
+
 		public override bool IsExisting()
 		{
 			GeometryOperations math = new GeometryOperations();

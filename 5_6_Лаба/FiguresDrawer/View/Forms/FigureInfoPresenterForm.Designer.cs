@@ -86,7 +86,7 @@
 			// centerLabel
 			// 
 			this.centerLabel.AutoSize = true;
-			this.centerLabel.Location = new System.Drawing.Point(128, 59);
+			this.centerLabel.Location = new System.Drawing.Point(118, 59);
 			this.centerLabel.Name = "centerLabel";
 			this.centerLabel.Size = new System.Drawing.Size(35, 13);
 			this.centerLabel.TabIndex = 5;
@@ -113,7 +113,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(194, 243);
+			this.ClientSize = new System.Drawing.Size(367, 243);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.pointsList);
 			this.Controls.Add(this.centerLabel);

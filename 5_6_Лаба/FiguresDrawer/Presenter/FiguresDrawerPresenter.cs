@@ -1,4 +1,5 @@
-﻿using FiguresDrawer.App.Core;
+﻿using FiguresDrawer.App;
+using FiguresDrawer.App.Core;
 using FiguresDrawer.Presenter.Drawing;
 using FiguresDrawer.Presenter.Events;
 using FiguresDrawer.View;
@@ -102,37 +103,60 @@ namespace FiguresDrawer.Presenter
 
 		private void View_ModificateListButton_Click(object sender, EventArgs e)
 		{
-			var form = FormsFactory.Create<IFiguresCreatorView>(this);
+			try
+			{
+				var form = FormsFactory.Create<IFiguresCreatorView>(this);
 
-			SendData?.Invoke(this, new FigureDrawnEventArgs(_model, _planeSettings, null));
-			SendData = null;
+				SendData?.Invoke(this, new FigureDrawnEventArgs(_model, _planeSettings, null));
+				SendData = null;
 
-			form.View.ShowDialog();
-			_view.InvokePaintEvent();
+				form.View.ShowDialog();
+				_view.InvokePaintEvent();
+			}
+			catch (Exception err)
+			{
+				_view.ShowError(err);
+			}
 		}
 
 		private void View_SettingsButton_Click(object sender, EventArgs e)
 		{
-			var form = FormsFactory.Create<IFiguresSettingsView>(this);
+			try
+			{
+				var form = FormsFactory.Create<IFiguresSettingsView>(this);
 
-			SendData?.Invoke(this, new FigureDrawnEventArgs(_model, _planeSettings, null));
-			SendData = null;
+				SendData?.Invoke(this, new FigureDrawnEventArgs(_model, _planeSettings, null));
+				SendData = null;
 
-			form.View.ShowDialog();
-			_view.InvokePaintEvent();
+				form.View.ShowDialog();
+				_view.InvokePaintEvent();
+			}
+			catch (Exception err)
+			{
+				_view.ShowError(err);
+			}
 		}
 
 		private void View_ShowAboutFigure_Invoked(object sender, int index)
-		{
+		{	
 			if (index >= 0)
 			{
-				var form = FormsFactory.Create<IFigureInfoPresenterView>(this);
+				ViewPresenterPair form;
 
-				SendData?.Invoke(this, new FigureDrawnEventArgs(null, null, _model[index] as FigureDrawer));
-				SendData = null;
+				try
+				{
+					form = FormsFactory.Create<IFigureInfoPresenterView>(this);
 
-				form.View.Show();
-				_view.InvokePaintEvent();
+					SendData?.Invoke(this, new FigureDrawnEventArgs(null, null, _model[index] as FigureDrawer));
+					SendData = null;
+
+					form.View.Show();
+					_view.InvokePaintEvent();
+				}
+				catch (Exception err)
+				{
+					_view.ShowError(err);
+				}
 			}
 		}
 

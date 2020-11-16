@@ -4,7 +4,7 @@ namespace FiguresDrawer.Model
 {
 	public abstract class Figure
 	{
-		private readonly Point[] _points;
+		private Point[] _points;
 
 		public Figure(Point[] points, string name = "Figure")
 		{
@@ -14,7 +14,6 @@ namespace FiguresDrawer.Model
 
 		public int PointsCount { get => _points.Length; }
 		public string Name { get; set; }
-		public Point this[int i] { get => new Point(_points[i].X, _points[i].Y); }
 
 		abstract public double FindArea();
 

@@ -1,6 +1,5 @@
 ﻿using FiguresDrawer.Presenter.Adapter;
 using System.Drawing;
-using System.Drawing.Text;
 
 namespace FiguresDrawer.Presenter.Drawing
 {
@@ -10,8 +9,6 @@ namespace FiguresDrawer.Presenter.Drawing
 		public Color PenColor { get; set; }
 		public Color VertexColor { get; set; }
 		public Color CenterColor { get; set; }
-
-		static private Font _font = new Font(FontFamily.GenericSansSerif, 2);
 
 		public FigureDrawer(IFigureAdapter figure, Color penColor, Color vertexColor, Color centerColor)
 		{

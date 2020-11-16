@@ -62,7 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App\AppManager.cs" />
+    <Compile Include="App\AppDependencyContainer.cs" />
     <Compile Include="App\Core\IPresenter.cs" />
     <Compile Include="App\Core\IView.cs" />
     <Compile Include="App\FormsFactory.cs" />
@@ -142,7 +142,6 @@
     <EmbeddedResource Include="View\Forms\FiguresSettingsForm.resx">
       <DependentUpon>FiguresSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
