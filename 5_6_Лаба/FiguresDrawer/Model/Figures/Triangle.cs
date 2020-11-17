@@ -2,7 +2,7 @@
 
 namespace FiguresDrawer.Model.Figures
 {
-	public class Triangle : Figure
+	public class Triangle : FigureBase
 	{
 		public Triangle(Point[] points) : base(points)
 		{

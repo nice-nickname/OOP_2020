@@ -6,7 +6,7 @@ namespace FiguresDrawer.Presenter.Adapter
 {
 	public class FiguresDataAdapter : IFigureAdapter
 	{
-		private Figure _figure;
+		private FigureBase _figure;
 
 		public Type FigureType => _figure.GetType();
 
@@ -14,7 +14,7 @@ namespace FiguresDrawer.Presenter.Adapter
 		{
 		}
 
-		public FiguresDataAdapter(Figure figure)
+		public FiguresDataAdapter(FigureBase figure)
 		{
 			_figure = figure;
 		}

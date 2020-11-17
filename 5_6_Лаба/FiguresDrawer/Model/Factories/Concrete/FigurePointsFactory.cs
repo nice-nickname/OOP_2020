@@ -5,7 +5,7 @@ namespace FiguresDrawer.Model.Factories
 {
 	public class FigurePointsFactory : IFigureFactory
 	{
-		public Figure Create(Point[] points)
+		public FigureBase Create(Point[] points)
 		{
 			int length = points.Length;
 			if (length == 1)

@@ -3,7 +3,7 @@ using System;
 
 namespace FiguresDrawer.Model.Figures
 {
-	public class Polygon : Figure
+	public class Polygon : FigureBase
 	{
 		public Polygon(Point[] points) : base(points)
 		{

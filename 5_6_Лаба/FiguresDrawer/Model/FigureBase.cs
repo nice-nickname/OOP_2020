@@ -2,11 +2,11 @@
 
 namespace FiguresDrawer.Model
 {
-	public abstract class Figure
+	public class FigureBase : IFigure
 	{
 		private Point[] _points;
 
-		public Figure(Point[] points)
+		public FigureBase(Point[] points)
 		{
 			_points = points.Clone() as Point[];
 			Name = GetType().Name;
@@ -15,8 +15,15 @@ namespace FiguresDrawer.Model
 		public int PointsCount { get => _points.Length; }
 		public string Name { get; set; }
 
-		public abstract double FindArea();
-		public abstract bool IsExisting();
+		public virtual double FindArea()
+		{
+			throw new System.NotImplementedException("Method FindArea not implemented");
+		}
+
+		public virtual bool IsExisting()
+		{
+			throw new System.NotImplementedException("Method area not implemented");
+		}
 
 		public virtual double FindPerimeter()
 		{
