@@ -6,19 +6,19 @@ namespace FiguresDrawer.Model
 	{
 		private Point[] _points;
 
-		public Figure(Point[] points, string name = "Figure")
+		public Figure(Point[] points)
 		{
 			_points = points.Clone() as Point[];
-			Name = name;
+			Name = GetType().Name;
 		}
 
 		public int PointsCount { get => _points.Length; }
 		public string Name { get; set; }
 
-		abstract public double FindArea();
-		abstract public bool IsExisting();
+		public abstract double FindArea();
+		public abstract bool IsExisting();
 
-		virtual public double FindPerimeter()
+		public virtual double FindPerimeter()
 		{
 			double perimeter = 0f;
 
@@ -30,7 +30,7 @@ namespace FiguresDrawer.Model
 			return perimeter;
 		}
 
-		virtual public Point FindCenter()
+		public virtual Point FindCenter()
 		{
 			double x = 0, y = 0;
 

@@ -4,7 +4,7 @@ namespace FiguresDrawer.Model.Figures
 {
 	public class Triangle : Figure
 	{
-		public Triangle(Point[] points) : base(points, "Triangle")
+		public Triangle(Point[] points) : base(points)
 		{
 		}
 

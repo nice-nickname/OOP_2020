@@ -5,7 +5,7 @@ namespace FiguresDrawer.Model.Figures
 {
 	public class Polygon : Figure
 	{
-		public Polygon(Point[] points) : base(points, "Polygon")
+		public Polygon(Point[] points) : base(points)
 		{
 		}
 

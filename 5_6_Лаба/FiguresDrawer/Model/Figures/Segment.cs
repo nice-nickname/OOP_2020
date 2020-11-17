@@ -4,7 +4,7 @@ namespace FiguresDrawer.Model.Figures
 {
 	public class Segment : Figure
 	{
-		public Segment(Point[] points) : base(points, "Segment")
+		public Segment(Point[] points) : base(points)
 		{
 		}
 
