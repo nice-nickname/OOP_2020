@@ -55,7 +55,7 @@ namespace FiguresDrawer.Model
 
 		public override string ToString()
 		{
-			return "Name: " + Name + "; Points count: " + _points.Length.ToString();
+			return $"Name: {Name}; Points count: {_points.Length}";
 		}
 	}
 }
