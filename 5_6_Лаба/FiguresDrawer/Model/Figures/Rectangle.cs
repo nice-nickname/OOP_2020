@@ -19,16 +19,15 @@ namespace FiguresDrawer.Model.Figures
 
 		public override bool IsExisting()
 		{
-			GeometryOperations math = new GeometryOperations();
 			Point[] points = GetPoints();
 
 			for (int i = 0; i < points.Length; i++)
 			{
-				double angle = math.FindAngle(
+				double angle = GeometryMath.FindAngle(
 					new LineSegment(points[i], points[(i + 1) % points.Length]),
 					new LineSegment(points[(i + 1) % points.Length], points[(i + 2) % points.Length])
 					);
-				if (math.IsDoubleEqual(angle, System.Math.PI / 2) == false)
+				if (GeometryMath.IsDoubleEqual(angle, System.Math.PI / 2) == false)
 				{
 					return false;
 				}
@@ -38,12 +37,10 @@ namespace FiguresDrawer.Model.Figures
 
 		private void FindParameters(out double height, out double width)
 		{
-			GeometryOperations math = new GeometryOperations();
-
 			Point[] pts = GetPoints();
 
-			height = math.FindMagnitude(new LineSegment(pts[0], pts[1]));
-			width = math.FindMagnitude(new LineSegment(pts[1], pts[2]));
+			height = GeometryMath.FindMagnitude(new LineSegment(pts[0], pts[1]));
+			width = GeometryMath.FindMagnitude(new LineSegment(pts[1], pts[2]));
 		}
 	}
 }

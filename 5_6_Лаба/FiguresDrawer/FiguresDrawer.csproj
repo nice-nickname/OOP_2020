@@ -74,7 +74,7 @@
     <Compile Include="Model\Figures\Polygon.cs" />
     <Compile Include="Model\Figures\Rectangle.cs" />
     <Compile Include="Model\Figures\Triangle.cs" />
-    <Compile Include="Model\GeometryOperations.cs" />
+    <Compile Include="Model\GeometryMath.cs" />
     <Compile Include="Model\Structures\LineSegment.cs" />
     <Compile Include="Model\Structures\Point.cs" />
     <Compile Include="Presenter\Adapter\Concrete\FiguresDataAdapter.cs" />

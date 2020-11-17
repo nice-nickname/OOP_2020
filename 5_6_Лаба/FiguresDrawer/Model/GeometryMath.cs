@@ -3,10 +3,10 @@ using System;
 
 namespace FiguresDrawer.Model
 {
-	public class GeometryOperations
+	public static class GeometryMath
 	{
 		public const double Epsilon = 1e-9;
-		public double FindMagnitude(Point from, Point to)
+		public static double FindMagnitude(Point from, Point to)
 		{
 			double x = to.X - from.X;
 			double y = to.Y - from.Y;
@@ -14,23 +14,23 @@ namespace FiguresDrawer.Model
 			return Math.Sqrt(x * x + y * y);
 		}
 
-		public bool IsDoubleEqual(double left, double right)
+		public static bool IsDoubleEqual(double left, double right)
 		{
 			return Math.Abs(left - right) <= Epsilon;
 		}
 
-		public double FindMagnitude(LineSegment line)
+		public static double FindMagnitude(LineSegment line)
 		{
 			return FindMagnitude(line.Begin, line.End);
 		}
 
-		public bool IsPointsEqual(Point left, Point right)
+		public static bool IsPointsEqual(Point left, Point right)
 		{
 			return Math.Abs(left.X - right.X) <= Epsilon
 				&& Math.Abs(left.Y - right.Y) <= Epsilon;
 		}
 
-		public double FindAngle(LineSegment fLine, LineSegment sLine)
+		public static double FindAngle(LineSegment fLine, LineSegment sLine)
 		{
 			Point v1 = fLine.ConvertToVector();
 			Point v2 = sLine.ConvertToVector();
@@ -43,7 +43,7 @@ namespace FiguresDrawer.Model
 			return Math.Acos(scalar / m1 * m2);
 		}
 
-		public bool IsIntersected(LineSegment fLine, LineSegment sLine)
+		public static bool IsIntersected(LineSegment fLine, LineSegment sLine)
 		{
 			Point p1 = fLine.Begin;
 			Point p2 = fLine.End;
