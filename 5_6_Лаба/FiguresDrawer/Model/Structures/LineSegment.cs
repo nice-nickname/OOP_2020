@@ -13,7 +13,7 @@
 			return new Point(End.X - Begin.X, End.Y - Begin.Y);
 		}
 
-		public Point Begin;
-		public Point End;
+		public Point Begin { get; set; }
+		public Point End { get; set; }
 	}
 }
