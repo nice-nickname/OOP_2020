@@ -1,4 +1,5 @@
 ﻿using FiguresDrawer.Model;
+using FiguresDrawer.Presenter.FileParsing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,10 @@ namespace FiguresDrawer.App
 
 		private IEnumerable<Type> _originFigureTypes;
 
-		public AppDependencyContainer(IEnumerable<Type> types)
+		public AppDependencyContainer()
 		{
 			_services = new ServiceCollection();
 			_viewPresenterDictionary = new Dictionary<Type, Type>();
-
-			_originFigureTypes = types;
 		}
 
 		public ViewPresenterPair CreateForm<TReqView>(IPresenter parent)
@@ -39,9 +38,26 @@ namespace FiguresDrawer.App
 				.GetService(_startViewType)
 				as Form;
 
+			if (_originFigureTypes == null)
+			{
+				throw new ArgumentNullException("Список фигур не зарегистрирован");
+			}
+
 			var presenter = Activator.CreateInstance(_startPresenterType, view, _originFigureTypes) as IPresenter;
 
 			return new ViewPresenterPair(view, presenter, null);
+		}
+
+		public IFigureSerializer CreateSerializer()
+		{
+			return _services
+				.BuildServiceProvider()
+				.GetService<IFigureSerializer>();
+		}
+
+		public void RegisterFiguresTypes(IEnumerable<Type> types)
+		{
+			_originFigureTypes = types ?? throw new ArgumentNullException(nameof(types));
 		}
 
 		public void RegisterForm<TView, TForm, TPresenter>()
@@ -62,8 +78,14 @@ namespace FiguresDrawer.App
 			_startPresenterType = typeof(TPresenter);
 
 			_services.AddSingleton(typeof(TView), typeof(TForm));
-
 		}
+
+		public void RegisterFigureSerialuzer<T>()
+			where T : class, IFigureSerializer
+		{
+			_services.AddSingleton(typeof(IFigureSerializer), typeof(T));
+		}
+
 
 		private Form GetFormByView<T>()
 			where T : IView

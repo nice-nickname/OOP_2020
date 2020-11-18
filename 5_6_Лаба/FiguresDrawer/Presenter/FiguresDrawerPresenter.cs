@@ -105,7 +105,7 @@ namespace FiguresDrawer.Presenter
 		{
 			try
 			{
-				var form = FormsFactory.Create<IFiguresCreatorView>(this);
+				var form = AppDependencies.CreateForm<IFiguresCreatorView>(this);
 
 				SendData?.Invoke(this, new FigureDrawnEventArgs(_model, _planeSettings, null));
 				SendData = null;
@@ -123,7 +123,7 @@ namespace FiguresDrawer.Presenter
 		{
 			try
 			{
-				var form = FormsFactory.Create<IFiguresSettingsView>(this);
+				var form = AppDependencies.CreateForm<IFiguresSettingsView>(this);
 
 				SendData?.Invoke(this, new FigureDrawnEventArgs(_model, _planeSettings, null));
 				SendData = null;
@@ -141,11 +141,9 @@ namespace FiguresDrawer.Presenter
 		{	
 			if (index >= 0)
 			{
-				ViewPresenterPair form;
-
 				try
 				{
-					form = FormsFactory.Create<IFigureInfoPresenterView>(this);
+					var form = AppDependencies.CreateForm<IFigureInfoPresenterView>(this);
 
 					SendData?.Invoke(this, new FigureDrawnEventArgs(null, null, _model[index] as FigureDrawer));
 					SendData = null;

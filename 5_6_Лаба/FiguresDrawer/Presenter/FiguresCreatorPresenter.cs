@@ -1,9 +1,9 @@
-﻿using FiguresDrawer.Model.Factories;
+﻿using FiguresDrawer.App.Core;
+using FiguresDrawer.Model.Factories;
 using FiguresDrawer.Model.Structures;
 using FiguresDrawer.Presenter.Adapter;
 using FiguresDrawer.Presenter.Drawing;
 using FiguresDrawer.Presenter.Events;
-using FiguresDrawer.Presenter.FileParsing;
 using FiguresDrawer.View;
 using System;
 using System.Collections.Generic;
@@ -93,11 +93,12 @@ namespace FiguresDrawer.Presenter
 
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					IFigureSerializer serializer = new XmlFigureSerializer();
+					var serializer = AppDependencies.CreateSerializer();
 
 					try
 					{
 						var figures = serializer.Deserialize(dialog.FileName);
+
 						_figuresBuffer.AddRange(figures.ToArray());
 						_outFigures.AddRange(figures.ToArray());
 					}
@@ -122,9 +123,9 @@ namespace FiguresDrawer.Presenter
 
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					IFigureSerializer serializer = new XmlFigureSerializer();
+					var serializer = AppDependencies.CreateSerializer();
 
-					List<FigureDrawer> list = new List<FigureDrawer>();
+					var list = new List<FigureDrawer>();
 
 					foreach (var figure in _figuresBuffer)
 					{
@@ -157,9 +158,8 @@ namespace FiguresDrawer.Presenter
 				return;
 			}
 
-			FigurePointsFactory factory = new FigurePointsFactory();
-
-			Point[] points = new Point[_pointsBuffer.Count];
+			var factory = new FigurePointsFactory();
+			var points = new Point[_pointsBuffer.Count];
 
 			for (int i = 0; i < points.Length; i++)
 			{
@@ -170,8 +170,11 @@ namespace FiguresDrawer.Presenter
 			{
 				var figure = factory.Create(points);
 				var color = _view.GetSelectedColor();
-				var figureDrawer = new FigureDrawer(new FiguresDataAdapter(figure),
-					color, System.Drawing.Color.Black, System.Drawing.Color.Black);
+				var figureDrawer = new FigureDrawer(
+					new FiguresDataAdapter(figure),
+					color,
+					System.Drawing.Color.Black,
+					System.Drawing.Color.Black);
 
 				_figuresBuffer.Add(figureDrawer);
 				_outFigures.Add(figureDrawer);

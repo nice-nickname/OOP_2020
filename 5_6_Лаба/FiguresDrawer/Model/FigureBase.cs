@@ -50,7 +50,6 @@ namespace FiguresDrawer.Model
 			return new Point(x / _points.Length, y / _points.Length);
 		}
 
-
 		public Point[] GetPoints() => _points;
 
 		public override string ToString()

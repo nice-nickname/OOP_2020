@@ -2,6 +2,7 @@
 using FiguresDrawer.App.Core;
 using FiguresDrawer.Model.Figures;
 using FiguresDrawer.Presenter;
+using FiguresDrawer.Presenter.FileParsing;
 using FiguresDrawer.View;
 using FiguresDrawer.View.Forms;
 using System;
@@ -20,7 +21,7 @@ namespace FiguresDrawer
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			List<Type> types = new List<Type>
+			var types = new List<Type>
 			{
 				typeof(Rectangle),
 				typeof(Triangle),
@@ -28,17 +29,20 @@ namespace FiguresDrawer
 				typeof(Polygon)
 			};
 
-			AppDependencyContainer app = new AppDependencyContainer(types);
+			var app = new AppDependencyContainer();
 
 			app.RegisterStartForm<IFiguresDrawerView, Index, FiguresDrawerPresenter>();
+			app.RegisterFiguresTypes(types);
+
+			app.RegisterFigureSerialuzer<XmlFigureSerializer>();
 
 			app.RegisterForm<IFiguresCreatorView, FiguresCreatorForm, FiguresCreatorPresenter>();
 			app.RegisterForm<IFiguresSettingsView, FiguresSettingsForm, FiguresSettingsPresenter>();
 			app.RegisterForm<IFigureInfoPresenterView, FigureInfoPresenterForm, FigureInfoPresenter>();
 
-			FormsFactory.Initialize(app);
+			AppDependencies.Initialize(app);
 
-			var form = FormsFactory.CreateStartForm();
+			var form = AppDependencies.CreateStartForm();
 			
 			Application.Run(form.View);
 		}

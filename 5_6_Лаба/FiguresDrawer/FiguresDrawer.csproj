@@ -65,7 +65,7 @@
     <Compile Include="App\AppDependencyContainer.cs" />
     <Compile Include="App\Core\IPresenter.cs" />
     <Compile Include="App\Core\IView.cs" />
-    <Compile Include="App\FormsFactory.cs" />
+    <Compile Include="App\AppDependencies.cs" />
     <Compile Include="App\Core\ViewPresenterPair.cs" />
     <Compile Include="Model\Factories\Concrete\FigurePointsFactory.cs" />
     <Compile Include="Model\Factories\IFigureFactory.cs" />

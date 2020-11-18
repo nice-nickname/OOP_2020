@@ -9,13 +9,13 @@ namespace FiguresDrawer.App
 
 		public ViewPresenterPair(Form view, IPresenter presenter, IPresenter sender)
 		{
+			View = view ?? throw new System.ArgumentNullException(nameof(view));
+			Presenter = presenter ?? throw new System.ArgumentNullException(nameof(presenter));
+			
 			if (sender != null)
 			{
 				sender.SendData += presenter.ReceiveData;
 			}
-
-			View = view;
-			Presenter = presenter;
 		}
 	}
 }

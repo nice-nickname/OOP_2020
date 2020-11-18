@@ -30,7 +30,7 @@ namespace FiguresDrawer.Model.Figures
 
 		public override bool IsExisting()
 		{
-			Point[] points = GetPoints();
+			var points = GetPoints();
 
 			// Checking for repeating points
 			for (int i = 0; i < points.Length; i++)
@@ -49,8 +49,8 @@ namespace FiguresDrawer.Model.Figures
 			{
 				for (int j = 0; j < points.Length; j++)
 				{
-					LineSegment a = new LineSegment(points[i], points[(i + 1) % points.Length]);
-					LineSegment b = new LineSegment(points[j], points[(j + 1) % points.Length]);
+					var a = new LineSegment(points[i], points[(i + 1) % points.Length]);
+					var b = new LineSegment(points[j], points[(j + 1) % points.Length]);
 
 					if (i != j && GeometryMath.IsIntersected(a, b))
 					{
