@@ -1,5 +1,4 @@
-﻿using FiguresDrawer.Model;
-using FiguresDrawer.Presenter.FileParsing;
+﻿using FiguresDrawer.Presenter.FileParsing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,9 @@ namespace FiguresDrawer.App
 	public class AppDependencyContainer
 	{
 		private Dictionary<Type, Type> _viewPresenterDictionary;
+		
 		private IServiceCollection _services;
+		private IServiceProvider _provider;
 
 		private Type _startViewType;
 		private Type _startPresenterType;
@@ -21,6 +22,7 @@ namespace FiguresDrawer.App
 		{
 			_services = new ServiceCollection();
 			_viewPresenterDictionary = new Dictionary<Type, Type>();
+			_provider = _services.BuildServiceProvider();
 		}
 
 		public ViewPresenterPair CreateForm<TReqView>(IPresenter parent)
@@ -33,8 +35,7 @@ namespace FiguresDrawer.App
 
 		public ViewPresenterPair CreateStartForm()
 		{
-			var view = _services
-				.BuildServiceProvider()
+			var view = _provider
 				.GetService(_startViewType)
 				as Form;
 
@@ -50,8 +51,7 @@ namespace FiguresDrawer.App
 
 		public IFigureSerializer CreateSerializer()
 		{
-			return _services
-				.BuildServiceProvider()
+			return _provider
 				.GetService<IFigureSerializer>();
 		}
 
@@ -67,6 +67,8 @@ namespace FiguresDrawer.App
 		{
 			_services.AddTransient(typeof(TView), typeof(TForm));
 			_viewPresenterDictionary.Add(typeof(TView), typeof(TPresenter));
+
+			ResetSeriviceProvider();
 		}
 
 		public void RegisterStartForm<TView, TForm, TPresenter>()
@@ -78,20 +80,23 @@ namespace FiguresDrawer.App
 			_startPresenterType = typeof(TPresenter);
 
 			_services.AddSingleton(typeof(TView), typeof(TForm));
+
+			ResetSeriviceProvider();
 		}
 
 		public void RegisterFigureSerialuzer<T>()
 			where T : class, IFigureSerializer
 		{
 			_services.AddSingleton(typeof(IFigureSerializer), typeof(T));
+
+			ResetSeriviceProvider();
 		}
 
 
 		private Form GetFormByView<T>()
 			where T : IView
 		{
-			return _services
-				.BuildServiceProvider()
+			return _provider
 				.GetService<T>()
 				as Form;
 		}
@@ -102,6 +107,13 @@ namespace FiguresDrawer.App
 			Type type = _viewPresenterDictionary[typeof(T)];
 			var presenter = Activator.CreateInstance(type, sender);
 			return presenter as IPresenter;
+		}
+
+		private void ResetSeriviceProvider()
+		{
+			((IDisposable)_provider).Dispose();
+
+			_provider = _services.BuildServiceProvider();
 		}
 	}
 }

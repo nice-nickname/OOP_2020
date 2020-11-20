@@ -8,7 +8,7 @@ namespace FiguresDrawer.App.Core
 	{
 		private static AppDependencyContainer _manager;
 
-		static public ViewPresenterPair CreateForm<TCreated>(IPresenter sender = null) 
+		static public ViewPresenterPair CreateForm<TCreated>(IPresenter sender) 
 			where TCreated : IView
 		{
 			return _manager.CreateForm<TCreated>(sender);

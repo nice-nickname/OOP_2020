@@ -32,8 +32,8 @@ namespace FiguresDrawer.Model
 
 		public static double FindAngle(LineSegment fLine, LineSegment sLine)
 		{
-			Point v1 = fLine.ConvertToVector();
-			Point v2 = sLine.ConvertToVector();
+			var v1 = fLine.ConvertToVector();
+			var v2 = sLine.ConvertToVector();
 
 			double scalar = v1.X * v2.X + v1.Y * v2.Y;
 
@@ -45,10 +45,10 @@ namespace FiguresDrawer.Model
 
 		public static bool IsIntersected(LineSegment fLine, LineSegment sLine)
 		{
-			Point p1 = fLine.Begin;
-			Point p2 = fLine.End;
-			Point p3 = sLine.Begin;
-			Point p4 = sLine.End;
+			var p1 = fLine.Begin;
+			var p2 = fLine.End;
+			var p3 = sLine.Begin;
+			var p4 = sLine.End;
 
 			double v1 = (p4.X - p3.X) * (p1.Y - p3.Y) - (p4.Y - p3.Y) * (p1.X - p3.X);
 			double v2 = (p4.Y - p3.Y) * (p2.X - p1.X) - (p4.X - p3.X) * (p2.Y - p1.Y);

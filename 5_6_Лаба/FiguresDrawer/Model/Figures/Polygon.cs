@@ -13,13 +13,13 @@ namespace FiguresDrawer.Model.Figures
 		{
 			double area = 0;
 
-			Point[] points = GetPoints();
+			var points = GetPoints();
 
 			int j = points.Length - 1;
 			for (int i = 0; i < points.Length; i++)
 			{
-				Point prev = points[j];
-				Point curr = points[i];
+				var prev = points[j];
+				var curr = points[i];
 
 				area += (prev.X + curr.X) * (prev.Y - curr.Y);
 				j = i;

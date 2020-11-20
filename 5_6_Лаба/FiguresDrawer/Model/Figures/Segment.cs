@@ -20,7 +20,7 @@ namespace FiguresDrawer.Model.Figures
 
 		public override bool IsExisting()
 		{
-			Point[] points = GetPoints();
+			var points = GetPoints();
 
 			return !GeometryMath.IsPointsEqual(points[0], points[1]);
 		}

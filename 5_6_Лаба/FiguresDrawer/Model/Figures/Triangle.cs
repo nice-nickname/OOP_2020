@@ -12,10 +12,10 @@ namespace FiguresDrawer.Model.Figures
 		{
 			var lines = GetLines();
 
-			double p = FindPerimeter() / 2;
-			double a = GeometryMath.FindMagnitude(lines[0]);
-			double b = GeometryMath.FindMagnitude(lines[1]);
-			double c = GeometryMath.FindMagnitude(lines[2]);
+			var p = FindPerimeter() / 2;
+			var a = GeometryMath.FindMagnitude(lines[0]);
+			var b = GeometryMath.FindMagnitude(lines[1]);
+			var c = GeometryMath.FindMagnitude(lines[2]);
 
 			return System.Math.Sqrt(p * (p - a) * (p - b) * (p - c));
 		}
@@ -24,17 +24,17 @@ namespace FiguresDrawer.Model.Figures
 		{
 			var lines = GetLines();
 
-			double a = GeometryMath.FindMagnitude(lines[0]);
-			double b = GeometryMath.FindMagnitude(lines[1]);
-			double c = GeometryMath.FindMagnitude(lines[2]);
+			var a = GeometryMath.FindMagnitude(lines[0]);
+			var b = GeometryMath.FindMagnitude(lines[1]);
+			var c = GeometryMath.FindMagnitude(lines[2]);
 
 			return a + b > c && a + c > b && b + c > a;
 		}
 
 		private LineSegment[] GetLines()
 		{
-			LineSegment[] lines = new LineSegment[3];
-			Point[] points = GetPoints();
+			var lines = new LineSegment[3];
+			var points = GetPoints();
 
 			for (int i = 0; i < lines.Length; i++)
 			{
