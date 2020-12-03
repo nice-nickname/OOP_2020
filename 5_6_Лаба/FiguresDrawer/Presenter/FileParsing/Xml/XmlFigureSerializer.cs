@@ -12,28 +12,24 @@ namespace FiguresDrawer.Presenter.FileParsing
 {
 	internal class XmlFigureSerializer : IFigureSerializer
 	{
-
-		private static HashSet<string> ColorNames;
+		private HashSet<string> ColorNames;
 
 		public XmlFigureSerializer()
 		{
-			if (ColorNames == null)
-			{
-				ColorNames = typeof(Color)
-					.GetProperties()
-					.Where(x => x.PropertyType == typeof(Color))
-					.Select(x => x.Name)
-					.ToHashSet();
-			}
+			ColorNames = typeof(Color)
+				.GetProperties()
+				.Where(x => x.PropertyType == typeof(Color))
+				.Select(x => x.Name)
+				.ToHashSet();
 		}
 
 		public IEnumerable<FigureDrawer> Deserialize(string fileName)
 		{
-			StreamReader stream = new StreamReader(fileName);
-			XmlSerializer xml = new XmlSerializer(typeof(List<XmlFigureData>));
+			var stream = new StreamReader(fileName);
+			var xml = new XmlSerializer(typeof(List<XmlFigureData>));
 
-			FigurePointsFactory factory = new FigurePointsFactory();
-			List<FigureDrawer> figures = new List<FigureDrawer>();
+			var factory = new FigurePointsFactory();
+			var figures = new List<FigureDrawer>();
 
 			var data = xml.Deserialize(stream);
 
@@ -42,9 +38,9 @@ namespace FiguresDrawer.Presenter.FileParsing
 				var figure = factory.Create(item.Points);
 				var adapter = new FiguresDataAdapter(figure);
 
-				Color vertexColor = Color.FromName(ValidateColorName(item.VertexColorName));
-				Color centerColor = Color.FromName(ValidateColorName(item.CenterColorName));
-				Color penColor	  = Color.FromName(ValidateColorName(item.PenColorName));
+				var vertexColor = Color.FromName(ValidateColorName(item.VertexColorName));
+				var centerColor = Color.FromName(ValidateColorName(item.CenterColorName));
+				var penColor	= Color.FromName(ValidateColorName(item.PenColorName));
 
 				var drawer = new FigureDrawer(adapter, penColor, vertexColor, centerColor);
 
@@ -56,10 +52,10 @@ namespace FiguresDrawer.Presenter.FileParsing
 
 		public void Serialize(IEnumerable<FigureDrawer> figures, string fileName)
 		{
-			StreamWriter stream = new StreamWriter(fileName);
-			XmlSerializer xml = new XmlSerializer(typeof(List<XmlFigureData>));
+			var stream = new StreamWriter(fileName);
+			var xml = new XmlSerializer(typeof(List<XmlFigureData>));
 
-			List<XmlFigureData> data = new List<XmlFigureData>();
+			var data = new List<XmlFigureData>();
 
 			foreach (var figure in figures)
 			{

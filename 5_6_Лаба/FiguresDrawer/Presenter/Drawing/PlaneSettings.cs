@@ -6,8 +6,8 @@ namespace FiguresDrawer.Presenter.Drawing
 {
 	public class PlaneSettings
 	{
-		public Type[] Types { get; private set; }
-		public HashSet<Type> TypesToDraw { get; private set; }
+		public Type[] Types { get; }
+		public HashSet<Type> TypesToDraw { get; }
 
 		public FigureDrawerSettings DrawerSettings { get; set; }
 

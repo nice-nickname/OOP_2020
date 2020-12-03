@@ -41,12 +41,7 @@ namespace FiguresDrawer.View.Forms
 			MessageBox.Show(message, "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		public void SetErrorInfo()
-		{
-			perimeterLabel.Text = "NaN";
-			areaLabel.Text = "NaN";
-		}
-
+		
 		public void SetPoints(IEnumerable<Point> points)
 		{
 			pointsList.DataSource = points;

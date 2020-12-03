@@ -19,7 +19,7 @@ namespace FiguresDrawer.Presenter
 		{
 			if (args is FigureDrawnEventArgs)
 			{
-				FigureDrawnEventArgs fargs = args as FigureDrawnEventArgs;
+				var fargs = args as FigureDrawnEventArgs;
 
 				var center = fargs.CurrentFigure.Adapter.GetRawCenter();
 				_view.SetCenterInfo(center);
@@ -35,7 +35,8 @@ namespace FiguresDrawer.Presenter
 				}
 				catch (Exception)
 				{
-					_view.SetErrorInfo();
+					_view.SetPerimeterInfo(double.NaN);
+					_view.SetAreaInfo(double.NaN);
 				}
 			}
 			else

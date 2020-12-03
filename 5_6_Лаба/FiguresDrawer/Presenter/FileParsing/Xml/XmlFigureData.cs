@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 
 namespace FiguresDrawer.Presenter.FileParsing.Xml
 {
@@ -10,14 +9,6 @@ namespace FiguresDrawer.Presenter.FileParsing.Xml
 		public string PenColorName { get; set; }
 		public string VertexColorName { get; set; }
 		public string CenterColorName { get; set; }
-
-		public XmlFigureData()
-		{
-			Points = null;
-			PenColorName = "Red";
-			VertexColorName = "Black";
-			CenterColorName = "Black";
-		}
 
 		public XmlFigureData(Model.Structures.Point[] points,
 							string penColorName, string vertexColorName, string centerColorName)

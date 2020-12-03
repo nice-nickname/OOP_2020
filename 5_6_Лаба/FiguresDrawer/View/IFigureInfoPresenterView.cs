@@ -1,6 +1,5 @@
 ﻿using FiguresDrawer.Model.Structures;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace FiguresDrawer.View
 {
@@ -9,7 +8,6 @@ namespace FiguresDrawer.View
 		void SetAreaInfo(double area);
 		void SetPerimeterInfo(double perimeter);
 		void SetCenterInfo(Point point);
-		void SetErrorInfo();
 		void SetPoints(IEnumerable<Point> points);
 	}
 }

@@ -105,8 +105,8 @@ namespace FiguresDrawer.App
 			where T : IView
 		{
 			Type type = _viewPresenterDictionary[typeof(T)];
-			var presenter = Activator.CreateInstance(type, sender);
-			return presenter as IPresenter;
+			var presenter = (IPresenter)Activator.CreateInstance(type, sender);
+			return presenter;
 		}
 
 		private void ResetSeriviceProvider()
