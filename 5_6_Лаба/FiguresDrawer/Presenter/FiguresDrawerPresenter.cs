@@ -1,5 +1,4 @@
-﻿using FiguresDrawer.App;
-using FiguresDrawer.App.Core;
+﻿using FiguresDrawer.App.Core;
 using FiguresDrawer.Presenter.Drawing;
 using FiguresDrawer.Presenter.Events;
 using FiguresDrawer.View;
